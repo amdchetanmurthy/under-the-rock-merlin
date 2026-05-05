@@ -35,15 +35,15 @@ This repository contains the design documentation and implementation plans for M
 
 | Document | Description |
 |----------|-------------|
-| [Vision](docs/merlin/00-vision.md) | Architecture layers, execution sequence |
-| [Phase 0: PoC](docs/merlin/01-phase0-poc.md) | End-to-end proof: build → SimNow → PR result |
-| [Phase 1: Foundation](docs/merlin/02-phase1-foundation.md) | Change detection, 16 targets gated, LKG manifest |
-| [Phase 2: Nightly + LKG](docs/merlin/03-phase2-nightly-lkg.md) | 18 nightly builds, quorum promotion, gardening |
-| [IFWI Assembly](docs/merlin/04-ifwi-assembly.md) | SPIROM image assembly from fw-* outputs |
-| [Test Schema](docs/merlin/05-test-schema.md) | Unified uttr-tests.yaml specification |
-| [AI-Native Layer](docs/merlin/06-ai-native.md) | Triage, gardener, PR review, BKC reasoner agents |
-| [Component Onboarding](docs/merlin/07-component-onboarding.md) | Per-component status and checklist |
-| [SimNow Service Design](docs/merlin/08-simnow-service-design.md) | SimNow deployment, versioning, runner infrastructure |
+| [Vision](docs/plans/00-vision.md) | Architecture layers, execution sequence |
+| [Phase 0: PoC](docs/plans/01-phase0-poc.md) | End-to-end proof: build → SimNow → PR result |
+| [Phase 1: Foundation](docs/plans/02-phase1-foundation.md) | Change detection, 16 targets gated, LKG manifest |
+| [Phase 2: Nightly + LKG](docs/plans/03-phase2-nightly-lkg.md) | 18 nightly builds, quorum promotion, gardening |
+| [IFWI Assembly](docs/plans/04-ifwi-assembly.md) | SPIROM image assembly from fw-* outputs |
+| [Test Schema](docs/plans/05-test-schema.md) | Unified uttr-tests.yaml specification |
+| [AI-Native Layer](docs/plans/06-ai-native.md) | Triage, gardener, PR review, BKC reasoner agents |
+| [Component Onboarding](docs/plans/07-component-onboarding.md) | Per-component status and checklist |
+| [SimNow Service Design](docs/plans/08-simnow-service-design.md) | SimNow deployment, versioning, runner infrastructure |
 
 ### Other
 
