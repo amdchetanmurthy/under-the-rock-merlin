@@ -86,7 +86,7 @@ def collect_from_log(component: str, log_text: str, err_text: str = "") -> Golde
     """Extract a golden baseline from SimNow log output."""
     baseline = GoldenBaseline(
         component=component,
-        lkg_date=datetime.utcnow().strftime("%Y-%m-%d"),
+        lkg_date=datetime.now(tz=None).strftime("%Y-%m-%d"),
     )
 
     for match in RE_MONITOR.finditer(log_text):
