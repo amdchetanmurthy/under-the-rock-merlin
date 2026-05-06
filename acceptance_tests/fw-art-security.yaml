@@ -1,0 +1,34 @@
+component: fw-art-security
+generated_by: merlin
+pr_gate:
+  assertions:
+  - name: binary_size_MPART_FMC
+    type: static
+    expected: '65536'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0xab
+  - name: binary_size_MPART_RUNTIME_FW
+    type: static
+    expected: '77824'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0xac
+  - name: boot_postcode
+    type: simnow_postcode
+    expected: 0X800F0000
+    grounded: true
+    source: configs/ifwi_layout.yaml boot_pass_postcode
+  - name: fw_status_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: fw_status_MID_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: error_log_empty
+    type: simnow_error_log
+    expected: empty
+    grounded: true
+    source: error log check always grounded

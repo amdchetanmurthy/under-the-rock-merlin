@@ -1,0 +1,104 @@
+# MI450 IFWI L2 PSP Directory — ground truth for binary size validation
+# Source: Confluence VBIOS/pages/524949427 (MI450 IFWI layout)
+# Every assertion about PSP entry sizes MUST reference this file
+
+spirom_size: 0x800000  # 8MB
+partition_a_offset: 0x020000
+partition_b_offset: 0x400000
+partition_size: 0x3E0000
+boot_pass_postcode: "0X800F0000"
+
+fw_status_monitors:
+  MPART_FW_STATUS:
+    address: "0x034000d8"
+    space: "0.0.mpart"
+  MPASP_FW_STATUS:
+    address: "0x034000d8"
+    space: "0.0.mpasp"
+  MID_MPART_FW_STATUS:
+    address: "0x03010d80"
+    space: "4.0.mpart"
+  MID_MPASP_FW_STATUS:
+    address: "0x03010d80"
+    space: "4.0.mpasp"
+
+psp_entries:
+  fw-asp-fmc:
+    type: 0x0001
+    name: MPASP_FMC
+    max_size: 131072  # 128K
+  fw-amd-tee3:
+    entries:
+      - { type: 0x0002, name: MPASP_TRUST_OS, max_size: 262144 }
+      - { type: 0x001b, name: TEE_BOOT_Driver, max_size: 262144 }
+      - { type: 0x001c, name: TEE_SOC_Driver, max_size: 262144 }
+      - { type: 0x001d, name: TEE_HAD_Driver, max_size: 262144 }
+      - { type: 0x001f, name: TEE_INTERFACE_Driver, max_size: 262144 }
+      - { type: 0x0028, name: PSP_FW_SYSDRV, max_size: 262144 }
+      - { type: 0x0064, name: TEE_RAS_Driver, max_size: 32768 }
+      - { type: 0x0068, name: SPDM_DRV, max_size: 131072 }
+      - { type: 0x0069, name: TEE_DPE_DV, max_size: 131072 }
+      - { type: 0x006a, name: TOS_PRE_ESID, max_size: 262144 }
+      - { type: 0x006c, name: TOS_POST_ESID, max_size: 262144 }
+      - { type: 0x0015, name: TEE_IPKEYMGR_DRV, max_size: 262144 }
+      - { type: 0x01F7, name: PSP_TEE_SRIOV_DRV, max_size: 98304 }
+  fw-pmfw:
+    entries:
+      - { type: 0x0008, name: MP1_PM_FW, max_size: 266240 }
+      - { type: 0x009b, name: IMU_Instruction_FW, max_size: 98304 }
+      - { type: 0x009c, name: IMU_Data_FW, max_size: 98304 }
+      - { type: 0x01ea, name: AID_MP5, max_size: 163840 }
+      - { type: 0x1051, name: MP5_XCD, max_size: 196608 }
+  fw-mpio:
+    type: 0x005d
+    name: MPIO_FW
+    max_size: 262144  # 256K
+  fw-mpifoe:
+    type: 0x01f3
+    name: IFOE_FW
+    max_size: 524288  # 512K
+  fw-art-security:
+    entries:
+      - { type: 0x00ab, name: MPART_FMC, max_size: 65536 }
+      - { type: 0x00ac, name: MPART_RUNTIME_FW, max_size: 77824 }
+  fw-dcgpu-esid:
+    entries:
+      - { type: 0x0157, name: ESID_TOC, max_size: 24576 }
+      - { type: 0x0158, name: ESID0, max_size: 98304 }
+      - { type: 0x0159, name: ESID1, max_size: 96256 }
+      - { type: 0x015a, name: ESID2, max_size: 65536 }
+      - { type: 0x015b, name: ESID3, max_size: 65536 }
+      - { type: 0x015c, name: ESID4, max_size: 65536 }
+  fw-keydb:
+    entries:
+      - { type: 0x0050, name: PSPBL_KEY_DATABASE, max_size: 24576 }
+      - { type: 0x0051, name: PSPOS_KEY_DATABASE, max_size: 12288 }
+      - { type: 0x00ad, name: MPART_KEY_DATA_BASE, max_size: 16384 }
+  fw-mpras-kernel:
+    type: 0x006b
+    name: MPRAS_FW
+    max_size: 131072  # 128K
+  fw-mpnht:
+    type: 0x01e0
+    name: MP_NHT_Controller_FW
+    max_size: 25600
+  fw-pcie-cld:
+    type: 0x00b5
+    name: NBIO_UNIFIED_CLD_FW
+    max_size: 16384
+  fw-ucie:
+    type: 0x01ec
+    name: UCIE_PHY_FW
+    max_size: 82944
+  fw-unicrypt:
+    entries:
+      - { type: 0x009d, name: ART_LIBROM_OVERLAY, max_size: 4096 }
+      - { type: 0x00ae, name: ASP_LIBROM, max_size: 200704 }
+  fw-caliptra-sw:
+    type: 0x00a8
+    name: Caliptra
+    max_size: 131072
+  fw-vbl-tee-drv:
+    type: 0x01fb
+    name: VBL_Runtime_Driver
+    max_size: 65536

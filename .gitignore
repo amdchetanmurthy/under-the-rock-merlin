@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+merlin-*-results.xml
+merlin-*-results.md

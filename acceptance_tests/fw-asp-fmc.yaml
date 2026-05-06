@@ -1,0 +1,64 @@
+component: fw-asp-fmc
+generated_by: merlin
+pr_gate:
+  assertions:
+  - name: binary_size_MPASP_FMC
+    type: static
+    expected: '131072'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1
+  - name: boot_postcode
+    type: simnow_postcode
+    expected: 0X800F0000
+    grounded: true
+    source: configs/ifwi_layout.yaml boot_pass_postcode
+  - name: fw_status_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: fw_status_MID_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: error_log_empty
+    type: simnow_error_log
+    expected: empty
+    grounded: true
+    source: golden baseline error log was empty
+  - name: log_marker_PSP_firmware_initialized
+    type: simnow_log_marker
+    expected: PSP firmware initialized
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_L2_PSP_Directory_loaded
+    type: simnow_log_marker
+    expected: L2 PSP Directory loaded
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_all_ESIDs_completed
+    type: simnow_log_marker
+    expected: all ESIDs completed
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_TOS_steady_state
+    type: simnow_log_marker
+    expected: TOS steady state
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_MPASP_FMC_initialized
+    type: simnow_log_marker
+    expected: MPASP FMC initialized
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_MPIO:_all_PCIe_links_trained
+    type: simnow_log_marker
+    expected: 'MPIO: all PCIe links trained'
+    grounded: true
+    source: golden baseline 2026-05-06
+  - name: log_marker_IP_discovery:_all_blocks_found
+    type: simnow_log_marker
+    expected: 'IP discovery: all blocks found'
+    grounded: true
+    source: golden baseline 2026-05-06

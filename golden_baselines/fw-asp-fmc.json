@@ -1,0 +1,37 @@
+{
+  "component": "fw-asp-fmc",
+  "lkg_date": "2026-05-06",
+  "lkg_commit": "",
+  "registers": {
+    "MPASP_FW_STATUS": {
+      "address": "",
+      "space": "",
+      "value": "0x800f0000",
+      "observation_count": 1,
+      "first_seen": "2026-05-06",
+      "stable": false
+    },
+    "MID_MPASP_FW_STATUS": {
+      "address": "",
+      "space": "",
+      "value": "0x800f0000",
+      "observation_count": 1,
+      "first_seen": "2026-05-06",
+      "stable": false
+    }
+  },
+  "log_markers": [
+    "PSP firmware initialized",
+    "L2 PSP Directory loaded",
+    "all ESIDs completed",
+    "TOS steady state",
+    "MPASP FMC initialized",
+    "MPIO: all PCIe links trained",
+    "IP discovery: all blocks found"
+  ],
+  "postcodes": [
+    "0X800F0000"
+  ],
+  "boot_time_ms": 0,
+  "error_log_empty": true
+}

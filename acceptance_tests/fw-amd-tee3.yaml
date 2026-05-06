@@ -1,0 +1,89 @@
+component: fw-amd-tee3
+generated_by: merlin
+pr_gate:
+  assertions:
+  - name: binary_size_MPASP_TRUST_OS
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x2
+  - name: binary_size_TEE_BOOT_Driver
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1b
+  - name: binary_size_TEE_SOC_Driver
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1c
+  - name: binary_size_TEE_HAD_Driver
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1d
+  - name: binary_size_TEE_INTERFACE_Driver
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1f
+  - name: binary_size_PSP_FW_SYSDRV
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x28
+  - name: binary_size_TEE_RAS_Driver
+    type: static
+    expected: '32768'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x64
+  - name: binary_size_SPDM_DRV
+    type: static
+    expected: '131072'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x68
+  - name: binary_size_TEE_DPE_DV
+    type: static
+    expected: '131072'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x69
+  - name: binary_size_TOS_PRE_ESID
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x6a
+  - name: binary_size_TOS_POST_ESID
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x6c
+  - name: binary_size_TEE_IPKEYMGR_DRV
+    type: static
+    expected: '262144'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x15
+  - name: binary_size_PSP_TEE_SRIOV_DRV
+    type: static
+    expected: '98304'
+    grounded: true
+    source: configs/ifwi_layout.yaml PSP entry 0x1f7
+  - name: boot_postcode
+    type: simnow_postcode
+    expected: 0X800F0000
+    grounded: true
+    source: configs/ifwi_layout.yaml boot_pass_postcode
+  - name: fw_status_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: fw_status_MID_MPASP_FW_STATUS
+    type: simnow_register
+    expected: '0x800f0000'
+    grounded: true
+    source: configs/ifwi_layout.yaml fw_status_monitors
+  - name: error_log_empty
+    type: simnow_error_log
+    expected: empty
+    grounded: true
+    source: error log check always grounded
