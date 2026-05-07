@@ -1033,6 +1033,63 @@ table.compact th { font-size: 10px; }
   <div class="slide-content">
     <p style="font-size:12px;color:#888;margin-bottom:8px;">Source: XN-202350-PS-1K — MP IFoE Architecture, pages 14-27. IFoE = 18 subsystems per MID, SiFive E6-A RISC-V CPU, 1MB SRAM.</p>
 
+    <!-- Interaction Diagram -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+      <pre style="font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.5; color:#ccc; background:#0d0d1a; padding:12px; border-radius:8px; border:1px solid #222; margin:0; overflow-x:auto;">
+<span style="color:#666;">                    ┌─────────────────────────────────┐</span>
+<span style="color:#666;">                    │</span>         <span style="color:#ED1C24;font-weight:700;">HOST CPU + AIFM</span>           <span style="color:#666;">│</span>
+<span style="color:#666;">                    └──────┬────────────┬──────────────┘</span>
+                    <span style="color:#a855f7;">PF/VF │</span>            <span style="color:#a855f7;">│ Key Provisioning</span>
+                    <span style="color:#a855f7;">Config│</span>            <span style="color:#a855f7;">│ Rekey Flow</span>
+<span style="color:#666;">           ┌────────────────┴────────────┴──────────────────┐</span>
+<span style="color:#666;">           │</span>              <span style="color:#f59e0b;font-weight:700;">IEP</span> (PF + VF)    <span style="color:#f59e0b;">nBIF</span>              <span style="color:#666;">│</span>
+<span style="color:#666;">           └────────────────┬─────────────────────────────┘</span>
+                           <span style="color:#f59e0b;">│ PCIe events (FLR, BME)</span>
+<span style="color:#22c55e;">┌──────────┐</span>  <span style="color:#22c55e;">topology</span>  <span style="color:#666;">┌──┴──────┐</span>  <span style="color:#f59e0b;">power/PCIe</span>  <span style="color:#3b82f6;">┌──────────┐</span>
+<span style="color:#22c55e;">│</span> <span style="color:#22c55e;font-weight:700;">ASP</span>      <span style="color:#22c55e;">│</span><span style="color:#22c55e;">──────────▶</span><span style="color:#666;">│</span>         <span style="color:#666;">│</span><span style="color:#f59e0b;">◀──────────</span><span style="color:#3b82f6;">│</span> <span style="color:#3b82f6;font-weight:700;">PMFW</span>     <span style="color:#3b82f6;">│</span>
+<span style="color:#22c55e;">│</span> <span style="color:#888;">CC/TDISP</span> <span style="color:#22c55e;">│</span><span style="color:#22c55e;">◀─────────</span><span style="color:#666;">│</span>         <span style="color:#666;">│</span><span style="color:#f59e0b;">──────────▶</span><span style="color:#3b82f6;">│</span> <span style="color:#888;">MP1</span>      <span style="color:#3b82f6;">│</span>
+<span style="color:#22c55e;">│</span> <span style="color:#888;">TDI state</span><span style="color:#22c55e;">│</span>           <span style="color:#666;">│</span>         <span style="color:#666;">│</span>            <span style="color:#3b82f6;">│</span> <span style="color:#888;">GTA temp</span> <span style="color:#3b82f6;">│</span>
+<span style="color:#22c55e;">└──────────┘</span>           <span style="color:#666;">│</span>         <span style="color:#666;">│</span>            <span style="color:#3b82f6;">└──────────┘</span>
+                       <span style="color:#666;">│</span> <span style="color:#ED1C24;font-weight:700;">MP IFoE</span> <span style="color:#666;">│</span>
+<span style="color:#3b82f6;">┌──────────┐</span>  <span style="color:#3b82f6;">KPX/PHY</span>   <span style="color:#666;">│</span> <span style="color:#888;">RISC-V</span>  <span style="color:#666;">│</span>  <span style="color:#888;">GPU↔GPU</span>  <span style="color:#a855f7;">┌──────────┐</span>
+<span style="color:#3b82f6;">│</span> <span style="color:#3b82f6;font-weight:700;">MPIO</span>     <span style="color:#3b82f6;">│</span><span style="color:#3b82f6;">──────────▶</span><span style="color:#666;">│</span> <span style="color:#888;">1MB SRAM</span><span style="color:#666;">│</span><span style="color:#888;">─────────▶</span><span style="color:#a855f7;">│</span> <span style="color:#a855f7;font-weight:700;">nHT</span>      <span style="color:#a855f7;">│</span>
+<span style="color:#3b82f6;">│</span> <span style="color:#888;">PCIe/XGMI</span><span style="color:#3b82f6;">│</span><span style="color:#3b82f6;">◀─────────</span><span style="color:#666;">│</span> <span style="color:#888;">ADMA</span>   <span style="color:#666;">│</span>            <span style="color:#a855f7;">│</span> <span style="color:#888;">Fabric</span>   <span style="color:#a855f7;">│</span>
+<span style="color:#3b82f6;">│</span> <span style="color:#888;">lanes</span>    <span style="color:#3b82f6;">│</span>           <span style="color:#666;">│</span> <span style="color:#888;">MBOX</span>   <span style="color:#666;">│</span>            <span style="color:#a855f7;">└──────────┘</span>
+<span style="color:#3b82f6;">└──────────┘</span>           <span style="color:#666;">│</span>         <span style="color:#666;">│</span>
+                       <span style="color:#666;">└────┬────┘</span>
+                            <span style="color:#888;">│ SMN bus (all communication)</span>
+                       <span style="color:#666;">┌────┴────────────────────────────────┐</span>
+                       <span style="color:#666;">│</span>  <span style="color:#f59e0b;font-weight:700;">IFoE Subsystem ×18</span>                   <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>                                      <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>  <span style="color:#22c55e;">XRMAC</span> ←→ <span style="color:#3b82f6;">XRPFC</span> ←→ <span style="color:#a855f7;">XRSEC</span> ←→ <span style="color:#ED1C24;">EX</span>   <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>  <span style="color:#888;">8-port     PFC      encrypt   switch</span> <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>  <span style="color:#888;">MAC       control   /auth</span>            <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>          ↕                             <span style="color:#666;">│</span>
+                       <span style="color:#666;">│</span>        <span style="color:#f59e0b;">IFoE</span> <span style="color:#888;">(SDP encap/decap)</span>           <span style="color:#666;">│</span>
+                       <span style="color:#666;">└──────────┬─────────────────────────────┘</span>
+                                  <span style="color:#888;">│</span>
+                            <span style="color:#888;">GTA PHY ×72/96 lanes</span>
+                                  <span style="color:#888;">│</span>
+                         <span style="color:#888;">═══════════════════</span>
+                         <span style="color:#888;">  Ethernet Network</span>
+</pre>
+      <div style="font-size:11px; color:#aaa;">
+        <h3 style="color:#ED1C24; font-size:13px; margin-bottom:8px;">Interaction Arrows — What to Test</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th style="width:40px;">Color</th><th>Path</th><th>Protocol</th><th>Critical Test</th></tr>
+          <tr><td><span style="color:#22c55e;">■</span></td><td>ASP → MP IFoE</td><td>SMN mailbox</td><td>Topology table delivery at boot, TDI state change notifications</td></tr>
+          <tr><td><span style="color:#22c55e;">■</span></td><td>MP IFoE → ASP</td><td>SMN mailbox</td><td>CC error reporting, TDISP lock violation alerts</td></tr>
+          <tr><td><span style="color:#f59e0b;">■</span></td><td>PMFW ↔ MP IFoE</td><td>SMN mailbox</td><td>FLR proxy, BME state changes, GTA temperature updates</td></tr>
+          <tr><td><span style="color:#3b82f6;">■</span></td><td>MPIO → MP IFoE</td><td>SMN + config</td><td>KPX/PHY lane assignment, IFoE vs PCIe vs XGMI role selection</td></tr>
+          <tr><td><span style="color:#a855f7;">■</span></td><td>AIFM → MP IFoE</td><td>Host PF/VF</td><td>Master key provisioning (system→provider→tenant), rekey flow</td></tr>
+          <tr><td><span style="color:#888;">■</span></td><td>MP IFoE → nHT</td><td>Data path</td><td>GPU↔GPU traffic routing via IFoE subsystem, VC allocation</td></tr>
+          <tr><td><span style="color:#888;">■</span></td><td>MP IFoE → IFoE SS</td><td>SMN</td><td>18 subsystem init, CAVP on each XRSEC, port mode config</td></tr>
+          <tr><td><span style="color:#888;">■</span></td><td>IFoE SS → GTA</td><td>UPI2 (async)</td><td>PHY training, link negotiation, thermal coefficient updates</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong style="color:#ED1C24;">Custom Sim priority:</strong> ASP→MPIFoE topology + MPIO→MPIFoE lane config — the two boot-breaking interactions. Model as state machines with SMN mailbox mock.</p>
+      </div>
+    </div>
+
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
 
       <!-- Column 1: Unit Tests -->
