@@ -1024,7 +1024,82 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 11</div>
+<!-- SLIDE 12: IFoE Testing Strategy — Unit, Bringup, Integration -->
+<div class="slide" id="slide-12">
+  <div class="slide-header">
+    <h1>IFoE Testing Strategy — From Unit Tests to System Validation</h1>
+    <span class="slide-number">12 / 12</span>
+  </div>
+  <div class="slide-content">
+    <p style="font-size:12px;color:#888;margin-bottom:8px;">Source: XN-202350-PS-1K — MP IFoE Architecture, pages 14-27. IFoE = 18 subsystems per MID, SiFive E6-A RISC-V CPU, 1MB SRAM.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+
+      <!-- Column 1: Unit Tests -->
+      <div style="background:#0a1a0a; border:1px solid #22c55e44; border-radius:8px; padding:14px;">
+        <h3 style="color:#22c55e; font-size:13px; margin-bottom:10px;">Unit Tests (Host x86 / native_sim)</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Module</th><th>What to Test</th></tr>
+          <tr><td>SMN driver</td><td>Register read/write, ~320ns latency model, MID↔MID 1µs path</td></tr>
+          <tr><td>UPI2 bridge</td><td>Async GTA PHY access, handshaking, response time variance</td></tr>
+          <tr><td>RSMU access control</td><td>IP block ID / unit ID rules, ASP-programmed access rules</td></tr>
+          <tr><td>ADMA engine</td><td>3 queues, 8×8B burst transfers, stat collection offload</td></tr>
+          <tr><td>Mailbox (CRU)</td><td>Inter-MP messaging, interrupt controller, timers</td></tr>
+          <tr><td>IFoE protocol</td><td>SDP encap/decap, reliable in-order delivery logic</td></tr>
+          <tr><td>XRSEC key mgmt</td><td>Master key provisioning, CAVP self-test, key rotation FSM</td></tr>
+          <tr><td>Port manager</td><td>1×800G/2×400G/4×200G config, XRMAC↔XRPFC port mapping</td></tr>
+          <tr><td>PM Tick handler</td><td>48-bit timer, stats_valid window, per-lane pm_rdy</td></tr>
+          <tr><td>Config FSM</td><td>System→Provider→Tenant phase transitions (Fig 5/6 in spec)</td></tr>
+        </table>
+        <p style="font-size:11px;color:#888;margin-top:8px;"><strong>Framework:</strong> Zephyr Twister (native_sim) — already in repo. CppUTest for protocol logic. Mock SMN bus for register access.</p>
+      </div>
+
+      <!-- Column 2: Bringup / SimNow Tests -->
+      <div style="background:#0a0a1a; border:1px solid #3b82f644; border-radius:8px; padding:14px;">
+        <h3 style="color:#3b82f6; font-size:13px; margin-bottom:10px;">Bringup Tests (SimNow + Hardware)</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Test</th><th>Validates</th><th>Platform</th></tr>
+          <tr><td>FW boot to ready</td><td>POST codes → MPIFOE_FIRMWARE_FLAGS set</td><td>SimNow M112</td></tr>
+          <tr><td>GTA PHY init</td><td>72 or 96 lanes configured per topology</td><td>SimNow M228</td></tr>
+          <tr><td>XRMAC link-up</td><td>Port mode (800G/400G/200G) negotiated</td><td>SimNow 2G IFoE</td></tr>
+          <tr><td>XRSEC CAVP</td><td>Crypto self-test passes on all 18 subsystems</td><td>SimNow / HW</td></tr>
+          <tr><td>IFoE stream setup</td><td>Up to 18K streams configured, data flows</td><td>SimNow 2G IFoE</td></tr>
+          <tr><td>PM Tick stats</td><td>Coherent stats capture across XRMAC+XRPFC+IFoE</td><td>SimNow / HW</td></tr>
+          <tr><td>Primary/Secondary</td><td>Dual-MID MP_IFoE role detection (SMUIO_MCM_CONFIG)</td><td>SimNow M228</td></tr>
+          <tr><td>Config flow</td><td>Bare-metal + Virtualized config phases complete</td><td>SimNow A+A</td></tr>
+          <tr><td>IEP PF/VF</td><td>Host communication via single PF + single VF</td><td>SimNow A+A</td></tr>
+          <tr><td>Temp update</td><td>GTA thermal coefficient correction from MPIO/PM</td><td>HW only</td></tr>
+        </table>
+        <p style="font-size:11px;color:#888;margin-top:8px;"><strong>Key:</strong> Use FEAS model for single-MP tests. 2G IFoE model for multi-GPU. A+A for host interaction.</p>
+      </div>
+
+      <!-- Column 3: External Module Interaction -->
+      <div style="background:#1a0a0a; border:1px solid #ED1C2444; border-radius:8px; padding:14px;">
+        <h3 style="color:#ED1C24; font-size:13px; margin-bottom:10px;">External Module Interactions</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Interaction</th><th>Protocol</th><th>Test Method</th></tr>
+          <tr><td style="color:#22c55e;">ASP ↔ MPIFoE</td><td>SMN mailbox</td><td>Topology table delivery, CC/TDISP notifications, TDI state tracking</td></tr>
+          <tr><td style="color:#f59e0b;">PMFW ↔ MPIFoE</td><td>SMN mailbox</td><td>PCIe events (FLR), power state changes, IEP BME proxy</td></tr>
+          <tr><td style="color:#3b82f6;">MPIO ↔ MPIFoE</td><td>SMN + config</td><td>KPX/PHY config at boot, GTA temp updates, lane assignment</td></tr>
+          <tr><td style="color:#a855f7;">AIFM ↔ MPIFoE</td><td>Host PF/VF</td><td>Master key provisioning, rekey flow, system config phases</td></tr>
+          <tr><td style="color:#888;">nHT ↔ IFoE</td><td>Data path</td><td>GPU↔GPU traffic routing, VC allocation</td></tr>
+        </table>
+
+        <h3 style="color:#ED1C24; font-size:13px; margin-top:12px; margin-bottom:8px;">Testing Per Platform</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Platform</th><th>What It Tests</th><th>Limitation</th></tr>
+          <tr><td style="color:#22c55e;">Unit (x86)</td><td>Protocol logic, FSMs, config parsing, key mgmt</td><td>No real SMN/register interaction</td></tr>
+          <tr><td style="color:#3b82f6;">SimNow</td><td>Boot, link-up, config flow, CAVP, stats</td><td>No packet injection, limited IFoE data path</td></tr>
+          <tr><td style="color:#f59e0b;">Hardware</td><td>Full data path, real PHY training, GTA temp, perf</td><td>Scarce, slow, not always available</td></tr>
+          <tr><td style="color:#a855f7;">Custom Sim</td><td>Module interactions, fault injection, boot chain</td><td>Must build from spec — no existing tool</td></tr>
+        </table>
+        <p style="font-size:11px;color:#888;margin-top:8px;"><strong>Custom Sim priority:</strong> Model ASP↔MPIFoE topology delivery + MPIO↔MPIFoE lane config handoff. These are the two interactions that break boot most often.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 12</div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
