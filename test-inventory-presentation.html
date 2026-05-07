@@ -287,7 +287,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-2">
   <div class="slide-header">
     <h1>The Numbers</h1>
-    <span class="slide-number">2 / 9</span>
+    <span class="slide-number">2 / 12</span>
   </div>
   <div class="slide-content">
     <div class="stat-grid">
@@ -333,7 +333,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-3">
   <div class="slide-header">
     <h1>Per-Repo Test Maturity Matrix</h1>
-    <span class="slide-number">3 / 9</span>
+    <span class="slide-number">3 / 12</span>
   </div>
   <div class="slide-content">
     <p style="font-size:12px;color:#888;margin-bottom:8px;"><span class="dot-green">Has it</span> &nbsp; <span class="dot-amber">Partial</span> &nbsp; <span class="dot-red">Missing</span></p>
@@ -445,7 +445,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-4">
   <div class="slide-header">
     <h1>PR Gate: What Actually Runs Today</h1>
-    <span class="slide-number">4 / 9</span>
+    <span class="slide-number">4 / 12</span>
   </div>
   <div class="slide-content">
     <table class="compact">
@@ -475,7 +475,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-5">
   <div class="slide-header">
     <h1>SimNow & Unit Test Coverage</h1>
-    <span class="slide-number">5 / 9</span>
+    <span class="slide-number">5 / 12</span>
   </div>
   <div class="slide-content">
     <div class="two-col">
@@ -533,7 +533,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-6">
   <div class="slide-header">
     <h1>The Gaps &mdash; What's Missing</h1>
-    <span class="slide-number">6 / 9</span>
+    <span class="slide-number">6 / 12</span>
   </div>
   <div class="slide-content">
     <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
@@ -638,7 +638,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-7">
   <div class="slide-header">
     <h1>Existing Hardware Test Infrastructure</h1>
-    <span class="slide-number">7 / 9</span>
+    <span class="slide-number">7 / 12</span>
   </div>
   <div class="slide-content">
     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
@@ -715,7 +715,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-8">
   <div class="slide-header">
     <h1>Best Practices & Path to Uniform Testing</h1>
-    <span class="slide-number">8 / 9</span>
+    <span class="slide-number">8 / 12</span>
   </div>
   <div class="slide-content">
     <div class="two-col">
@@ -821,7 +821,7 @@ table.compact th { font-size: 10px; }
 <div class="slide" id="slide-9">
   <div class="slide-header">
     <h1>Summary</h1>
-    <span class="slide-number">9 / 9</span>
+    <span class="slide-number">9 / 12</span>
   </div>
   <div class="slide-content">
     <div class="stat-grid" style="margin-bottom:24px;">
@@ -852,183 +852,11 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<!-- SLIDE 10: AI Agents for Firmware Testing -->
+<!-- SLIDE 10: IFoE Testing Strategy — Unit, Bringup, Integration -->
 <div class="slide" id="slide-10">
   <div class="slide-header">
-    <h1>AI Agents — Achieving Uniform Testing at Scale</h1>
-    <span class="slide-number">10 / 10</span>
-  </div>
-  <div class="slide-content">
-    <p style="font-size:14px;color:#aaa;margin-bottom:16px;">NTSG Claude Plugin ecosystem (<code>~/ntsg/ntsg_claude_plugins/</code>) — 9 plugins, 47 agents, 125+ skills. Purpose-built AI agents that can drive firmware testing without human intervention.</p>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-      <div>
-        <h2 style="color:#ED1C24;">Existing Plugins We Can Leverage</h2>
-
-        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
-          <div class="gap-title" style="color:#22c55e;">AgentQ — Firmware QA Validation</div>
-          <div class="gap-desc">9 agents, 15 skills. <strong>Purpose-built for firmware test execution.</strong><br>
-          Agents: <code>qa-lead</code>, <code>test-planner</code>, <code>test-critic</code>, <code>analyst</code>, <code>domain-expert</code>, <code>testbed-ops</code>, <code>kb-curator</code><br>
-          Skills: <code>generate-test-plan</code>, <code>review-test-plan</code>, <code>run-benchmark</code>, <code>collect-logs</code>, <code>report-test-results</code>, <code>cluster-execute</code>, <code>load-image</code><br>
-          <strong style="color:#22c55e;">→ Deploy AgentQ to auto-generate acceptance tests per component and execute on SimNow/hardware</strong></div>
-        </div>
-
-        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
-          <div class="gap-title" style="color:#22c55e;">Codie — AI-Driven Development Workflow</div>
-          <div class="gap-desc">3 agents, 16 skills. JIRA-driven development with design docs, test plans, implementation.<br>
-          Agents: <code>codie-planner</code>, <code>codie-coder</code>, <code>codie-validator</code><br>
-          Skills: <code>story-design</code>, <code>story-test-plan</code>, <code>task-implement</code>, <code>task-test</code><br>
-          <strong style="color:#22c55e;">→ Use Codie to auto-create JIRA stories for test gaps, design test plans per component</strong></div>
-        </div>
-
-        <div class="gap-card green" style="background:#0a0a1a; border-left-color:#3b82f6;">
-          <div class="gap-title" style="color:#3b82f6;">Helios SDE — Switch/GPU Development</div>
-          <div class="gap-desc">8 agents, 21 skills. Build, test, debug, review for SONiC/SAI/AIFM/GPU.<br>
-          Skills: <code>build</code>, <code>test</code>, <code>debug</code>, <code>review-code</code>, <code>debug-gpu-cluster</code>, <code>add-telemetry-metric</code><br>
-          <strong style="color:#3b82f6;">→ Extend for firmware build validation and GPU cluster test orchestration</strong></div>
-        </div>
-      </div>
-
-      <div>
-        <h2 style="color:#ED1C24;">How AI Agents Solve Our Gaps</h2>
-
-        <table class="compact">
-          <tr><th>Gap</th><th>AI Agent Solution</th><th>Plugin</th></tr>
-          <tr><td>No unit tests (12 repos)</td><td>AgentQ <code>test-planner</code> generates test plans from code analysis, <code>test-critic</code> validates coverage</td><td>AgentQ</td></tr>
-          <tr><td>No SimNow for 5 repos</td><td>AgentQ <code>testbed-ops</code> provisions SimNow, <code>load-image</code> flashes IFWI, <code>cluster-execute</code> runs assertions</td><td>AgentQ</td></tr>
-          <tr><td>pmfw has zero CI tooling</td><td>Codie <code>story-create</code> decomposes into JIRA tasks, <code>task-implement</code> adds Coverity/lint/SimNow workflows</td><td>Codie</td></tr>
-          <tr><td>Manual DCAuto trigger</td><td>AgentQ <code>qa-lead</code> orchestrates auto-triggered HW smoke on every PR</td><td>AgentQ</td></tr>
-          <tr><td>No failure triage</td><td>AgentQ <code>analyst</code> + <code>domain-expert</code> auto-triage failures, correlate with git blame</td><td>AgentQ</td></tr>
-          <tr><td>No cross-repo testing</td><td>AgentQ <code>cluster-execute</code> + Merlin orchestrator runs assembled IFWI across all components</td><td>AgentQ + Merlin</td></tr>
-          <tr><td>Test plan maintenance</td><td>AgentQ <code>kb-curator</code> keeps golden baselines current, auto-promotes stable assertions</td><td>AgentQ</td></tr>
-        </table>
-
-        <h2 style="margin-top:16px;">Supporting Infrastructure</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
-            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG MCP Servers</div>
-            <div style="font-size:11px; color:#888;">Knowledge base, lab topology, cluster execution, credential management — all via MCP protocol</div>
-          </div>
-          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
-            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG Plugin Dev</div>
-            <div style="font-size:11px; color:#888;">4 agents, 6 skills for building new plugins. Create a <code>merlin-fw-test</code> plugin for firmware-specific test workflows</div>
-          </div>
-          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
-            <div style="font-size:12px; color:#ED1C24; font-weight:600;">P4 Pilot</div>
-            <div style="font-size:11px; color:#888;">4 agents for P4 dataplane programming — pattern for creating firmware-domain AI agents</div>
-          </div>
-          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
-            <div style="font-size:12px; color:#ED1C24; font-weight:600;">SI Tuner</div>
-            <div style="font-size:11px; color:#888;">10 skills for signal integrity tuning — demonstrates hardware-aware AI agent pattern</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 11: Custom Simulation Environment — Module Interactions -->
-<div class="slide" id="slide-11">
-  <div class="slide-header">
-    <h1>Custom Sim Environment — Module Interaction Map</h1>
-    <span class="slide-number">11 / 11</span>
-  </div>
-  <div class="slide-content">
-    <p style="font-size:13px;color:#aaa;margin-bottom:12px;">A lightweight simulation built from specs and RTL — no SimNow license needed. Models the firmware boot chain and module interactions that matter for CI.</p>
-
-    <div class="two-col">
-      <div>
-        <h2 style="color:#ED1C24;">MI450 Firmware Boot &amp; Interaction Map</h2>
-<pre style="font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.6; color:#ccc; background:#111122; padding:16px; border-radius:8px; border:1px solid #222; overflow-x:auto;">
-<span style="color:#ef4444;">┌─────────────────────────────────────────────────────────┐</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#ED1C24;font-weight:700;">BOOT CHAIN (sequential, order matters)</span>               <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>                                                         <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#f59e0b;">EFS</span> → <span style="color:#f59e0b;">L1 PSP Dir</span> → <span style="color:#f59e0b;">ISH (A/B)</span> → <span style="color:#f59e0b;">L2 PSP Dir</span>          <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#22c55e;font-weight:700;">ASP FMC</span> (0x0001) ──→ <span style="color:#22c55e;">Caliptra RoT</span> (0x00A8)             <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │                    │                                <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    ▼                    ▼                                <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#22c55e;font-weight:700;">ART FMC</span> (0x00AB) ──→ <span style="color:#22c55e;">KeyDB</span> (0x0050)                   <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#3b82f6;font-weight:700;">TEE TOS</span> (0x0002) ──→ 13 TEE Drivers                    <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │        (Boot, SoC, HAD, Interface, RAS, SPDM,       <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │         DPE, Pre-eSID, Post-eSID, SRIOV, KeyMgr)    <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  <span style="color:#a855f7;font-weight:700;">eSID</span> (0x0157-015F) ──→ 8 eSID partitions               <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">│</span>  Security Policies (L0/TOS/L1) → <span style="color:#22c55e;">Anti-Rollback</span>          <span style="color:#ef4444;">│</span>
-<span style="color:#ef4444;">└─────────────────────────────────────────────────────────┘</span>
-
-<span style="color:#f59e0b;">┌─────────────────────────────────────────────────────────┐</span>
-<span style="color:#f59e0b;">│</span>  <span style="color:#f59e0b;font-weight:700;">PARALLEL MP INITIALIZATION (after boot chain)</span>        <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>                                                         <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  <span style="color:#22c55e;font-weight:700;">PMFW</span>────────────────────<span style="color:#22c55e;font-weight:700;">MPIO</span>────────────<span style="color:#22c55e;font-weight:700;">MPIFoE</span>       <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  MID MP1 (0x0008)       (0x005D)         (0x01F3)       <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  AID MP5 (0x01EA)          │                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  XCD MP5 (0x1051)          │                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  IMU     (0x009B/9C)       │                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    │                       │                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    │    ┌──────────────────┤                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    │    │                  │                 │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    ▼    ▼                  ▼                 ▼          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  <span style="color:#888;">Power</span>  <span style="color:#888;">PCIe Link</span>      <span style="color:#888;">XGMI Link</span>       <span style="color:#888;">IFoE Link</span>    <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  <span style="color:#888;">States</span> <span style="color:#888;">Training</span>       <span style="color:#888;">Training</span>        <span style="color:#888;">Training</span>     <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    │       │                │                │          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>    ▼       ▼                ▼                ▼          <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  <span style="color:#22c55e;font-weight:700;">MPRAS</span> (0x006B)      <span style="color:#22c55e;font-weight:700;">nHT</span> (0x01E0)    <span style="color:#22c55e;">XRMAC/PFC</span>    <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  RAS monitoring       nHT controller   Ethernet MAC   <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">│</span>  MCA banks            GPU↔GPU fabric   8-port stats   <span style="color:#f59e0b;">│</span>
-<span style="color:#f59e0b;">└─────────────────────────────────────────────────────────┘</span>
-
-<span style="color:#3b82f6;">┌─────────────────────────────────────────────────────────┐</span>
-<span style="color:#3b82f6;">│</span>  <span style="color:#3b82f6;font-weight:700;">ALL MODULES COMMUNICATE VIA SMN (register bus)</span>        <span style="color:#3b82f6;">│</span>
-<span style="color:#3b82f6;">│</span>  MP → RSMU → SMN → Target IP registers                 <span style="color:#3b82f6;">│</span>
-<span style="color:#3b82f6;">│</span>  FW Status: MPASP_FW_STATUS @ 0x034000d8               <span style="color:#3b82f6;">│</span>
-<span style="color:#3b82f6;">│</span>  Pass:      0x800F0000 = all boot stages complete        <span style="color:#3b82f6;">│</span>
-<span style="color:#3b82f6;">└─────────────────────────────────────────────────────────┘</span>
-</pre>
-      </div>
-
-      <div>
-        <h2 style="color:#ED1C24;">What Custom Sim Must Model</h2>
-        <table class="compact">
-          <tr><th>Interaction</th><th>Modules</th><th>Why It Matters</th></tr>
-          <tr><td>Boot chain sequence</td><td>ASP→ART→TEE→eSID</td><td>Order-dependent; wrong sequence = brick</td></tr>
-          <tr><td>Key verification</td><td>ASP FMC ↔ KeyDB ↔ Caliptra</td><td>Security chain; signature failures = no boot</td></tr>
-          <tr><td>TEE driver loading</td><td>TEE TOS → 13 drivers</td><td>Each driver has init dependencies</td></tr>
-          <tr><td>Power ↔ Link training</td><td>PMFW ↔ MPIO</td><td>Links can't train without power; MPIO waits on PMFW</td></tr>
-          <tr><td>MPIO ↔ MPIFoE handoff</td><td>MPIO → MPIFoE</td><td>IFoE starts after PCIe/XGMI links are up</td></tr>
-          <tr><td>SMN register access</td><td>All MPs ↔ RSMU</td><td>Every config register write goes through SMN</td></tr>
-          <tr><td>FW status reporting</td><td>All MPs → mailbox</td><td>MPASP_FW_STATUS tracks boot progress</td></tr>
-          <tr><td>RAS error injection</td><td>MPRAS ↔ MCA banks</td><td>Error inject → detect → CPER must work</td></tr>
-        </table>
-
-        <h2 style="margin-top:16px;">Implementation Approach</h2>
-        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
-          <div class="gap-title" style="color:#22c55e;">Phase 1: Boot Chain Simulator</div>
-          <div class="gap-desc">Model ASP→ART→TEE→eSID sequence. Verify component loading order, key verification, FW status transitions. No hardware modeling needed — just state machine.</div>
-        </div>
-        <div class="gap-card green" style="background:#0a0a1a; border-left-color:#3b82f6;">
-          <div class="gap-title" style="color:#3b82f6;">Phase 2: SMN Bus + Register Model</div>
-          <div class="gap-desc">Model SMN register reads/writes. Enable testing PMFW↔MPIO power/link coordination. Use PPR register definitions as ground truth.</div>
-        </div>
-        <div class="gap-card amber">
-          <div class="gap-title">Phase 3: IFoE Packet Path</div>
-          <div class="gap-desc">Model MPIO→MPIFoE handoff, XRMAC packet injection, IFoE link training. Enables network-layer testing without SimNow.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 12: IFoE Testing Strategy — Unit, Bringup, Integration -->
-<div class="slide" id="slide-12">
-  <div class="slide-header">
     <h1>IFoE Testing Strategy — From Unit Tests to System Validation</h1>
-    <span class="slide-number">12 / 12</span>
+    <span class="slide-number">10 / 12</span>
   </div>
   <div class="slide-content">
     <p style="font-size:12px;color:#888;margin-bottom:8px;">Source: XN-202350-PS-1K — MP IFoE Architecture, pages 14-27. IFoE = 18 subsystems per MID, SiFive E6-A RISC-V CPU, 1MB SRAM.</p>
@@ -1155,6 +983,181 @@ table.compact th { font-size: 10px; }
     </div>
   </div>
 </div>
+
+
+<!-- SLIDE 11: AI Agents for Firmware Testing -->
+<div class="slide" id="slide-11">
+  <div class="slide-header">
+    <h1>AI Agents — Achieving Uniform Testing at Scale</h1>
+    <span class="slide-number">11 / 12</span>
+  </div>
+  <div class="slide-content">
+    <p style="font-size:14px;color:#aaa;margin-bottom:16px;">NTSG Claude Plugin ecosystem (<code>~/ntsg/ntsg_claude_plugins/</code>) — 9 plugins, 47 agents, 125+ skills. Purpose-built AI agents that can drive firmware testing without human intervention.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div>
+        <h2 style="color:#ED1C24;">Existing Plugins We Can Leverage</h2>
+
+        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
+          <div class="gap-title" style="color:#22c55e;">AgentQ — Firmware QA Validation</div>
+          <div class="gap-desc">9 agents, 15 skills. <strong>Purpose-built for firmware test execution.</strong><br>
+          Agents: <code>qa-lead</code>, <code>test-planner</code>, <code>test-critic</code>, <code>analyst</code>, <code>domain-expert</code>, <code>testbed-ops</code>, <code>kb-curator</code><br>
+          Skills: <code>generate-test-plan</code>, <code>review-test-plan</code>, <code>run-benchmark</code>, <code>collect-logs</code>, <code>report-test-results</code>, <code>cluster-execute</code>, <code>load-image</code><br>
+          <strong style="color:#22c55e;">→ Deploy AgentQ to auto-generate acceptance tests per component and execute on SimNow/hardware</strong></div>
+        </div>
+
+        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
+          <div class="gap-title" style="color:#22c55e;">Codie — AI-Driven Development Workflow</div>
+          <div class="gap-desc">3 agents, 16 skills. JIRA-driven development with design docs, test plans, implementation.<br>
+          Agents: <code>codie-planner</code>, <code>codie-coder</code>, <code>codie-validator</code><br>
+          Skills: <code>story-design</code>, <code>story-test-plan</code>, <code>task-implement</code>, <code>task-test</code><br>
+          <strong style="color:#22c55e;">→ Use Codie to auto-create JIRA stories for test gaps, design test plans per component</strong></div>
+        </div>
+
+        <div class="gap-card green" style="background:#0a0a1a; border-left-color:#3b82f6;">
+          <div class="gap-title" style="color:#3b82f6;">Helios SDE — Switch/GPU Development</div>
+          <div class="gap-desc">8 agents, 21 skills. Build, test, debug, review for SONiC/SAI/AIFM/GPU.<br>
+          Skills: <code>build</code>, <code>test</code>, <code>debug</code>, <code>review-code</code>, <code>debug-gpu-cluster</code>, <code>add-telemetry-metric</code><br>
+          <strong style="color:#3b82f6;">→ Extend for firmware build validation and GPU cluster test orchestration</strong></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="color:#ED1C24;">How AI Agents Solve Our Gaps</h2>
+
+        <table class="compact">
+          <tr><th>Gap</th><th>AI Agent Solution</th><th>Plugin</th></tr>
+          <tr><td>No unit tests (12 repos)</td><td>AgentQ <code>test-planner</code> generates test plans from code analysis, <code>test-critic</code> validates coverage</td><td>AgentQ</td></tr>
+          <tr><td>No SimNow for 5 repos</td><td>AgentQ <code>testbed-ops</code> provisions SimNow, <code>load-image</code> flashes IFWI, <code>cluster-execute</code> runs assertions</td><td>AgentQ</td></tr>
+          <tr><td>pmfw has zero CI tooling</td><td>Codie <code>story-create</code> decomposes into JIRA tasks, <code>task-implement</code> adds Coverity/lint/SimNow workflows</td><td>Codie</td></tr>
+          <tr><td>Manual DCAuto trigger</td><td>AgentQ <code>qa-lead</code> orchestrates auto-triggered HW smoke on every PR</td><td>AgentQ</td></tr>
+          <tr><td>No failure triage</td><td>AgentQ <code>analyst</code> + <code>domain-expert</code> auto-triage failures, correlate with git blame</td><td>AgentQ</td></tr>
+          <tr><td>No cross-repo testing</td><td>AgentQ <code>cluster-execute</code> + Merlin orchestrator runs assembled IFWI across all components</td><td>AgentQ + Merlin</td></tr>
+          <tr><td>Test plan maintenance</td><td>AgentQ <code>kb-curator</code> keeps golden baselines current, auto-promotes stable assertions</td><td>AgentQ</td></tr>
+        </table>
+
+        <h2 style="margin-top:16px;">Supporting Infrastructure</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG MCP Servers</div>
+            <div style="font-size:11px; color:#888;">Knowledge base, lab topology, cluster execution, credential management — all via MCP protocol</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG Plugin Dev</div>
+            <div style="font-size:11px; color:#888;">4 agents, 6 skills for building new plugins. Create a <code>merlin-fw-test</code> plugin for firmware-specific test workflows</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">P4 Pilot</div>
+            <div style="font-size:11px; color:#888;">4 agents for P4 dataplane programming — pattern for creating firmware-domain AI agents</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">SI Tuner</div>
+            <div style="font-size:11px; color:#888;">10 skills for signal integrity tuning — demonstrates hardware-aware AI agent pattern</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 12: Custom Simulation Environment — Module Interactions -->
+<div class="slide" id="slide-12">
+  <div class="slide-header">
+    <h1>Custom Sim Environment — Module Interaction Map</h1>
+    <span class="slide-number">12 / 12</span>
+  </div>
+  <div class="slide-content">
+    <p style="font-size:13px;color:#aaa;margin-bottom:12px;">A lightweight simulation built from specs and RTL — no SimNow license needed. Models the firmware boot chain and module interactions that matter for CI.</p>
+
+    <div class="two-col">
+      <div>
+        <h2 style="color:#ED1C24;">MI450 Firmware Boot &amp; Interaction Map</h2>
+<pre style="font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.6; color:#ccc; background:#111122; padding:16px; border-radius:8px; border:1px solid #222; overflow-x:auto;">
+<span style="color:#ef4444;">┌─────────────────────────────────────────────────────────┐</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#ED1C24;font-weight:700;">BOOT CHAIN (sequential, order matters)</span>               <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>                                                         <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#f59e0b;">EFS</span> → <span style="color:#f59e0b;">L1 PSP Dir</span> → <span style="color:#f59e0b;">ISH (A/B)</span> → <span style="color:#f59e0b;">L2 PSP Dir</span>          <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#22c55e;font-weight:700;">ASP FMC</span> (0x0001) ──→ <span style="color:#22c55e;">Caliptra RoT</span> (0x00A8)             <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │                    │                                <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    ▼                    ▼                                <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#22c55e;font-weight:700;">ART FMC</span> (0x00AB) ──→ <span style="color:#22c55e;">KeyDB</span> (0x0050)                   <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#3b82f6;font-weight:700;">TEE TOS</span> (0x0002) ──→ 13 TEE Drivers                    <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │        (Boot, SoC, HAD, Interface, RAS, SPDM,       <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │         DPE, Pre-eSID, Post-eSID, SRIOV, KeyMgr)    <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  <span style="color:#a855f7;font-weight:700;">eSID</span> (0x0157-015F) ──→ 8 eSID partitions               <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    │                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>    ▼                                                     <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">│</span>  Security Policies (L0/TOS/L1) → <span style="color:#22c55e;">Anti-Rollback</span>          <span style="color:#ef4444;">│</span>
+<span style="color:#ef4444;">└─────────────────────────────────────────────────────────┘</span>
+
+<span style="color:#f59e0b;">┌─────────────────────────────────────────────────────────┐</span>
+<span style="color:#f59e0b;">│</span>  <span style="color:#f59e0b;font-weight:700;">PARALLEL MP INITIALIZATION (after boot chain)</span>        <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>                                                         <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  <span style="color:#22c55e;font-weight:700;">PMFW</span>────────────────────<span style="color:#22c55e;font-weight:700;">MPIO</span>────────────<span style="color:#22c55e;font-weight:700;">MPIFoE</span>       <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  MID MP1 (0x0008)       (0x005D)         (0x01F3)       <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  AID MP5 (0x01EA)          │                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  XCD MP5 (0x1051)          │                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  IMU     (0x009B/9C)       │                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    │                       │                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    │    ┌──────────────────┤                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    │    │                  │                 │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    ▼    ▼                  ▼                 ▼          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  <span style="color:#888;">Power</span>  <span style="color:#888;">PCIe Link</span>      <span style="color:#888;">XGMI Link</span>       <span style="color:#888;">IFoE Link</span>    <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  <span style="color:#888;">States</span> <span style="color:#888;">Training</span>       <span style="color:#888;">Training</span>        <span style="color:#888;">Training</span>     <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    │       │                │                │          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>    ▼       ▼                ▼                ▼          <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  <span style="color:#22c55e;font-weight:700;">MPRAS</span> (0x006B)      <span style="color:#22c55e;font-weight:700;">nHT</span> (0x01E0)    <span style="color:#22c55e;">XRMAC/PFC</span>    <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  RAS monitoring       nHT controller   Ethernet MAC   <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">│</span>  MCA banks            GPU↔GPU fabric   8-port stats   <span style="color:#f59e0b;">│</span>
+<span style="color:#f59e0b;">└─────────────────────────────────────────────────────────┘</span>
+
+<span style="color:#3b82f6;">┌─────────────────────────────────────────────────────────┐</span>
+<span style="color:#3b82f6;">│</span>  <span style="color:#3b82f6;font-weight:700;">ALL MODULES COMMUNICATE VIA SMN (register bus)</span>        <span style="color:#3b82f6;">│</span>
+<span style="color:#3b82f6;">│</span>  MP → RSMU → SMN → Target IP registers                 <span style="color:#3b82f6;">│</span>
+<span style="color:#3b82f6;">│</span>  FW Status: MPASP_FW_STATUS @ 0x034000d8               <span style="color:#3b82f6;">│</span>
+<span style="color:#3b82f6;">│</span>  Pass:      0x800F0000 = all boot stages complete        <span style="color:#3b82f6;">│</span>
+<span style="color:#3b82f6;">└─────────────────────────────────────────────────────────┘</span>
+</pre>
+      </div>
+
+      <div>
+        <h2 style="color:#ED1C24;">What Custom Sim Must Model</h2>
+        <table class="compact">
+          <tr><th>Interaction</th><th>Modules</th><th>Why It Matters</th></tr>
+          <tr><td>Boot chain sequence</td><td>ASP→ART→TEE→eSID</td><td>Order-dependent; wrong sequence = brick</td></tr>
+          <tr><td>Key verification</td><td>ASP FMC ↔ KeyDB ↔ Caliptra</td><td>Security chain; signature failures = no boot</td></tr>
+          <tr><td>TEE driver loading</td><td>TEE TOS → 13 drivers</td><td>Each driver has init dependencies</td></tr>
+          <tr><td>Power ↔ Link training</td><td>PMFW ↔ MPIO</td><td>Links can't train without power; MPIO waits on PMFW</td></tr>
+          <tr><td>MPIO ↔ MPIFoE handoff</td><td>MPIO → MPIFoE</td><td>IFoE starts after PCIe/XGMI links are up</td></tr>
+          <tr><td>SMN register access</td><td>All MPs ↔ RSMU</td><td>Every config register write goes through SMN</td></tr>
+          <tr><td>FW status reporting</td><td>All MPs → mailbox</td><td>MPASP_FW_STATUS tracks boot progress</td></tr>
+          <tr><td>RAS error injection</td><td>MPRAS ↔ MCA banks</td><td>Error inject → detect → CPER must work</td></tr>
+        </table>
+
+        <h2 style="margin-top:16px;">Implementation Approach</h2>
+        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
+          <div class="gap-title" style="color:#22c55e;">Phase 1: Boot Chain Simulator</div>
+          <div class="gap-desc">Model ASP→ART→TEE→eSID sequence. Verify component loading order, key verification, FW status transitions. No hardware modeling needed — just state machine.</div>
+        </div>
+        <div class="gap-card green" style="background:#0a0a1a; border-left-color:#3b82f6;">
+          <div class="gap-title" style="color:#3b82f6;">Phase 2: SMN Bus + Register Model</div>
+          <div class="gap-desc">Model SMN register reads/writes. Enable testing PMFW↔MPIO power/link coordination. Use PPR register definitions as ground truth.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">Phase 3: IFoE Packet Path</div>
+          <div class="gap-desc">Model MPIO→MPIFoE handoff, XRMAC packet injection, IFoE link training. Enables network-layer testing without SimNow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 12</div>
 
