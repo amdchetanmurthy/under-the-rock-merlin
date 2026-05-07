@@ -601,6 +601,36 @@ table.compact th { font-size: 10px; }
         </div>
       </div>
     </div>
+    <h2 style="margin-top:20px; color:#ED1C24;">Platform & Tooling Gaps (Beyond Repos)</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+      <div style="background:#1a0a0a; border:1px solid #333; border-radius:8px; padding:16px;">
+        <h3 style="color:#ef4444; font-size:14px; margin-bottom:8px;">SimNow Limitations</h3>
+        <ul style="font-size:12px; color:#aaa;">
+          <li>Limited access — not enough seats for all FW developers</li>
+          <li>ASP not properly integrated with SimNow models</li>
+          <li>No packet injection capability for IFoE/network testing</li>
+          <li>No way to test full bootflow and module interactions end-to-end</li>
+        </ul>
+      </div>
+      <div style="background:#0a0a1a; border:1px solid #333; border-radius:8px; padding:16px;">
+        <h3 style="color:#3b82f6; font-size:14px; margin-bottom:8px;">Alternative: Custom Sim Environment</h3>
+        <ul style="font-size:12px; color:#aaa;">
+          <li>Build simulation from RTL code and specs</li>
+          <li>Simulate all module interactions (PSP ↔ TEE ↔ PMFW ↔ MPIO)</li>
+          <li>Enables packet injection, fault injection, timing analysis</li>
+          <li>Could run on standard CI infrastructure (no SimNow license)</li>
+        </ul>
+      </div>
+      <div style="background:#1a1a0a; border:1px solid #333; border-radius:8px; padding:16px;">
+        <h3 style="color:#f59e0b; font-size:14px; margin-bottom:8px;">Hardware Debug Gaps</h3>
+        <ul style="font-size:12px; color:#aaa;">
+          <li>No way to log and extract data from ASIC at runtime</li>
+          <li>SMN mailbox is small and limited</li>
+          <li>Communication uses shared memories — hard to debug</li>
+          <li>Makes hardware test failures harder to triage</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
