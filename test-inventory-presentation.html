@@ -248,6 +248,25 @@ table.compact th { font-size: 10px; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #111; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* HW test system cards */
+.hw-system-card {
+  background: #111122;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 10px 0;
+}
+.hw-system-card h3 {
+  color: #ED1C24;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+.hw-system-card .hw-meta {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
@@ -264,11 +283,11 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<!-- SLIDE 2: Executive Summary -->
+<!-- SLIDE 2: The Numbers (merged slides 2+4) -->
 <div class="slide" id="slide-2">
   <div class="slide-header">
-    <h1>Executive Summary: Hard Numbers</h1>
-    <span class="slide-number">2 / 20</span>
+    <h1>The Numbers</h1>
+    <span class="slide-number">2 / 9</span>
   </div>
   <div class="slide-content">
     <div class="stat-grid">
@@ -279,76 +298,7 @@ table.compact th { font-size: 10px; }
       <div class="stat-card"><div class="number">10</div><div class="label">Have SimNow on PR</div></div>
       <div class="stat-card"><div class="number">13</div><div class="label">Have Coverity on PR</div></div>
     </div>
-    <table>
-      <tr><th>Capability</th><th>Repos With It</th><th>Repos Without It</th></tr>
-      <tr><td>PR gate workflow</td><td class="status-yes">14 of 16</td><td>cp-mi400, sw-security-tools</td></tr>
-      <tr><td>Coverity on PR</td><td class="status-yes">13 of 16</td><td>pmfw (partial), cp-mi400, sw-security-tools</td></tr>
-      <tr><td>Lint on PR</td><td class="status-partial">11 of 16</td><td>pmfw, mpio, cp-mi400, sw-security-tools, amd-tee3_0 (partial)</td></tr>
-      <tr><td>SimNow on PR</td><td class="status-partial">10 of 16</td><td>mpio (unclear), sriov-dr, MPRAS-Applets, cp-mi400, sw-security-tools, pmfw (unclear)</td></tr>
-      <tr><td>Unit tests in PR gate</td><td class="status-no">3 of 16</td><td>Most repos lack automated unit tests in CI</td></tr>
-      <tr><td>Nightly workflow</td><td class="status-partial">7 of 16</td><td>Many repos lack scheduled regression</td></tr>
-      <tr><td>Hardware / DCAuto on PR</td><td class="status-no">3 of 16</td><td>Only art-security, amd-tee3_0, asp-fmc (Jenkins trigger)</td></tr>
-      <tr><td>AI code review on PR</td><td class="status-no">5 of 16</td><td>art-security, asp-fmc, mpifoe-fw, pcie-cld-fw, ucie-fw</td></tr>
-      <tr><td>Release workflow</td><td class="status-yes">14 of 16</td><td>cp-mi400, sw-security-tools</td></tr>
-    </table>
-  </div>
-</div>
-
-<!-- SLIDE 3: What We Analyzed -->
-<div class="slide" id="slide-3">
-  <div class="slide-header">
-    <h1>What We Analyzed</h1>
-    <span class="slide-number">3 / 20</span>
-  </div>
-  <div class="slide-content">
-    <div class="two-col">
-      <div>
-        <h2>Scope</h2>
-        <ul>
-          <li><strong>16 firmware repositories</strong> across PFO and NBIOFW orgs</li>
-          <li>15 repos checked out + 1 missing (unicrypt on er.github.amd.com)</li>
-          <li>1,627 lines of detailed per-repo analysis across 3 batch documents</li>
-          <li>Every <code>.github/workflows/*.yml</code> file read</li>
-          <li>Every test directory, test file, and test framework inventoried</li>
-          <li>Every <code>.github/simnow/*.yaml</code> config cataloged</li>
-        </ul>
-        <h2>Repos Analyzed</h2>
-        <table class="compact">
-          <tr><th>Batch</th><th>Repos</th></tr>
-          <tr><td>Core Firmware (Batch 1)</td><td>asp-fmc, amd-tee3_0, pmfw-firmware, mpio, mpifoe-fw</td></tr>
-          <tr><td>Security & RAS (Batch 2)</td><td>art-security, dcgpu-esid, MPRAS-Kernel, MPRAS-Applets, nht-firmware</td></tr>
-          <tr><td>Drivers & Tools (Batch 3)</td><td>VBL-TEE-Drv, sriov-dr, sw-security-tools, cp-mi400, pcie-cld-fw, ucie-fw</td></tr>
-        </table>
-      </div>
-      <div>
-        <h2>Methodology</h2>
-        <ul>
-          <li>Read every workflow YAML file in each repo</li>
-          <li>Identified triggers (PR, push, cron, manual, tag)</li>
-          <li>Cataloged what blocks merge vs. informational</li>
-          <li>Inventoried all SimNow YAML configs and counted incremental vs nightly</li>
-          <li>Searched for all test directories, test files, test frameworks</li>
-          <li>Mapped shared IVV reusable workflows</li>
-          <li>Identified static analysis tools (Coverity, CodeQL, BlackDuck)</li>
-        </ul>
-        <h2>Two Org Patterns</h2>
-        <ul>
-          <li><strong>PFO repos</strong>: Use shared <code>PFO/ivv-workflows</code> for SimNow, Coverity, lint, BIOS merge, AI review</li>
-          <li><strong>NBIOFW repos</strong>: Use own <code>NBIOFW/gha-workflows</code> with Docker-containerized builds + hardware emulation (Protium)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 4: CI/CD Workflow Landscape -->
-<div class="slide" id="slide-4">
-  <div class="slide-header">
-    <h1>CI/CD Workflow Landscape</h1>
-    <span class="slide-number">4 / 20</span>
-  </div>
-  <div class="slide-content">
-    <table>
+    <table class="compact">
       <tr><th>Repo</th><th>Total Workflows</th><th>PR Gate</th><th>Nightly</th><th>Release</th><th>SimNow</th><th>Other</th></tr>
       <tr><td>asp-fmc</td><td>10</td><td>aspfmc-pr.yml</td><td>aspfmc-nightly.yml</td><td>aspfmc-release.yml</td><td>aspfmc-simnow.yml</td><td>post-merge, auto-rebase, jira, dcauto</td></tr>
       <tr><td>amd-tee3_0</td><td>18</td><td>tee-pr.yml</td><td>tee-nightly.yml</td><td>tee-release.yml</td><td>via pr/nightly</td><td>smoke, ddk, sdk, sfs, cc-tests, presubmit</td></tr>
@@ -367,14 +317,23 @@ table.compact th { font-size: 10px; }
       <tr><td>pcie-cld-fw</td><td>10</td><td>pcie-cld-fw-build/unittest/lint/codeql/coverity/emu-sanity.yml</td><td>via push to main</td><td>pcie-cld-fw-release-artifacts.yml</td><td>&mdash; (Protium)</td><td>coverage (manual), ai-review, dev artifacts</td></tr>
       <tr><td>ucie-fw</td><td>17</td><td>ucie-fw-pr.yml</td><td>ucie-fw-nightly.yml</td><td>ucie-fw-ifwi-bios-release.yml</td><td>&mdash; (Protium)</td><td>blackduck, docker, emu-cleanup, branch-merge</td></tr>
     </table>
+    <h2 style="margin-top:16px;">Top 5 Most Active Components <span style="font-size:11px;color:#666;">(latest commits as of May 2026)</span></h2>
+    <table class="compact">
+      <tr><th>Repo</th><th>Last Commit</th><th>Change</th><th>CI Risk</th></tr>
+      <tr><td style="color:#ED1C24;font-weight:600;">pmfw-firmware</td><td>May 4</td><td>FWDEV-190974: msg security on MP5s — 5 PSP entries</td><td style="color:#ef4444;">HIGH — No Coverity, no lint, no SimNow</td></tr>
+      <tr><td>amd-tee3_0</td><td>May 4</td><td>LWPQA-14075: Update CC tests — 14 PSP entries</td><td style="color:#22c55e;">LOW — 18 workflows, mature CI</td></tr>
+      <tr><td>mpio</td><td>May 4</td><td>FWDEV-191358: Restructured UAL timeout — PCIe/XGMI links</td><td style="color:#f59e0b;">MED — Has unit tests but no nightly</td></tr>
+      <tr><td>asp-fmc</td><td>May 4</td><td>LWPQA-13805: fix test package upload — root of trust</td><td style="color:#f59e0b;">MED — 60+ SimNow configs but zero unit tests</td></tr>
+      <tr><td>dcgpu-esid</td><td>May 4</td><td>LWPQA-13980: Add MI430 nightly SimNow — eSID</td><td style="color:#22c55e;">LOW — 100+ CppUTest, strong CI</td></tr>
+    </table>
   </div>
 </div>
 
-<!-- SLIDE 5: Per-Repo Test Maturity Matrix -->
-<div class="slide" id="slide-5">
+<!-- SLIDE 3: Test Maturity Matrix (slide 5 exact) -->
+<div class="slide" id="slide-3">
   <div class="slide-header">
     <h1>Per-Repo Test Maturity Matrix</h1>
-    <span class="slide-number">5 / 20</span>
+    <span class="slide-number">3 / 9</span>
   </div>
   <div class="slide-content">
     <p style="font-size:12px;color:#888;margin-bottom:8px;"><span class="dot-green">Has it</span> &nbsp; <span class="dot-amber">Partial</span> &nbsp; <span class="dot-red">Missing</span></p>
@@ -482,11 +441,11 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<!-- SLIDE 6: PR Gate Details -->
-<div class="slide" id="slide-6">
+<!-- SLIDE 4: PR Gate Details (slide 6 exact) -->
+<div class="slide" id="slide-4">
   <div class="slide-header">
     <h1>PR Gate: What Actually Runs Today</h1>
-    <span class="slide-number">6 / 20</span>
+    <span class="slide-number">4 / 9</span>
   </div>
   <div class="slide-content">
     <table class="compact">
@@ -512,515 +471,263 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<!-- SLIDE 7: SimNow Coverage -->
-<div class="slide" id="slide-7">
+<!-- SLIDE 5: SimNow & Unit Test Coverage (merged slides 7+8) -->
+<div class="slide" id="slide-5">
   <div class="slide-header">
-    <h1>SimNow Coverage: Configs per Repo per Product</h1>
-    <span class="slide-number">7 / 20</span>
+    <h1>SimNow & Unit Test Coverage</h1>
+    <span class="slide-number">5 / 9</span>
   </div>
   <div class="slide-content">
-    <h2>Platforms with SimNow Configs</h2>
-    <table>
-      <tr><th>Repo</th><th>MI450</th><th>MI430</th><th>WH</th><th>WH SP8</th><th>WH LP</th><th>MDS</th><th>AT2</th><th>Total Configs</th></tr>
-      <tr><td>asp-fmc</td><td class="status-yes">25+</td><td class="status-yes">1</td><td class="status-yes">17</td><td class="status-yes">9</td><td class="status-yes">2</td><td class="status-yes">8</td><td class="status-yes">4</td><td>~66</td></tr>
-      <tr><td>amd-tee3_0</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td>~50+</td></tr>
-      <tr><td>art-security</td><td class="status-yes">23</td><td class="status-yes">1</td><td class="status-yes">17</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">8</td><td class="status-yes">5</td><td>~60+</td></tr>
-      <tr><td>dcgpu-esid</td><td class="status-yes">23</td><td class="status-yes">1</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~24</td></tr>
-      <tr><td>mpifoe-fw</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
-      <tr><td>mpio</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
-      <tr><td>MPRAS-Kernel</td><td class="status-yes">21</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~22</td></tr>
-      <tr><td>nht-firmware</td><td class="status-yes">19</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~20</td></tr>
-      <tr><td>pmfw-firmware</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
-      <tr><td>VBL-TEE-Drv</td><td class="status-yes">21</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>21</td></tr>
-      <tr><td>MPRAS-Applets</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>0</td></tr>
-      <tr><td>sriov-dr</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>0</td></tr>
-    </table>
-    <h2>SimNow YAML Schema Pattern</h2>
-    <p style="font-size:13px;color:#aaa;">All repos follow a consistent schema under <code>.github/simnow/&lt;platform&gt;.yaml</code>. Key field: <code>incremental: true</code> runs on PR, <code>incremental: false</code> runs nightly-only. Postcodes: MI450 = <code>0X800F0000</code>, WH = <code>0XAA55AA55</code>, AT2 = <code>0X80BA0000</code>.</p>
-    <p style="font-size:13px;color:#aaa;margin-top:6px;">NBIOFW repos (pcie-cld-fw, ucie-fw) do NOT use SimNow -- they use Protium hardware emulation instead.</p>
-  </div>
-</div>
-
-<!-- SLIDE 8: Unit Test Landscape -->
-<div class="slide" id="slide-8">
-  <div class="slide-header">
-    <h1>Unit Test Landscape: Frameworks & Coverage</h1>
-    <span class="slide-number">8 / 20</span>
-  </div>
-  <div class="slide-content">
-    <table>
-      <tr><th>Repo</th><th>Framework</th><th>Test Type</th><th># Test Files</th><th>In CI?</th><th>Key Test Paths</th></tr>
-      <tr><td>dcgpu-esid</td><td class="status-yes">CppUTest</td><td>Host-side x86</td><td>~100+</td><td class="status-yes">YES (PR gate)</td><td><code>dcgpu/Test/UT/Source/</code></td></tr>
-      <tr><td>mpio</td><td class="status-yes">Custom x86</td><td>Host-side x86</td><td>Multiple dirs</td><td class="status-yes">YES (PR gate)</td><td><code>tests/, comphandlers/tests/, drivers/tests/, gml/tests/, hasl/tests/</code></td></tr>
-      <tr><td>VBL-TEE-Drv</td><td class="status-yes">CppUTest (shared)</td><td>Host-side x86</td><td>Shared w/dcgpu</td><td class="status-yes">YES (PR gate)</td><td><code>Simulate/</code></td></tr>
-      <tr><td>pcie-cld-fw</td><td class="status-yes">GoogleTest + FFF</td><td>Host-side</td><td>5</td><td class="status-yes">YES (PR gate)</td><td><code>src/faae/test/, src/pcie/test/</code></td></tr>
-      <tr><td>ucie-fw</td><td class="status-yes">GoogleTest + FFF</td><td>Host-side</td><td>2</td><td class="status-yes">YES (PR gate)</td><td><code>src/ucie_fw/test/</code></td></tr>
-      <tr><td>mpifoe-fw</td><td class="status-partial">Zephyr Twister + pytest</td><td>Mixed</td><td>~7</td><td class="status-partial">Partial</td><td><code>tests/ifoe_ras/, tests/ifoe_tlm/, src/tests/</code></td></tr>
-      <tr><td>art-security</td><td class="status-partial">Custom C (CONFIG_TEST)</td><td>Firmware-level</td><td>12</td><td class="status-partial">Via SimNow only</td><td><code>common/test/</code> (9 test variants)</td></tr>
-      <tr><td>MPRAS-Kernel</td><td class="status-partial">Custom C</td><td>On-target</td><td>5</td><td class="status-partial">Via firmware build</td><td><code>app/test/</code></td></tr>
-      <tr><td>MPRAS-Applets</td><td class="status-partial">Custom C</td><td>On-target</td><td>7</td><td class="status-no">No</td><td><code>unit_test_applet/src/</code></td></tr>
-      <tr><td>amd-tee3_0</td><td class="status-partial">Custom C + VS Project</td><td>Firmware + Win</td><td>~10</td><td class="status-no">No (Windows only)</td><td><code>amd_tee_ta/ta_unit_test/, amd_tee_test/</code></td></tr>
-      <tr><td>pmfw-firmware</td><td class="status-partial">Python + Lua</td><td>Simulation</td><td>~3</td><td class="status-no">No</td><td><code>firmware/main/test/</code></td></tr>
-      <tr><td>asp-fmc</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>nht-firmware</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>sriov-dr</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>cp-mi400</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>sw-security-tools</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td><td>&mdash;</td></tr>
-    </table>
-    <h2>Framework Distribution</h2>
-    <div class="stat-grid" style="grid-template-columns: repeat(5, 1fr);">
-      <div class="stat-card"><div class="number" style="font-size:24px;">CppUTest</div><div class="label">dcgpu-esid, mpio, VBL-TEE-Drv</div></div>
-      <div class="stat-card"><div class="number" style="font-size:24px;">GoogleTest</div><div class="label">pcie-cld-fw, ucie-fw</div></div>
-      <div class="stat-card"><div class="number" style="font-size:24px;">Twister</div><div class="label">mpifoe-fw</div></div>
-      <div class="stat-card"><div class="number" style="font-size:24px;">pytest</div><div class="label">mpifoe-fw</div></div>
-      <div class="stat-card"><div class="number" style="font-size:24px;">None</div><div class="label">asp-fmc, nht, sriov-dr, cp-mi400, sw-security-tools</div></div>
+    <div class="two-col">
+      <div>
+        <h2>SimNow Platform Matrix</h2>
+        <table class="compact">
+          <tr><th>Repo</th><th>MI450</th><th>MI430</th><th>WH</th><th>WH SP8</th><th>WH LP</th><th>MDS</th><th>AT2</th><th>Total</th></tr>
+          <tr><td>asp-fmc</td><td class="status-yes">25+</td><td class="status-yes">1</td><td class="status-yes">17</td><td class="status-yes">9</td><td class="status-yes">2</td><td class="status-yes">8</td><td class="status-yes">4</td><td>~66</td></tr>
+          <tr><td>amd-tee3_0</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td>~50+</td></tr>
+          <tr><td>art-security</td><td class="status-yes">23</td><td class="status-yes">1</td><td class="status-yes">17</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-yes">8</td><td class="status-yes">5</td><td>~60+</td></tr>
+          <tr><td>dcgpu-esid</td><td class="status-yes">23</td><td class="status-yes">1</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~24</td></tr>
+          <tr><td>mpifoe-fw</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
+          <tr><td>mpio</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
+          <tr><td>MPRAS-Kernel</td><td class="status-yes">21</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~22</td></tr>
+          <tr><td>nht-firmware</td><td class="status-yes">19</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>~20</td></tr>
+          <tr><td>pmfw-firmware</td><td class="status-yes">Y</td><td class="status-yes">Y</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>2</td></tr>
+          <tr><td>VBL-TEE-Drv</td><td class="status-yes">21</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>21</td></tr>
+          <tr><td>MPRAS-Applets</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>0</td></tr>
+          <tr><td>sriov-dr</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td>0</td></tr>
+        </table>
+        <p style="font-size:12px;color:#888;margin-top:6px;">NBIOFW repos (pcie-cld-fw, ucie-fw) use Protium hardware emulation instead of SimNow. Postcodes: MI450 = <code>0X800F0000</code>, WH = <code>0XAA55AA55</code>, AT2 = <code>0X80BA0000</code>.</p>
+      </div>
+      <div>
+        <h2>Unit Test Frameworks</h2>
+        <table class="compact">
+          <tr><th>Repo</th><th>Framework</th><th>Type</th><th># Files</th><th>In CI?</th></tr>
+          <tr><td>dcgpu-esid</td><td class="status-yes">CppUTest</td><td>Host x86</td><td>~100+</td><td class="status-yes">YES</td></tr>
+          <tr><td>mpio</td><td class="status-yes">Custom x86</td><td>Host x86</td><td>Multiple</td><td class="status-yes">YES</td></tr>
+          <tr><td>VBL-TEE-Drv</td><td class="status-yes">CppUTest</td><td>Host x86</td><td>Shared</td><td class="status-yes">YES</td></tr>
+          <tr><td>pcie-cld-fw</td><td class="status-yes">GTest+FFF</td><td>Host</td><td>5</td><td class="status-yes">YES</td></tr>
+          <tr><td>ucie-fw</td><td class="status-yes">GTest+FFF</td><td>Host</td><td>2</td><td class="status-yes">YES</td></tr>
+          <tr><td>mpifoe-fw</td><td class="status-partial">Twister+pytest</td><td>Mixed</td><td>~7</td><td class="status-partial">Partial</td></tr>
+          <tr><td>art-security</td><td class="status-partial">CONFIG_TEST</td><td>FW-level</td><td>12</td><td class="status-partial">SimNow</td></tr>
+          <tr><td>MPRAS-Kernel</td><td class="status-partial">Custom C</td><td>On-target</td><td>5</td><td class="status-partial">FW build</td></tr>
+          <tr><td>MPRAS-Applets</td><td class="status-partial">Custom C</td><td>On-target</td><td>7</td><td class="status-no">No</td></tr>
+          <tr><td>amd-tee3_0</td><td class="status-partial">VS Project</td><td>FW+Win</td><td>~10</td><td class="status-no">No</td></tr>
+          <tr><td>pmfw-firmware</td><td class="status-partial">Python+Lua</td><td>Sim</td><td>~3</td><td class="status-no">No</td></tr>
+          <tr><td>asp-fmc</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td></tr>
+          <tr><td>nht-firmware</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td></tr>
+          <tr><td>sriov-dr</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td></tr>
+          <tr><td>cp-mi400</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td></tr>
+          <tr><td>sw-security-tools</td><td class="status-no">None</td><td>&mdash;</td><td>0</td><td class="status-no">&mdash;</td></tr>
+        </table>
+        <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-top:10px;">
+          <div class="stat-card" style="padding:12px;"><div class="number" style="font-size:18px;">CppUTest</div><div class="label" style="font-size:11px;">dcgpu-esid, mpio, VBL-TEE-Drv</div></div>
+          <div class="stat-card" style="padding:12px;"><div class="number" style="font-size:18px;">GoogleTest</div><div class="label" style="font-size:11px;">pcie-cld-fw, ucie-fw</div></div>
+          <div class="stat-card" style="padding:12px;"><div class="number" style="font-size:18px;">None</div><div class="label" style="font-size:11px;">asp-fmc, nht, sriov-dr, cp-mi400, sw-sec</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 9: The Unit Test Gap -->
-<div class="slide" id="slide-9">
+<!-- SLIDE 6: The Gaps (merged slides 9+15) -->
+<div class="slide" id="slide-6">
   <div class="slide-header">
-    <h1>The Unit Test Gap</h1>
-    <span class="slide-number">9 / 20</span>
+    <h1>The Gaps &mdash; What's Missing</h1>
+    <span class="slide-number">6 / 9</span>
   </div>
   <div class="slide-content">
-    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
+    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
       <div class="stat-card" style="border-color:#22c55e44;"><div class="number" style="color:#22c55e;">5</div><div class="label">Repos run unit tests in PR gate</div></div>
       <div class="stat-card" style="border-color:#f59e0b44;"><div class="number" style="color:#f59e0b;">5</div><div class="label">Have tests but NOT in CI</div></div>
       <div class="stat-card" style="border-color:#ef444444;"><div class="number" style="color:#ef4444;">6</div><div class="label">Have zero unit tests of any kind</div></div>
     </div>
-    <h2>What is Missing and Why It Matters</h2>
-    <div class="gap-card">
-      <div class="gap-title">asp-fmc: Zero unit tests, zero code coverage</div>
-      <div class="gap-desc">First Mutable Code -- the root of trust. All validation relies on SimNow boot + static analysis. Critical paths (DICE attestation, A/B recovery, crypto-seed verification) have no isolated tests.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">nht-firmware: Zero unit tests</div>
-      <div class="gap-desc">Only SimNow boot serves as functional gate. No test for messaging interface, hotplug event handling, or PAL abstraction layer.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">sriov-dr: Zero unit tests, zero SimNow, zero functional tests</div>
-      <div class="gap-desc">SR-IOV virtualization driver has only static analysis (Coverity + lint). No test for VF creation, partition logic, or virtualization features.</div>
-    </div>
-    <div class="gap-card amber">
-      <div class="gap-title">amd-tee3_0: TA unit tests exist but are Windows-only (Visual Studio project)</div>
-      <div class="gap-desc">Not integrated into CI. DDK test suites in <code>amd_tee_test/test_suites/</code> also not run in any workflow.</div>
-    </div>
-    <div class="gap-card amber">
-      <div class="gap-title">art-security: CONFIG_TEST variants exist but require SimNow to execute</div>
-      <div class="gap-desc">12 test files under <code>common/test/</code> (ART_LOG, CALIPTRA, DPE, RAP, RSMU, SPDM, STARTUP, WAFL, FUSE) -- but no host-side unit test framework. Tests are firmware-level only.</div>
-    </div>
-    <div class="gap-card amber">
-      <div class="gap-title">mpifoe-fw: Zephyr Twister + pytest tests exist but unclear if in PR gate</div>
-      <div class="gap-desc">testcase.yaml for RAS and telemetry exist. pytest regressions exist. Jenkins pipelines exist. But GHA integration is incomplete.</div>
+    <div class="two-col">
+      <div>
+        <h2>Unit Test Gaps</h2>
+        <div class="gap-card">
+          <div class="gap-title">asp-fmc: Zero unit tests, zero code coverage</div>
+          <div class="gap-desc">First Mutable Code -- the root of trust. All validation relies on SimNow boot + static analysis. Critical paths (DICE attestation, A/B recovery, crypto-seed verification) have no isolated tests.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">nht-firmware: Zero unit tests</div>
+          <div class="gap-desc">Only SimNow boot serves as functional gate. No test for messaging interface, hotplug event handling, or PAL abstraction layer.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">sriov-dr: Zero unit tests, zero SimNow, zero functional tests</div>
+          <div class="gap-desc">SR-IOV virtualization driver has only static analysis (Coverity + lint). No test for VF creation, partition logic, or virtualization features.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">amd-tee3_0: TA unit tests exist but are Windows-only (VS project)</div>
+          <div class="gap-desc">Not integrated into CI. DDK test suites in <code>amd_tee_test/test_suites/</code> also not run in any workflow.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">art-security: CONFIG_TEST variants require SimNow to execute</div>
+          <div class="gap-desc">12 test files under <code>common/test/</code> (ART_LOG, CALIPTRA, DPE, RAP, RSMU, SPDM, STARTUP, WAFL, FUSE) -- no host-side unit test framework.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">mpifoe-fw: Twister + pytest tests unclear if in PR gate</div>
+          <div class="gap-desc">testcase.yaml for RAS and telemetry exist. pytest regressions exist. Jenkins pipelines exist. But GHA integration is incomplete.</div>
+        </div>
+      </div>
+      <div>
+        <h2>Top 7 Ranked Gaps</h2>
+        <div class="gap-card">
+          <div class="gap-title">1. cp-mi400 and sw-security-tools: Zero CI</div>
+          <div class="gap-desc">No workflows, no static analysis, no tests, no build verification. cp-mi400 is GPU command processor microcode. sw-security-tools contains security-critical signing tools. Both can ship broken code with no automated detection.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">2. pmfw-firmware: Minimal CI with 5 PSP entries</div>
+          <div class="gap-desc">Produces 5 PSP entries (MP1, MP5, IMU instruction + data) for power management. No lint, no SimNow in PR, test infra exists but not integrated. Coverity recently added (3x builds) but no nightly.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">3. Only 5 of 16 repos run unit tests in PR gate</div>
+          <div class="gap-desc">dcgpu-esid (CppUTest), mpio (custom x86), VBL-TEE-Drv (shared CppUTest), pcie-cld-fw (GoogleTest), ucie-fw (GoogleTest). Remaining 11 repos have no host-side unit test execution in CI.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">4. MPRAS-Applets: No SimNow, no nightly, no functional test</div>
+          <div class="gap-desc">A broken applet can merge with zero boot validation. Entirely depends on MPRAS-Kernel pipeline. PR gate only builds pcie_applet for WH SP7.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-title">5. sriov-dr: CI exists but zero functional tests</div>
+          <div class="gap-desc">Has Coverity + lint + build in PR, and BlackDuck in nightly. But no unit tests, no SimNow, no emulation. Only static analysis validates the code.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">6. No code coverage measurement in any repo (automated)</div>
+          <div class="gap-desc">ucie-fw has gcov in nightly; pcie-cld-fw has Bullseye manual-only; art-security has Coco (manual). No repo has automated coverage in PR gate or nightly reporting.</div>
+        </div>
+        <div class="gap-card amber">
+          <div class="gap-title">7. No cross-repo integration testing</div>
+          <div class="gap-desc">Each repo tests its own binary in isolation via IFWI merge. No pipeline validates all components together in a single IFWI. No regression tracking or test result trending.</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 10: Nightly Coverage -->
-<div class="slide" id="slide-10">
+<!-- SLIDE 7: Existing Hardware Test Infrastructure (NEW from docs/20-test-aspects.md) -->
+<div class="slide" id="slide-7">
   <div class="slide-header">
-    <h1>Nightly Coverage: Who Has It, Who Doesn't</h1>
-    <span class="slide-number">10 / 20</span>
+    <h1>Existing Hardware Test Infrastructure</h1>
+    <span class="slide-number">7 / 9</span>
   </div>
   <div class="slide-content">
-    <div class="two-col">
-      <div>
-        <h2 style="color:#22c55e;">Repos WITH Nightly Workflows</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+      <!-- CI-Lite -->
+      <div class="hw-system-card">
+        <h3>CI-Lite (Pushkin / Tom Robbins)</h3>
+        <div class="hw-meta">Benchtop 1P1G &mdash; MI45X B0 &mdash; WIP</div>
+        <p style="font-size:13px;color:#aaa;margin-bottom:8px;">Consumes daily builds of SBIOS, HPM_CPLD, PLDM components, amdgpu driver, ROCm. Orchestrated via Conductor (plans to move to qTest).</p>
         <table class="compact">
-          <tr><th>Repo</th><th>Nightly Workflow</th><th>What Runs</th></tr>
-          <tr><td>asp-fmc</td><td><code>aspfmc-nightly.yml</code></td><td>Full Coverity + CERT-C, CodeQL, BlackDuck, ELF scan, all SimNow (60+ configs), Racer MI450, email + Confluence</td></tr>
-          <tr><td>amd-tee3_0</td><td><code>tee-nightly.yml</code></td><td>Full Coverity + CERT-C (multi-branch), CodeQL, full SimNow matrix, Racer MI450, DDK nightly, email + Confluence</td></tr>
-          <tr><td>art-security</td><td><code>artsec-nightly.yml</code></td><td>SCC counter, Coverity + CERT-C, BlackDuck, CodeQL, full SimNow (40+ variants), Racer MI450, email + Confluence</td></tr>
-          <tr><td>dcgpu-esid</td><td><code>dcgpu-esid-nightly.yml</code></td><td>Full Coverity + CERT-C + BlackDuck, CodeQL, full SimNow (~20 MI450 + MI430), email + Confluence</td></tr>
-          <tr><td>mpifoe-fw</td><td><code>mpifoe-nightly.yml</code></td><td>Nightly builds + SimNow</td></tr>
-          <tr><td>nht-firmware</td><td><code>mpnht-nightly.yml</code></td><td>Full SimNow matrix (19 MI450 + MI430), nightly build</td></tr>
-          <tr><td>sriov-dr</td><td><code>sriov-dr-nightly.yml</code></td><td>Full Coverity + CERT-C, BlackDuck, ELF scan, full lint, nightly build</td></tr>
-          <tr><td>ucie-fw</td><td><code>ucie-fw-nightly.yml</code></td><td>Lint, build, BlackDuck, CodeQL, Coverity, unit tests (with gcov coverage), emu sanity</td></tr>
+          <tr><th>Test</th><th>Duration</th></tr>
+          <tr><td>Flash FW</td><td>~30 min</td></tr>
+          <tr><td>Boot to OS</td><td>~10 min</td></tr>
+          <tr><td>Check device enumeration</td><td>&mdash;</td></tr>
+          <tr><td>Install ROCm & Driver</td><td>~5 min</td></tr>
+          <tr><td>Load driver</td><td>~1 min</td></tr>
+          <tr><td>rocrtst - memory async copy</td><td>~5 min</td></tr>
+          <tr><td>rocrtst - memory access</td><td>&mdash;</td></tr>
+          <tr><td>oblex</td><td>~5 min</td></tr>
         </table>
+        <p style="font-size:14px;color:#ED1C24;font-weight:600;margin-top:8px;">Total: ~56+ minutes</p>
       </div>
-      <div>
-        <h2 style="color:#ef4444;">Repos WITHOUT Nightly Workflows</h2>
-        <div class="gap-card">
-          <div class="gap-title">pmfw-firmware</div>
-          <div class="gap-desc">Produces 5 PSP entries for power management. No nightly regression. Only smoke/FEAS workflows exist.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-title">mpio</div>
-          <div class="gap-desc">Has extensive unit test source but no nightly to run full regression.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-title">MPRAS-Kernel</div>
-          <div class="gap-desc">Relies on external nightly repo orchestration. No dedicated workflow.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-title">MPRAS-Applets</div>
-          <div class="gap-desc">No nightly. No SimNow in this repo at all. Entirely depends on MPRAS-Kernel pipeline.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-title">VBL-TEE-Drv</div>
-          <div class="gap-desc">SimNow nightly configs exist (16 configs) but no dedicated nightly.yml trigger.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-title">cp-mi400, sw-security-tools</div>
-          <div class="gap-desc">Zero CI of any kind.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 11: IVV Reusable Workflows -->
-<div class="slide" id="slide-11">
-  <div class="slide-header">
-    <h1>IVV Reusable Workflows: Shared Infrastructure</h1>
-    <span class="slide-number">11 / 20</span>
-  </div>
-  <div class="slide-content">
-    <p style="font-size:14px;color:#aaa;margin-bottom:12px;">Nearly all PFO repos use the same set of reusable workflows from <code>PFO/ivv-workflows</code>. NBIOFW repos use <code>NBIOFW/gha-workflows</code>.</p>
-    <table>
-      <tr><th>Workflow</th><th>Purpose</th><th>Used By</th></tr>
-      <tr><td><code>pr-incremental-coverity-builder.yml</code></td><td>Incremental Coverity static analysis on PR diffs</td><td>amd-tee3_0, art-security, asp-fmc, dcgpu-esid, mpifoe-fw, mpio, MPRAS-Applets, MPRAS-Kernel, nht-firmware, pmfw-firmware, sriov-dr, VBL-TEE-Drv</td></tr>
-      <tr><td><code>lint-cpp.yml</code></td><td>C/C++ linting (clang-format)</td><td>amd-tee3_0, art-security, asp-fmc, dcgpu-esid, mpifoe-fw, MPRAS-Applets, MPRAS-Kernel, nht-firmware, sriov-dr, VBL-TEE-Drv</td></tr>
-      <tr><td><code>simnow-lnx.yml</code></td><td>SimNow boot test on Linux</td><td>amd-tee3_0, art-security, asp-fmc, dcgpu-esid, mpifoe-fw, mpio, MPRAS-Kernel, nht-firmware, pmfw-firmware, VBL-TEE-Drv</td></tr>
-      <tr><td><code>simnow-report.yml</code></td><td>SimNow results aggregation and PR reporting</td><td>Same as simnow-lnx</td></tr>
-      <tr><td><code>simoxide-boot-test.yml</code></td><td>SimOxide boot test (newer, for WH-LP)</td><td>art-security, asp-fmc</td></tr>
-      <tr><td><code>bios-merge.yml</code></td><td>IFWI/BVM merge for SimNow testing</td><td>amd-tee3_0, art-security, asp-fmc, dcgpu-esid, MPRAS-Kernel, VBL-TEE-Drv</td></tr>
-      <tr><td><code>incremental-kws.yml</code></td><td>Keyword scan (IP/export control)</td><td>amd-tee3_0, art-security, asp-fmc</td></tr>
-      <tr><td><code>jira-checker.yml</code></td><td>Jira ticket validation</td><td>mpio, MPRAS-Applets</td></tr>
-      <tr><td><code>pr-ai-codereview.yml</code></td><td>LLM-powered code review</td><td>art-security, asp-fmc, mpifoe-fw</td></tr>
-      <tr><td><code>gatekeeper-placeholder.yml</code></td><td>Merge queue placeholder for external gates</td><td>amd-tee3_0</td></tr>
-      <tr><td><code>trigger-jenkins</code> (action)</td><td>Trigger Jenkins hardware smoke tests</td><td>amd-tee3_0, art-security, asp-fmc</td></tr>
-    </table>
-    <p style="font-size:13px;color:#666;margin-top:8px;">This shared infrastructure is a strength: changes to the workflow benefit all repos. But repos not using it (pmfw, mpio, cp-mi400, sw-security-tools) miss out.</p>
-  </div>
-</div>
-
-<!-- SLIDE 12: DCAuto/Hardware Testing -->
-<div class="slide" id="slide-12">
-  <div class="slide-header">
-    <h1>DCAuto / Hardware Testing</h1>
-    <span class="slide-number">12 / 20</span>
-  </div>
-  <div class="slide-content">
-    <h2>Hardware Smoke Testing in CI</h2>
-    <table>
-      <tr><th>Repo</th><th>HW Platform</th><th>Trigger</th><th>Automatic?</th><th>Details</th></tr>
-      <tr><td>asp-fmc</td><td>Jenkins</td><td>PR gate (automatic) + comment-triggered DCAuto</td><td class="status-yes">Yes (Jenkins)</td><td><code>VeniceAspfmcMasterSmoke</code> runs on PR. <code>[TRIGGER_SMOKE]</code> comment triggers DCAuto pre-submission.</td></tr>
-      <tr><td>amd-tee3_0</td><td>Jenkins</td><td>PR gate (automatic) + DCAuto</td><td class="status-yes">Yes (Jenkins)</td><td><code>VeniceTeeMasterSmoke</code> on PR. DCAuto via <code>tee-pr-presubmit.yml</code>.</td></tr>
-      <tr><td>art-security</td><td>Jenkins + DCAuto</td><td>PR gate (Jenkins auto) + comment-triggered DCAuto</td><td class="status-yes">Yes (Jenkins)</td><td><code>VeniceArtSecurityMasterSmoke</code>. <code>[TRIGGER_SMOKE]</code> for DCAuto via <code>artsec-pr-dcauto.yml</code>.</td></tr>
-      <tr><td>dcgpu-esid</td><td>DCAuto</td><td>PR event</td><td class="status-partial">Comment-triggered</td><td><code>dcgpu-esid-pr-dcauto.yml</code></td></tr>
-      <tr><td>pcie-cld-fw</td><td>Protium Emulator</td><td>PR gate (automatic)</td><td class="status-yes">Yes</td><td>Gen6 PCIe linkup test on Protium emulator via SSH to <code>presiemu01</code>.</td></tr>
-      <tr><td>ucie-fw</td><td>Protium Emulator</td><td>PR gate (automatic)</td><td class="status-yes">Yes</td><td>x1 retrain_errinj + x4 cake_e2e tests via SSH to <code>pldcvemu01</code>.</td></tr>
-      <tr><td>mpifoe-fw</td><td>Jenkins (legacy)</td><td>Jenkinsfiles exist</td><td class="status-partial">Partial / migrating</td><td>Jenkins pipelines for unit tests, control plane tests, regressions -- migration to GHA in progress.</td></tr>
-      <tr><td>MPRAS-Applets</td><td>Jenkins</td><td>Post-merge only</td><td class="status-partial">Post-merge</td><td>Jenkins server CI triggered after merge to main (WH SP7 + SP8).</td></tr>
-    </table>
-    <h2>Key Observations</h2>
-    <ul>
-      <li><strong>DCAuto is comment-triggered</strong>: Developers must type <code>[TRIGGER_SMOKE]</code> in a PR comment -- it does not run automatically on every PR</li>
-      <li><strong>Jenkins integration is one-directional</strong>: GitHub Actions triggers Jenkins, but Jenkins results are not reported back as GitHub status checks</li>
-      <li><strong>Protium emulation (NBIOFW)</strong> is automatic on PR and provides functional validation beyond boot</li>
-      <li><strong>8 repos have no hardware/emulation testing at all</strong></li>
-    </ul>
-  </div>
-</div>
-
-<!-- SLIDE 13: Static Analysis -->
-<div class="slide" id="slide-13">
-  <div class="slide-header">
-    <h1>Static Analysis: Coverity, CodeQL, BlackDuck, Lint</h1>
-    <span class="slide-number">13 / 20</span>
-  </div>
-  <div class="slide-content">
-    <table>
-      <tr><th>Repo</th><th>Coverity (PR)</th><th>Coverity (Nightly)</th><th>CodeQL</th><th>BlackDuck SCA</th><th>Lint</th><th>KWS (IP Scan)</th></tr>
-      <tr><td>asp-fmc</td><td class="status-yes">Incremental (9 configs)</td><td class="status-yes">Full commit + CERT-C</td><td class="status-yes">Nightly</td><td class="status-yes">Nightly</td><td class="status-yes">cpplint 200-char</td><td class="status-yes">PR + nightly</td></tr>
-      <tr><td>amd-tee3_0</td><td class="status-yes">Incremental (dynamic matrix)</td><td class="status-yes">Full commit + CERT-C (multi-branch)</td><td class="status-yes">Nightly</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint 200-char</td><td class="status-yes">PR + nightly</td></tr>
-      <tr><td>art-security</td><td class="status-yes">Incremental (matrix, GCC+LLVM)</td><td class="status-yes">Full commit + CERT-C</td><td class="status-yes">Nightly</td><td class="status-yes">Nightly</td><td class="status-yes">cpplint 200-char</td><td class="status-yes">PR + nightly</td></tr>
-      <tr><td>dcgpu-esid</td><td class="status-yes">Incremental (MI450)</td><td class="status-yes">Full + CERT-C + BlackDuck</td><td class="status-yes">Nightly</td><td class="status-yes">Nightly</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>mpio</td><td class="status-yes">Incremental (custom)</td><td class="status-partial">Unclear</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-partial">Format check</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>mpifoe-fw</td><td class="status-yes">Incremental (Xtensa)</td><td class="status-partial">Implied</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>MPRAS-Kernel</td><td class="status-yes">Incremental</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>MPRAS-Applets</td><td class="status-yes">Incremental (3 targets)</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>nht-firmware</td><td class="status-yes">Incremental (Xtensa)</td><td class="status-partial">Implied</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>VBL-TEE-Drv</td><td class="status-yes">Incremental (MI450)</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>sriov-dr</td><td class="status-yes">Incremental (MI450)</td><td class="status-yes">Full + CERT-C</td><td class="status-no">&mdash;</td><td class="status-yes">Nightly</td><td class="status-yes">cpplint 200-char</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>pmfw-firmware</td><td class="status-yes">3x (MID, AID, XCD)</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>pcie-cld-fw</td><td class="status-yes">PR (SARIF upload)</td><td class="status-yes">Push to main</td><td class="status-yes">PR + push</td><td class="status-no">&mdash;</td><td class="status-yes">cpplint 180-char</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>ucie-fw</td><td class="status-yes">PR</td><td class="status-yes">Nightly</td><td class="status-yes">PR + nightly</td><td class="status-yes">Nightly</td><td class="status-yes">Copyright check</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>cp-mi400</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td></tr>
-      <tr><td>sw-security-tools</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td><td class="status-no">&mdash;</td></tr>
-    </table>
-  </div>
-</div>
-
-<!-- SLIDE 14: AI Code Review -->
-<div class="slide" id="slide-14">
-  <div class="slide-header">
-    <h1>AI Code Review Coverage</h1>
-    <span class="slide-number">14 / 20</span>
-  </div>
-  <div class="slide-content">
-    <div class="two-col">
-      <div>
-        <h2>Repos with AI Code Review</h2>
-        <table>
-          <tr><th>Repo</th><th>Workflow</th><th>Trigger</th></tr>
-          <tr><td>art-security</td><td><code>pr-ai-codereview.yml</code> (IVV)</td><td>Auto on PR</td></tr>
-          <tr><td>asp-fmc</td><td><code>pr-ai-codereview.yml</code> (IVV)</td><td>Auto on PR</td></tr>
-          <tr><td>mpifoe-fw</td><td><code>pr-ai-codereview.yml</code> (IVV)</td><td>Auto on PR</td></tr>
-          <tr><td>pcie-cld-fw</td><td><code>workflow-ai-review.yml</code> (NBIOFW)</td><td>PR opened + <code>/ai-review</code> comment</td></tr>
-          <tr><td>ucie-fw</td><td><code>workflow-ai-review.yml</code> (NBIOFW)</td><td>PR opened + <code>/ai-review</code> comment</td></tr>
+      <!-- DCAuto -->
+      <div class="hw-system-card">
+        <h3>DCAuto (Leslie / Balaji)</h3>
+        <div class="hw-meta">Helios R 1P1G &mdash; MI45X A0 &mdash; Pre-Commit + CI</div>
+        <p style="font-size:13px;color:#aaa;margin-bottom:8px;">Two-part coverage: (1) default test list on every PR, (2) FW developer-selected coverage auto-triggered by FW file changes. On failure, auto-invokes RAT for automated debug triage.</p>
+        <table class="compact">
+          <tr><th>Test</th><th>Duration</th></tr>
+          <tr><td>FW Patching</td><td>&lt;1 min</td></tr>
+          <tr><td>PLDM Flash + Boot</td><td>~15 min</td></tr>
+          <tr><td>Install Driver + theRock</td><td>~10 min</td></tr>
+          <tr><td>Load Driver</td><td>&lt;1 min</td></tr>
+          <tr><td>Boot status check</td><td>&lt;1 min</td></tr>
+          <tr><td>HIPBLAST FP16 Memory Bound</td><td>~2 min</td></tr>
+          <tr><td>HIPBLAST FP16 Compute Bound</td><td>~5 min</td></tr>
+          <tr><td>AC Cycle</td><td>~10 min</td></tr>
+          <tr><td>DC Cycle</td><td>~8 min</td></tr>
+          <tr><td>Warm reboot</td><td>~8 min</td></tr>
+          <tr><td>Driver Unload</td><td>~2 min</td></tr>
         </table>
-        <h2>Key Details</h2>
-        <ul>
-          <li><strong>PFO repos</strong> use the shared <code>pr-ai-codereview.yml</code> from <code>PFO/ivv-workflows</code></li>
-          <li><strong>NBIOFW repos</strong> use their own <code>workflow-ai-review.yml</code> from <code>NBIOFW/gha-workflows</code></li>
-          <li>AI review is <strong>informational only</strong> -- it does NOT block merge</li>
-          <li>Two different trigger patterns: auto-on-PR (PFO) vs comment + auto-on-open (NBIOFW)</li>
+        <p style="font-size:14px;color:#ED1C24;font-weight:600;margin-top:8px;">Total: ~62+ minutes</p>
+      </div>
+      <!-- SimOxide -->
+      <div class="hw-system-card">
+        <h3>SimOxide (Chris Smith / Ivo)</h3>
+        <div class="hw-meta">Pre-Si CI + Quality &mdash; SimNow-based</div>
+        <p style="font-size:13px;color:#aaa;margin-bottom:8px;">Pre-silicon CI via SimOxide (<code>PFO/simoxide</code>). Three tiers of testing with ATM test management for coverage maps and test plans.</p>
+        <table class="compact">
+          <tr><th>Tier</th><th>What Runs</th></tr>
+          <tr><td style="color:#22c55e;font-weight:600;">Pre-commit</td><td>Fast smoke tests on every PR (SimNow boot + postcode checks)</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:600;">Nightly</td><td>Extended SimNow matrix across all ASIC configs</td></tr>
+          <tr><td style="color:#ED1C24;font-weight:600;">Release</td><td>Full regression + coverage validation before release cuts</td></tr>
+        </table>
+        <h3 style="margin-top:12px;">ATM Test Management</h3>
+        <ul style="font-size:12px;">
+          <li>ATM Space 195 for MI450 coverage maps</li>
+          <li>Tagged test cases: <code>pfq_mi450_test</code></li>
+          <li>Coverage maps and test plans in ATM browser</li>
         </ul>
-      </div>
-      <div>
-        <h2>Repos WITHOUT AI Code Review (11)</h2>
-        <table class="compact">
-          <tr><th>Repo</th><th>Difficulty to Add</th></tr>
-          <tr><td>amd-tee3_0</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>dcgpu-esid</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>MPRAS-Kernel</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>MPRAS-Applets</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>nht-firmware</td><td>Already has it (per README) -- verify workflow</td></tr>
-          <tr><td>VBL-TEE-Drv</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>sriov-dr</td><td>Low -- already uses IVV workflows</td></tr>
-          <tr><td>pmfw-firmware</td><td>Medium -- limited IVV integration</td></tr>
-          <tr><td>mpio</td><td>Medium -- uses some IVV workflows</td></tr>
-          <tr><td>cp-mi400</td><td>High -- no CI at all</td></tr>
-          <tr><td>sw-security-tools</td><td>High -- no CI at all</td></tr>
+        <h3 style="margin-top:12px;">Key References</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><td>DCAuto</td><td>dcauto.amd.com</td></tr>
+          <tr><td>DCAuto Pre-Sub</td><td>PFO/dcauto-pre-sub</td></tr>
+          <tr><td>RAT (auto-triage)</td><td>Confluence FAST</td></tr>
+          <tr><td>Conductor</td><td>conductor.amd.com</td></tr>
+          <tr><td>ATM</td><td>atm/atm Space 195</td></tr>
         </table>
-        <p style="font-size:13px;color:#aaa;margin-top:12px;">Adding AI code review to PFO repos that already use IVV workflows requires only adding the workflow call to the repo's PR workflow -- minimal effort, high value.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 15: Top Gaps by Priority -->
-<div class="slide" id="slide-15">
+<!-- SLIDE 8: Best Practices & Path to Uniform Testing (merged slides 16+17+18+19) -->
+<div class="slide" id="slide-8">
   <div class="slide-header">
-    <h1>Top Gaps by Priority</h1>
-    <span class="slide-number">15 / 20</span>
-  </div>
-  <div class="slide-content">
-    <div class="gap-card">
-      <div class="gap-title">1. cp-mi400 and sw-security-tools: Zero CI</div>
-      <div class="gap-desc">No workflows, no static analysis, no tests, no build verification. cp-mi400 is GPU command processor microcode. sw-security-tools contains security-critical signing tools. Both can ship broken code with no automated detection.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">2. pmfw-firmware: Minimal CI with 5 PSP entries</div>
-      <div class="gap-desc">Produces 5 PSP entries (MP1, MP5, IMU instruction + data) for power management. No lint, no SimNow in PR, test infra exists but not integrated. Coverity recently added (3x builds) but no nightly.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">3. Only 5 of 16 repos run unit tests in PR gate</div>
-      <div class="gap-desc">dcgpu-esid (CppUTest), mpio (custom x86), VBL-TEE-Drv (shared CppUTest), pcie-cld-fw (GoogleTest), ucie-fw (GoogleTest). Remaining 11 repos have no host-side unit test execution in CI.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">4. MPRAS-Applets: No SimNow, no nightly, no functional test</div>
-      <div class="gap-desc">A broken applet can merge with zero boot validation. Entirely depends on MPRAS-Kernel pipeline. PR gate only builds pcie_applet for WH SP7 -- not all applets, not all targets.</div>
-    </div>
-    <div class="gap-card">
-      <div class="gap-title">5. sriov-dr: CI exists but zero functional tests</div>
-      <div class="gap-desc">Has Coverity + lint + build in PR, and BlackDuck in nightly. But no unit tests, no SimNow, no emulation. Only static analysis validates the code.</div>
-    </div>
-    <div class="gap-card amber">
-      <div class="gap-title">6. No code coverage measurement in any repo (automated)</div>
-      <div class="gap-desc">ucie-fw has gcov in nightly; pcie-cld-fw has Bullseye manual-only; art-security has Coco (manual). No repo has automated coverage in PR gate or nightly reporting.</div>
-    </div>
-    <div class="gap-card amber">
-      <div class="gap-title">7. No cross-repo integration testing</div>
-      <div class="gap-desc">Each repo tests its own binary in isolation via IFWI merge. No pipeline validates all components together in a single IFWI. No regression tracking or test result trending.</div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 16: Most Mature Repos -->
-<div class="slide" id="slide-16">
-  <div class="slide-header">
-    <h1>Most Mature Repos: Patterns to Replicate</h1>
-    <span class="slide-number">16 / 20</span>
+    <h1>Best Practices & Path to Uniform Testing</h1>
+    <span class="slide-number">8 / 9</span>
   </div>
   <div class="slide-content">
     <div class="two-col">
       <div>
-        <div class="gap-card green">
-          <div class="gap-title">art-security (11 workflows)</div>
-          <div class="gap-desc">
-            <ul style="margin:4px 0 0 16px;">
-              <li>SimNow: 7 ASICs, 60+ configs (22+ incremental on PR)</li>
-              <li>Coverity: Incremental (GCC + LLVM) on PR, full + CERT-C nightly</li>
-              <li>CodeQL + BlackDuck SCA nightly</li>
-              <li>AI code review on every PR</li>
-              <li>Jenkins hardware smoke on PR</li>
-              <li>Comment-triggered DCAuto</li>
-              <li>9 CONFIG_TEST firmware test variants</li>
-              <li>Coco code coverage (manual)</li>
-              <li>Email + Confluence nightly reporting</li>
-            </ul>
-          </div>
+        <h2 style="color:#22c55e;">Patterns to Replicate (Most Mature Repos)</h2>
+        <div class="gap-card green" style="padding:8px 12px;margin:4px 0;">
+          <div class="gap-title" style="font-size:13px;">art-security (11 WFs): 7 ASICs, 60+ SimNow, Coverity GCC+LLVM, CodeQL, BlackDuck, AI review, Jenkins HW smoke, DCAuto, 9 CONFIG_TEST variants, Coco coverage</div>
         </div>
-        <div class="gap-card green">
-          <div class="gap-title">asp-fmc (10 workflows)</div>
-          <div class="gap-desc">
-            <ul style="margin:4px 0 0 16px;">
-              <li>SimNow: 7 config files, 60+ total configs (33+ incremental on PR)</li>
-              <li>11 ASIC build variants on every PR</li>
-              <li>Full nightly: Coverity + CERT-C + CodeQL + BlackDuck + ELF scan</li>
-              <li>AI code review + KWS + Jenkins smoke on PR</li>
-              <li>Racer MI450 nightly regression</li>
-              <li>Auto-rebase, JIRA validation</li>
-              <li>Gap: zero unit tests</li>
-            </ul>
-          </div>
+        <div class="gap-card green" style="padding:8px 12px;margin:4px 0;">
+          <div class="gap-title" style="font-size:13px;">asp-fmc (10 WFs): 7 config files, 33+ incremental SimNow, 11 ASIC builds, full nightly (Coverity+CERT-C+CodeQL+BlackDuck+ELF), AI review, KWS, Jenkins. Gap: zero unit tests</div>
         </div>
+        <div class="gap-card green" style="padding:8px 12px;margin:4px 0;">
+          <div class="gap-title" style="font-size:13px;">ucie-fw (17 WFs): GoogleTest+FFF, Coverity+CodeQL on PR, Protium emu (x1+x4), gcov nightly, BlackDuck, Docker builds, AI review, PQC signing, 7 reusable workflows</div>
+        </div>
+        <div class="gap-card green" style="padding:8px 12px;margin:4px 0;">
+          <div class="gap-title" style="font-size:13px;">dcgpu-esid (12 WFs): Best-in-class CppUTest (100+ files, ~20 mocks), unit tests in PR gate, Simulate/ env, full Coverity+CERT-C+BlackDuck+CodeQL nightly</div>
+        </div>
+
+        <h2 style="color:#ef4444;">Actions for Least Mature Repos</h2>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Repo</th><th>Tier</th><th>Actions Needed</th></tr>
+          <tr><td>cp-mi400</td><td><span class="tier tier-4">T4</span></td><td>Create entire CI. Challenge: GOF build + pitgen assembler. Start with build + lint.</td></tr>
+          <tr><td>sw-security-tools</td><td><span class="tier tier-4">T4</span></td><td>Create CI. Run existing tests.py. Add BlackDuck (ARM toolchain binaries). Lint Python.</td></tr>
+          <tr><td>pmfw-firmware</td><td><span class="tier tier-3">T3</span></td><td>Add lint, wire SimNow to PR, integrate test_runner.py, add nightly, add KWS.</td></tr>
+          <tr><td>MPRAS-Applets</td><td><span class="tier tier-3">T3</span></td><td>Add SimNow, build all applets on PR, add MI450/MI430 targets, add nightly.</td></tr>
+          <tr><td>sriov-dr</td><td><span class="tier tier-2">T2</span></td><td>Add SimNow boot. Create unit tests (CppUTest). Add AI code review.</td></tr>
+          <tr><td>mpio</td><td><span class="tier tier-2">T2</span></td><td>Add nightly. Add AI review. Clarify SimNow. Add CodeQL/BlackDuck.</td></tr>
+          <tr><td>VBL-TEE-Drv</td><td><span class="tier tier-2">T2</span></td><td>Add nightly trigger. Add CodeQL. Add AI review. Add MI430 SimNow.</td></tr>
+        </table>
+
+        <h2>4-Phase Plan</h2>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Phase</th><th>Requirements</th><th>Gap</th></tr>
+          <tr><td style="color:#ef4444;font-weight:600;">1. Baseline</td><td>PR gate, build, Coverity, lint, JIRA</td><td style="color:#ef4444;">cp-mi400 + sw-security-tools have NONE. pmfw missing lint.</td></tr>
+          <tr><td style="color:#f59e0b;font-weight:600;">2. Functional</td><td>SimNow/emu on PR, unit tests in PR, nightly, AI review</td><td style="color:#f59e0b;">Only 5 repos run UT in PR. 6 repos no nightly. 11 lack AI review.</td></tr>
+          <tr><td style="color:#22c55e;font-weight:600;">3. Comprehensive</td><td>CodeQL, BlackDuck, KWS, coverage, HW smoke, release</td><td style="color:#22c55e;">Only asp-fmc, amd-tee3_0, art-security, ucie-fw close.</td></tr>
+          <tr><td style="color:#3b82f6;font-weight:600;">4. Unified</td><td>uttr-tests.yaml, Merlin orchestrator, AI acceptance, cross-component</td><td style="color:#3b82f6;">To be built.</td></tr>
+        </table>
       </div>
       <div>
-        <div class="gap-card green">
-          <div class="gap-title">ucie-fw (17 workflows)</div>
-          <div class="gap-desc">
-            <ul style="margin:4px 0 0 16px;">
-              <li>GoogleTest + FFF mocks in PR gate</li>
-              <li>Coverity + CodeQL on every PR</li>
-              <li>Protium emulation (x1 + x4 tests) on every PR</li>
-              <li>gcov coverage in nightly</li>
-              <li>BlackDuck SCA nightly</li>
-              <li>Docker-containerized reproducible builds</li>
-              <li>AI code review</li>
-              <li>PQC (post-quantum) signing support</li>
-              <li>7 reusable workflows for consistency</li>
-            </ul>
-          </div>
-        </div>
-        <div class="gap-card green">
-          <div class="gap-title">dcgpu-esid (12 workflows)</div>
-          <div class="gap-desc">
-            <ul style="margin:4px 0 0 16px;">
-              <li>Best-in-class unit tests: CppUTest with 100+ test files</li>
-              <li>~20 mock files for host-side execution</li>
-              <li>Unit tests run in PR gate</li>
-              <li>Simulation environment (<code>Simulate/</code>) with JSON test cases</li>
-              <li>Full Coverity + CERT-C + BlackDuck + CodeQL nightly</li>
-              <li>Gap: No AI code review, MI430 UT not enabled</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 17: Least Mature Repos -->
-<div class="slide" id="slide-17">
-  <div class="slide-header">
-    <h1>Least Mature Repos: Specific Actions Needed</h1>
-    <span class="slide-number">17 / 20</span>
-  </div>
-  <div class="slide-content">
-    <table>
-      <tr><th>Repo</th><th>Tier</th><th>What They Have</th><th>Specific Actions Needed</th></tr>
-      <tr>
-        <td>cp-mi400</td><td><span class="tier tier-4">Tier 4</span></td>
-        <td>Nothing. No workflows directory.</td>
-        <td>Create entire CI pipeline. Challenge: custom GOF build system + pitgen assembler may not be available on GHA runners. Start with: build verification, then lint (if feasible for .uc files).</td>
-      </tr>
-      <tr>
-        <td>sw-security-tools</td><td><span class="tier tier-4">Tier 4</span></td>
-        <td>Test scripts exist (spl-table-gen/tests.py, key-db/test/) but no automation.</td>
-        <td>Create CI pipeline. Run existing test scripts in PR gate. Add BlackDuck SCA (contains third-party ARM toolchain binaries -- supply chain risk). Add lint for Python code.</td>
-      </tr>
-      <tr>
-        <td>pmfw-firmware</td><td><span class="tier tier-3">Tier 3</span></td>
-        <td>PR gate with 3x Coverity, JIRA check. test_runner.py exists. SimNow configs exist.</td>
-        <td>1) Add lint (cpplint via IVV). 2) Wire SimNow configs into PR gate. 3) Integrate test_runner.py into CI. 4) Add nightly workflow. 5) Add KWS.</td>
-      </tr>
-      <tr>
-        <td>MPRAS-Applets</td><td><span class="tier tier-3">Tier 3</span></td>
-        <td>Coverity (3 targets), lint, JIRA. unit_test_applet exists.</td>
-        <td>1) Add SimNow testing (via MPRAS-Kernel integration or own configs). 2) Build ALL applets on PR, not just pcie_applet. 3) Add MI450/MI430 build targets. 4) Add nightly workflow.</td>
-      </tr>
-      <tr>
-        <td>sriov-dr</td><td><span class="tier tier-2">Tier 2</span></td>
-        <td>Coverity + lint in PR, BlackDuck + CERT-C nightly.</td>
-        <td>1) Add SimNow boot testing. 2) Create unit tests (use CppUTest like dcgpu-esid -- same TEE DDK). 3) Add AI code review.</td>
-      </tr>
-      <tr>
-        <td>mpio</td><td><span class="tier tier-2">Tier 2</span></td>
-        <td>Extensive unit test source, Coverity, format check. x86 tests in PR gate.</td>
-        <td>1) Add nightly workflow. 2) Add AI code review. 3) Clarify SimNow integration. 4) Add CodeQL or BlackDuck nightly.</td>
-      </tr>
-      <tr>
-        <td>VBL-TEE-Drv</td><td><span class="tier tier-2">Tier 2</span></td>
-        <td>Coverity + lint + SimNow (5 PR, 16 nightly configs) + unit tests.</td>
-        <td>1) Add nightly workflow trigger. 2) Add CodeQL. 3) Add AI code review. 4) Add MI430 SimNow configs.</td>
-      </tr>
-    </table>
-  </div>
-</div>
-
-<!-- SLIDE 18: Path to Uniform Testing -->
-<div class="slide" id="slide-18">
-  <div class="slide-header">
-    <h1>Path to Uniform Testing: Concrete Steps</h1>
-    <span class="slide-number">18 / 20</span>
-  </div>
-  <div class="slide-content">
-    <h2>Phase 1: Baseline (All repos must have)</h2>
-    <ul>
-      <li>PR gate workflow that <strong>blocks merge</strong></li>
-      <li>Build verification for at least one ASIC target</li>
-      <li>Coverity incremental static analysis (via <code>pr-incremental-coverity-builder.yml</code>)</li>
-      <li>Lint (via <code>lint-cpp.yml</code> or equivalent)</li>
-      <li>JIRA ticket validation</li>
-    </ul>
-    <p style="color:#ef4444;font-size:13px;margin:6px 0;">Gap: cp-mi400 and sw-security-tools have NONE of this. pmfw-firmware is missing lint.</p>
-
-    <h2>Phase 2: Functional Validation (All repos should have)</h2>
-    <ul>
-      <li>SimNow boot test OR emulation test on PR (at least 1 product)</li>
-      <li>Host-side unit tests running in PR gate (CppUTest, GoogleTest, or pytest)</li>
-      <li>Nightly workflow with full SimNow/emulation matrix</li>
-      <li>AI code review (via <code>pr-ai-codereview.yml</code> or NBIOFW equivalent)</li>
-    </ul>
-    <p style="color:#f59e0b;font-size:13px;margin:6px 0;">Gap: Only 5 repos run unit tests in PR gate. 6 repos have no nightly. 11 repos lack AI review.</p>
-
-    <h2>Phase 3: Comprehensive (Target for all repos)</h2>
-    <ul>
-      <li>CodeQL + BlackDuck SCA in nightly</li>
-      <li>Keyword scan (KWS) for IP/export control</li>
-      <li>Code coverage measurement (gcov/Bullseye) in nightly with trend tracking</li>
-      <li>Hardware smoke testing (Jenkins or Protium) on PR</li>
-      <li>Release workflow with signing, validation, and Confluence release notes</li>
-    </ul>
-    <p style="color:#22c55e;font-size:13px;margin:6px 0;">Only asp-fmc, amd-tee3_0, art-security, and ucie-fw are close to this level today.</p>
-
-    <h2>Phase 4: Unified (Merlin integration)</h2>
-    <ul>
-      <li>Every repo declares tests in <code>uttr-tests.yaml</code> (unified test schema)</li>
-      <li>Merlin orchestrator discovers, schedules, and reports tests uniformly</li>
-      <li>AI-generated acceptance tests grounded in golden baselines from SimNow</li>
-      <li>Cross-component integration testing via assembled IFWI images</li>
-    </ul>
-  </div>
-</div>
-
-<!-- SLIDE 19: Proposed Uniform Test Schema -->
-<div class="slide" id="slide-19">
-  <div class="slide-header">
-    <h1>Proposed Uniform Test Schema: uttr-tests.yaml</h1>
-    <span class="slide-number">19 / 20</span>
-  </div>
-  <div class="slide-content">
-    <div class="two-col">
-      <div>
-        <h2>Schema Structure (v1.0)</h2>
-        <div class="schema-block">component:
+        <h2>Proposed Uniform Test Schema: <code>uttr-tests.yaml</code></h2>
+        <div class="schema-block" style="font-size:11px;line-height:1.5;">component:
   name: "fw-asp-fmc"
   fw_ids: ["0x0001"]
   psp_entries:
@@ -1047,20 +754,20 @@ table.compact th { font-size: 10px; }
   tests:
     - name: "full_regression"
       type: "hardware"</div>
-      </div>
-      <div>
-        <h2>Common Assertions (L0-L5)</h2>
-        <table class="compact">
-          <tr><th>Level</th><th>Assertion</th><th>What It Checks</th></tr>
-          <tr><td>L0</td><td>IFWI Boot</td><td>EFS parsed, L1/L2 PSP Dir loaded, PSP FW init</td></tr>
-          <tr><td>L1</td><td>GPU Enumeration</td><td>GPU appears on PCIe bus with correct device ID</td></tr>
+
+        <h3>Common Assertions (L0-L5)</h3>
+        <table class="compact" style="font-size:11px;">
+          <tr><th>Level</th><th>Assertion</th><th>Checks</th></tr>
+          <tr><td>L0</td><td>IFWI Boot</td><td>EFS parsed, L1/L2 PSP Dir, PSP FW init</td></tr>
+          <tr><td>L1</td><td>GPU Enumeration</td><td>GPU on PCIe bus with correct device ID</td></tr>
           <tr><td>L2</td><td>amdgpu Driver Load</td><td>amdgpu kernel module loads and attaches</td></tr>
           <tr><td>L3</td><td>IP Discovery</td><td>All IP blocks found via PSP entry 0x20</td></tr>
           <tr><td>L4</td><td>Basic Compute</td><td>Simple HIP kernel executes (vectorAdd)</td></tr>
           <tr><td>L5</td><td>FW Version Check</td><td>All FW components report expected versions</td></tr>
         </table>
-        <h2>Phase 1 Targets (16 components)</h2>
-        <table class="compact">
+
+        <h3>Phase 1 Targets (16 components)</h3>
+        <table class="compact" style="font-size:11px;">
           <tr><th>Component</th><th>PSP Entries</th><th>Status</th></tr>
           <tr><td>fw-asp-fmc</td><td>1 entry (128K)</td><td>To create</td></tr>
           <tr><td>fw-pmfw</td><td>5 entries (900K)</td><td>To create</td></tr>
@@ -1074,18 +781,17 @@ table.compact th { font-size: 10px; }
           <tr><td>fw-pcie-cld</td><td>1 entry (16K)</td><td>To create</td></tr>
           <tr><td>fw-ucie</td><td>1 entry (81K)</td><td>To create</td></tr>
         </table>
-        <h2>AI Test Acceptance</h2>
-        <p style="font-size:13px;color:#aaa;">AI agents auto-generate acceptance tests per module, grounded in SimNow golden baselines. Only GROUNDED assertions (from actual SimNow runs) block merge. AI-suggested assertions are advisory only.</p>
+        <p style="font-size:12px;color:#aaa;margin-top:6px;">AI agents auto-generate acceptance tests per module, grounded in SimNow golden baselines. Only GROUNDED assertions block merge; AI-suggested assertions are advisory only.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 20: Summary -->
-<div class="slide" id="slide-20">
+<!-- SLIDE 9: Summary -->
+<div class="slide" id="slide-9">
   <div class="slide-header">
     <h1>Summary</h1>
-    <span class="slide-number">20 / 20</span>
+    <span class="slide-number">9 / 9</span>
   </div>
   <div class="slide-content">
     <div class="stat-grid" style="margin-bottom:24px;">
@@ -1101,6 +807,7 @@ table.compact th { font-size: 10px; }
       <li>Shared IVV workflows (<code>PFO/ivv-workflows</code>) provide a powerful pattern -- repos using them get Coverity, lint, SimNow, and AI review with minimal per-repo configuration</li>
       <li>The <strong>biggest systemic gap</strong> is host-side unit testing: only 5 of 16 repos run unit tests in PR gate</li>
       <li>The <strong>biggest risk</strong> is the 2 repos with zero CI: security-critical tools and GPU command processor microcode shipping unvalidated</li>
+      <li><strong>3 HW test systems</strong> exist (CI-Lite ~56 min, DCAuto ~62 min, SimOxide pre-si) but are not uniformly wired into all repos</li>
     </ul>
 
     <h2>What To Do Next</h2>
@@ -1115,7 +822,7 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 20</div>
+<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 9</div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
