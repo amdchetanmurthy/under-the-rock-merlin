@@ -5,14 +5,29 @@
 <title>Merlin — AI-Native CI/CD for GPU Firmware</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --amd-red: #ED1C24;
+    --green: #4caf50;
+    --amber: #ff9800;
+    --blue: #42a5f5;
+    --purple: #ab47bc;
+    --bg: #0a0a0a;
+    --card-bg: #131313;
+    --card-border: #222;
+    --text: #e0e0e0;
+    --dim: #666;
+    --muted: #888;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
   body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background: #0a0a0a;
-    color: #e0e0e0;
+    background: var(--bg);
+    color: var(--text);
     overflow: hidden;
     height: 100vh;
   }
@@ -21,131 +36,159 @@
     display: none;
     width: 100vw;
     height: 100vh;
-    padding: 60px 80px;
+    padding: 48px 72px;
     position: absolute;
     top: 0; left: 0;
     flex-direction: column;
     justify-content: center;
+    overflow-y: auto;
   }
-
   .slide.active { display: flex; }
 
-  h1 { font-size: 2.8em; font-weight: 700; color: #fff; margin-bottom: 16px; line-height: 1.15; }
-  h2 { font-size: 2.0em; font-weight: 600; color: #fff; margin-bottom: 24px; }
-  h3 { font-size: 1.3em; font-weight: 500; color: #aaa; margin-bottom: 20px; }
-  p { font-size: 1.15em; line-height: 1.7; color: #ccc; max-width: 900px; }
-  .subtitle { font-size: 1.3em; color: #888; margin-top: 8px; }
-  .highlight { color: #ed1c24; }
-  .green { color: #4caf50; }
-  .amber { color: #ff9800; }
-  .dim { color: #666; }
+  h1 { font-size: 2.6em; font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.1; }
+  h2 { font-size: 1.9em; font-weight: 700; color: #fff; margin-bottom: 16px; }
+  h3 { font-size: 1.15em; font-weight: 500; color: #aaa; margin-bottom: 16px; }
+  p { font-size: 1.05em; line-height: 1.65; color: #ccc; max-width: 950px; }
+  .subtitle { font-size: 1.3em; color: var(--muted); margin-top: 6px; }
+  .highlight { color: var(--amd-red); }
+  .green { color: var(--green); }
+  .amber { color: var(--amber); }
+  .blue { color: var(--blue); }
+  .purple { color: var(--purple); }
+  .dim { color: var(--dim); }
+  .white { color: #fff; }
+  .bold { font-weight: 700; }
 
   ul { list-style: none; padding: 0; }
   ul li {
-    font-size: 1.15em;
-    line-height: 1.8;
+    font-size: 1.0em;
+    line-height: 1.7;
     color: #ccc;
-    padding-left: 28px;
+    padding-left: 24px;
     position: relative;
   }
   ul li::before {
-    content: '→';
+    content: '\2192';
     position: absolute;
     left: 0;
-    color: #ed1c24;
+    color: var(--amd-red);
     font-weight: 600;
   }
-  ul.check li::before { content: '✓'; color: #4caf50; }
-  ul.cross li::before { content: '✗'; color: #ed1c24; }
-  ul.num li::before { content: none; }
-  ul.num li { padding-left: 0; }
+  ul.check li::before { content: '\2713'; color: var(--green); }
+  ul.cross li::before { content: '\2717'; color: var(--amd-red); }
+  ul.bullet li::before { content: '\2022'; color: var(--muted); }
 
   table {
     border-collapse: collapse;
-    margin: 16px 0;
-    font-size: 0.95em;
+    margin: 10px 0;
+    font-size: 0.88em;
+    width: 100%;
   }
   th, td {
     text-align: left;
-    padding: 10px 20px;
-    border-bottom: 1px solid #222;
+    padding: 7px 14px;
+    border-bottom: 1px solid #1e1e1e;
   }
-  th { color: #ed1c24; font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+  th { color: var(--amd-red); font-weight: 600; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; }
   td { color: #bbb; }
+  tr:hover td { background: #161616; }
 
   .two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 48px;
     align-items: start;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
   }
 
   .card {
-    background: #151515;
-    border: 1px solid #252525;
-    border-radius: 12px;
-    padding: 28px;
-    margin: 8px 0;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 6px 0;
   }
-  .card h3 { color: #fff; margin-bottom: 12px; font-size: 1.1em; }
-  .card p { font-size: 0.95em; color: #999; }
+  .card h3 { color: #fff; margin-bottom: 8px; font-size: 1em; }
+  .card p, .card li { font-size: 0.9em; color: #999; }
 
   .stat {
     display: inline-block;
     text-align: center;
-    margin: 0 32px;
+    margin: 0 24px;
   }
-  .stat .number { font-size: 3em; font-weight: 700; color: #ed1c24; display: block; }
-  .stat .label { font-size: 0.85em; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .stat .number { font-size: 2.8em; font-weight: 800; color: var(--amd-red); display: block; line-height: 1.1; }
+  .stat .label { font-size: 0.78em; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
   .flow {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 12px 0;
+    gap: 8px;
+    margin: 8px 0;
     flex-wrap: wrap;
   }
   .flow .step {
-    background: #1a1a1a;
+    background: #161616;
     border: 1px solid #333;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 0.9em;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.85em;
     color: #ddd;
   }
-  .flow .arrow { color: #ed1c24; font-size: 1.4em; font-weight: 700; }
-  .flow .step.pass { border-color: #4caf50; color: #4caf50; }
-  .flow .step.fail { border-color: #ed1c24; color: #ed1c24; }
+  .flow .arrow { color: var(--amd-red); font-size: 1.2em; font-weight: 700; }
+  .flow .step.pass { border-color: var(--green); color: var(--green); }
+  .flow .step.fail { border-color: var(--amd-red); color: var(--amd-red); }
+
+  pre, .mono {
+    font-family: var(--mono);
+    font-size: 0.78em;
+    line-height: 1.55;
+    color: #c8c8c8;
+    background: #0e0e0e;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    white-space: pre;
+  }
 
   .page-num {
     position: fixed;
-    bottom: 20px;
-    right: 40px;
-    color: #444;
-    font-size: 0.85em;
+    bottom: 16px;
+    right: 36px;
+    color: #3a3a3a;
+    font-size: 0.8em;
+    font-family: var(--mono);
+    z-index: 100;
   }
 
   .tag {
     display: inline-block;
-    background: #ed1c24;
+    background: var(--amd-red);
     color: #fff;
-    font-size: 0.7em;
-    padding: 3px 10px;
-    border-radius: 4px;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 3px;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
     vertical-align: middle;
-    margin-left: 8px;
+    margin-left: 6px;
   }
+  .tag.green-tag { background: var(--green); }
+  .tag.amber-tag { background: var(--amber); color: #000; }
+  .tag.blue-tag { background: var(--blue); color: #000; }
 
   .quote {
-    border-left: 3px solid #ed1c24;
-    padding: 16px 24px;
-    margin: 16px 0;
+    border-left: 3px solid var(--amd-red);
+    padding: 12px 20px;
+    margin: 12px 0;
     font-style: italic;
     color: #999;
-    font-size: 1.1em;
+    font-size: 1.0em;
   }
 
   kbd {
@@ -154,411 +197,1090 @@
     border: 1px solid #444;
     border-radius: 4px;
     padding: 2px 8px;
-    font-size: 0.8em;
-    color: #888;
+    font-size: 0.75em;
+    color: var(--muted);
     margin: 0 2px;
+    font-family: var(--mono);
   }
 
   .footer-hint {
     position: fixed;
-    bottom: 20px;
-    left: 40px;
-    color: #333;
-    font-size: 0.75em;
+    bottom: 16px;
+    left: 36px;
+    color: #282828;
+    font-size: 0.7em;
+    z-index: 100;
+  }
+
+  /* Memory map styles */
+  .memmap {
+    font-family: var(--mono);
+    font-size: 0.72em;
+    line-height: 1.4;
+    background: #0e0e0e;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: inline-block;
+  }
+  .memmap .region {
+    display: flex;
+    align-items: stretch;
+    margin: 1px 0;
+  }
+  .memmap .addr {
+    color: var(--dim);
+    width: 80px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 8px;
+  }
+  .memmap .bar {
+    border-radius: 2px;
+    padding: 2px 10px;
+    color: #fff;
+    font-weight: 500;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .memmap .sz { color: rgba(255,255,255,0.5); font-size: 0.9em; }
+
+  /* Progress bar */
+  .progress-bar {
+    background: #1a1a1a;
+    border-radius: 4px;
+    height: 20px;
+    overflow: hidden;
+    margin: 4px 0;
+    position: relative;
+  }
+  .progress-bar .fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  /* Maturity dot */
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+  .dot.r { background: var(--amd-red); }
+  .dot.a { background: var(--amber); }
+  .dot.g { background: var(--green); }
+
+  /* Chiplet diagram */
+  .chiplet-grid {
+    display: grid;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 0.72em;
+  }
+  .chiplet-cell {
+    border-radius: 4px;
+    padding: 6px 10px;
+    text-align: center;
+    font-weight: 500;
   }
 </style>
 </head>
 <body>
 
-<!-- SLIDE 1: Title -->
+<!-- ============================== SLIDE 1: Title ============================== -->
 <div class="slide active" id="s1">
   <div>
-    <h3 style="color:#ed1c24; font-weight:600; font-size:1em; letter-spacing:2px; text-transform:uppercase;">UnderTheRock</h3>
-    <h1>Merlin</h1>
-    <p class="subtitle">AI-Native CI/CD for GPU Firmware</p>
-    <p style="margin-top:40px; color:#666;">Making every firmware commit safe to merge — automatically.</p>
-    <p style="margin-top:60px; color:#444; font-size:0.9em;">May 2026</p>
+    <p style="color:var(--amd-red); font-weight:700; font-size:0.9em; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;">UnderTheRock</p>
+    <h1 style="font-size:4em;">Merlin</h1>
+    <p class="subtitle" style="font-size:1.4em; max-width:700px;">AI-Native CI/CD for GPU Firmware</p>
+    <p style="margin-top:32px; color:#555; max-width:600px;">Making every firmware commit safe to merge -- automatically. No bad firmware lands on trunk. Ever.</p>
+    <div style="margin-top:56px; display:flex; gap:40px; align-items:center;">
+      <div style="color:#333; font-size:0.85em;">May 2026</div>
+      <div style="color:#333; font-size:0.85em;">MI450 Datacenter GPU</div>
+      <div style="color:#333; font-size:0.85em;">176 BKC Modules | 74 PSP Entries | 8MB SPIROM</div>
+    </div>
   </div>
 </div>
 
-<!-- SLIDE 2: The Problem -->
+<!-- ============================== SLIDE 2: The Problem ============================== -->
 <div class="slide" id="s2">
   <h2>The Problem</h2>
-  <h3>Firmware development is unnecessarily risky</h3>
+  <h3>Firmware development is fragmented, untested, and risky</h3>
   <div class="two-col">
     <div>
-      <div class="quote">"I pushed a firmware change on Monday. QA found it broke boot on Wednesday. I'm debugging Thursday. What was I even thinking on Monday?"</div>
-      <ul class="cross" style="margin-top:24px;">
-        <li>No pre-merge testing for firmware PRs</li>
+      <div class="quote">"I pushed a firmware change on Monday. QA found it broke boot on Wednesday. I'm debugging Thursday."</div>
+      <div class="quote" style="margin-top:8px;">"I pulled ifwi/main this morning. It doesn't boot. I'll check Slack to see which commit broke it."</div>
+      <ul class="cross" style="margin-top:16px;">
+        <li>3 different CI systems (DCAuto + Jenkins + GHA)</li>
+        <li>3 different SCMs (Perforce + Gerrit + GitHub)</li>
+        <li>Only 1 IFWI x Kernel x ROCm combo tested per week</li>
         <li>Regressions detected 24-48 hours after commit</li>
-        <li>Trunk is frequently broken — developers guess what works</li>
-        <li>40+ firmware modules with inconsistent test coverage</li>
-        <li>Module owners don't write conforming tests</li>
+        <li>40+ firmware modules, wildly inconsistent test coverage</li>
+        <li>Module owners treat testing as "someone else's problem"</li>
       </ul>
     </div>
-    <div>
+    <div style="text-align:center; padding-top:16px;">
       <div class="stat"><span class="number">24-48h</span><span class="label">to detect regression</span></div>
-      <div class="stat"><span class="number">3/15</span><span class="label">repos with unit tests in PR gate</span></div>
-      <div class="stat"><span class="number">2</span><span class="label">repos with zero CI</span></div>
+      <div class="stat" style="margin-top:20px;"><span class="number">3/15</span><span class="label">repos with unit tests in PR</span></div>
+      <div class="stat" style="margin-top:20px;"><span class="number">2</span><span class="label">repos with ZERO CI</span></div>
+      <div class="stat" style="margin-top:20px;"><span class="number">1</span><span class="label">I x K x R combo per week</span></div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 3: What is Merlin -->
+<!-- ============================== SLIDE 3: What is Merlin ============================== -->
 <div class="slide" id="s3">
   <h2>What is Merlin?</h2>
   <h3>An AI-powered gate that validates every firmware PR before merge</h3>
-  <div class="flow">
+  <div class="flow" style="margin:20px 0;">
     <div class="step">Developer opens PR</div>
-    <div class="arrow">→</div>
-    <div class="step">Merlin builds firmware</div>
-    <div class="arrow">→</div>
-    <div class="step">Assembles IFWI image</div>
-    <div class="arrow">→</div>
-    <div class="step">Boots in SimNow</div>
-    <div class="arrow">→</div>
-    <div class="step pass">Pass → Merge</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step">Detect changed fw-* target</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step">Build from source</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step">Assemble 8MB IFWI</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step">Boot in SimNow</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step pass">Pass &rarr; Merge</div>
   </div>
-  <div class="flow" style="margin-top:4px;">
-    <div class="step" style="visibility:hidden">Developer opens PR</div>
-    <div class="arrow" style="visibility:hidden">→</div>
-    <div class="step" style="visibility:hidden">Merlin builds firmware</div>
-    <div class="arrow" style="visibility:hidden">→</div>
-    <div class="step" style="visibility:hidden">Assembles IFWI image</div>
-    <div class="arrow" style="visibility:hidden">→</div>
-    <div class="step" style="visibility:hidden">Boots in SimNow</div>
-    <div class="arrow">→</div>
-    <div class="step fail">Fail → Block + Report</div>
+  <div class="flow" style="margin-left:444px;">
+    <div class="step" style="visibility:hidden">placeholder</div>
+    <div class="arrow" style="visibility:hidden">&rarr;</div>
+    <div class="step" style="visibility:hidden">placeholder</div>
+    <div class="arrow" style="visibility:hidden">&rarr;</div>
+    <div class="step" style="visibility:hidden">placeholder</div>
+    <div class="arrow">&rarr;</div>
+    <div class="step fail">Fail &rarr; Block + Report</div>
   </div>
-  <p style="margin-top:32px;">
-    <strong style="color:#fff;">No bad firmware lands on trunk. Ever.</strong><br>
-    Every PR is tested against SimNow simulation before merge. The gate runs in under 30 minutes.
-    Module owners don't need to write tests — Merlin generates them from observed hardware behavior.
-  </p>
+  <div class="two-col" style="margin-top:24px;">
+    <div>
+      <p style="color:#fff; font-weight:600; margin-bottom:8px;">Why "Merlin"?</p>
+      <p style="font-size:0.95em;">UnderTheRock = what's beneath theRock (ROCm). Merlin is the wizard who lived under the stone in Arthurian legend. Merlin brings intelligence to the rock.</p>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; margin-bottom:8px;">Core guarantee</p>
+      <p style="font-size:0.95em;">Module owners don't write tests. Merlin observes what known-good firmware does in SimNow, records it as a golden baseline, and asserts every subsequent build does the same.</p>
+    </div>
+  </div>
 </div>
 
-<!-- SLIDE 4: Three Principles -->
+<!-- ============================== SLIDE 4: Three Principles ============================== -->
 <div class="slide" id="s4">
   <h2>Three Principles <span class="dim" style="font-size:0.5em;">aligned with theRock</span></h2>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-top:20px;">
-    <div class="card">
-      <h3>1. Trunk is Shippable</h3>
-      <p>Every commit tested before merge. Bad commits never land. Regressions reverted within 4 hours. Nightly LKG promoted daily.</p>
+  <div class="three-col" style="margin-top:16px;">
+    <div class="card" style="border-color:var(--green);">
+      <h3><span class="green">1.</span> Trunk is Shippable</h3>
+      <ul class="bullet" style="font-size:0.85em;">
+        <li>Every commit tested before merge</li>
+        <li>Bad commits never land on main</li>
+        <li>Regressions reverted within 4 hours</li>
+        <li>Gardener rotation (weekly oncall)</li>
+        <li>Nightly LKG promoted daily (18 builds, 83% quorum)</li>
+      </ul>
     </div>
-    <div class="card">
-      <h3>2. AI-Generated Tests</h3>
-      <p>Don't wait for module owners. Observe what good firmware does in SimNow. Assert the next version does the same. No hallucination — every assertion grounded in real data.</p>
+    <div class="card" style="border-color:var(--amd-red);">
+      <h3><span class="highlight">2.</span> AI-Generated Tests</h3>
+      <ul class="bullet" style="font-size:0.85em;">
+        <li>Observe what good firmware does in SimNow</li>
+        <li>Record registers, postcodes, timing as golden baseline</li>
+        <li>Assert next version does the same</li>
+        <li>Anti-hallucination: every assertion grounded in real data</li>
+        <li>Baselines auto-grow with each successful run</li>
+      </ul>
     </div>
-    <div class="card">
-      <h3>3. Release Confidence</h3>
-      <p>Three branches: <strong>main</strong> (integration), <strong>stable-next</strong> (release candidate), <strong>stable</strong> (production). Each with increasing test rigor.</p>
+    <div class="card" style="border-color:var(--amber);">
+      <h3><span class="amber">3.</span> Release Confidence</h3>
+      <ul class="bullet" style="font-size:0.85em;">
+        <li>Three branches: main / stable-next / stable</li>
+        <li>PR gate &rarr; nightly LKG &rarr; release gate</li>
+        <li>Manifest-driven BKC reproducibility</li>
+        <li>18x test coverage (was 1 combo/week)</li>
+        <li>BKC reproducibility: 1-2h &rarr; 5 min</li>
+      </ul>
     </div>
+  </div>
+  <div style="margin-top:20px; display:flex; justify-content:center; gap:40px;">
+    <div class="stat"><span class="number">96%</span><span class="label">faster regression detect</span></div>
+    <div class="stat"><span class="number">18x</span><span class="label">nightly coverage</span></div>
+    <div class="stat"><span class="number">&lt;30m</span><span class="label">PR feedback</span></div>
+    <div class="stat"><span class="number">0</span><span class="label">tests owners must write</span></div>
   </div>
 </div>
 
-<!-- SLIDE 5: How AI Tests Work -->
+<!-- ============================== SLIDE 5: MI450 Chiplet Architecture ============================== -->
 <div class="slide" id="s5">
-  <h2>AI Test Generation — Without Hallucination</h2>
-  <h3>We don't ask owners to write tests. We observe what known-good firmware does.</h3>
+  <h2>MI450 Chiplet Architecture</h2>
+  <h3>Multi-die SoC: MID + AID + XCD -- firmware runs on every chiplet</h3>
   <div class="two-col">
     <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:16px;">The Pipeline</p>
-      <div class="flow" style="flex-direction:column; align-items:flex-start;">
-        <div class="step" style="width:100%;">1. <strong>Collect</strong> — Boot LKG firmware in SimNow, record every register value, log marker, and timing</div>
-        <div class="step" style="width:100%;">2. <strong>Generate</strong> — AI creates acceptance tests from these observations</div>
-        <div class="step" style="width:100%;">3. <strong>Ground</strong> — Validate every assertion against real data. Ungrounded = advisory only</div>
-        <div class="step" style="width:100%;">4. <strong>Execute</strong> — Run grounded assertions against PR's SimNow boot</div>
-        <div class="step" style="width:100%;">5. <strong>Learn</strong> — After 5 consistent observations, new assertions become grounded</div>
-      </div>
+      <pre style="font-size:0.68em; line-height:1.4;">
+  MI450 M228 Full Configuration (2 MID, 2 AID, 8 XCD)
+ ============================================================
+
+ +-------------------+         +-------------------+
+ |    <span style="color:var(--amd-red);">MID 0</span>            |  IFoE   |    <span style="color:var(--amd-red);">MID 1</span>            |
+ | Management/IO Die |&lt;------&gt;| Management/IO Die |
+ |                   |         |                   |
+ | <span style="color:var(--green);">MPASP</span>  (fw-asp-fmc)|         | <span style="color:var(--green);">MPASP</span>             |
+ | <span style="color:var(--green);">MPART</span>  (fw-art-sec)|         | <span style="color:var(--green);">MPART</span>             |
+ | <span style="color:var(--blue);">MPIFOE</span> (fw-mpifoe) |         | <span style="color:var(--blue);">MPIFOE</span>            |
+ | <span style="color:var(--amber);">MPNHT</span>  (fw-mpnht)  |         | <span style="color:var(--amber);">MPNHT</span>             |
+ | <span style="color:var(--purple);">MPRAS</span>  (fw-mpras)  |         | <span style="color:var(--purple);">MPRAS</span>             |
+ | MPIO   (fw-mpio)  |         | MPIO              |
+ | TEE    (fw-tee3)  |         | TEE               |
+ | MP1    (fw-pmfw)  |         | MP1               |
+ +--------+----------+         +--------+----------+
+          |  PCIe/XGMI                   |
+ +--------+----------+         +--------+----------+
+ |    <span style="color:var(--amber);">AID 0</span>            |  XGMI   |    <span style="color:var(--amber);">AID 1</span>            |
+ | Accel IO Die      |&lt;------&gt;| Accel IO Die      |
+ | UMC (HBM ctrl)    |         | UMC (HBM ctrl)    |
+ | MP5 AID (fw-pmfw) |         | MP5 AID           |
+ | IMU     (fw-pmfw) |         | IMU               |
+ +----+---------+----+         +----+---------+----+
+      |         |                    |         |
+ +----+--+ +----+--+           +----+--+ +----+--+
+ |<span style="color:var(--blue);">XCD 0</span>  | |<span style="color:var(--blue);">XCD 1</span>  |  . . .  |<span style="color:var(--blue);">XCD 6</span>  | |<span style="color:var(--blue);">XCD 7</span>  |
+ |Compute| |Compute|           |Compute| |Compute|
+ | MP5   | | MP5   |           | MP5   | | MP5   |
+ |(pmfw) | |(pmfw) |           |(pmfw) | |(pmfw) |
+ +-------+ +-------+           +-------+ +-------+
+</pre>
     </div>
     <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:16px;">Ground Truth Sources</p>
-      <table>
-        <tr><th>Source</th><th>What It Provides</th></tr>
-        <tr><td>IFWI Layout</td><td>74 PSP entry types and max sizes</td></tr>
-        <tr><td>SimNow YAML</td><td>20 MI450 test configs, postcodes</td></tr>
-        <tr><td>Golden Baselines</td><td>Register values from real runs</td></tr>
-        <tr><td>SimNow Monitors</td><td>FW status register addresses</td></tr>
+      <table style="font-size:0.82em;">
+        <tr><th>Chiplet</th><th>Die</th><th>Function</th><th>M228</th></tr>
+        <tr><td style="color:var(--amd-red);">MID</td><td>Management/IO</td><td>PCIe, IFoE, nHT, Security</td><td>2</td></tr>
+        <tr><td style="color:var(--amber);">AID</td><td>Accelerator IO</td><td>UMC, HBM, XGMI</td><td>2</td></tr>
+        <tr><td style="color:var(--blue);">XCD</td><td>Compute</td><td>Shader engines, CUs, L2</td><td>8</td></tr>
       </table>
-      <div class="card" style="margin-top:16px; border-color:#4caf50;">
-        <h3 style="color:#4caf50;">Key Guarantee</h3>
-        <p>Every merge-blocking assertion must trace to observed hardware behavior. AI suggestions that can't be verified are logged but never block.</p>
-      </div>
+      <p style="margin-top:16px; font-size:0.85em; color:#fff; font-weight:600;">SimNow Model Configs</p>
+      <table style="font-size:0.78em;">
+        <tr><th>Model</th><th>Config</th><th>Use</th></tr>
+        <tr><td>M112</td><td>1 MID, 1 AID, 2 XCD</td><td>Pre-submit (fast)</td></tr>
+        <tr><td>M222</td><td>2 MID, 2 AID, 2 XCD</td><td>Multi-die tests</td></tr>
+        <tr><td>M228</td><td>2 MID, 2 AID, 8 XCD</td><td>Full config</td></tr>
+        <tr><td>A+A</td><td>Venice CPU + MI450</td><td>Nightly (full sys)</td></tr>
+        <tr><td>2G IFoE</td><td>2 GPUs w/ IFoE</td><td>IFoE changes</td></tr>
+        <tr><td>FEAS</td><td>MPs only</td><td>MPIFOE sideload</td></tr>
+      </table>
+      <p style="margin-top:12px; font-size:0.82em; color:var(--dim);">PMFW alone spans 5 PSP entries across MID (MP1), AID (MP5), XCD (MP5), and IMU (inst+data) -- 900K total firmware.</p>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 6: Three Test Tiers -->
+<!-- ============================== SLIDE 6: SPIROM Memory Map ============================== -->
 <div class="slide" id="s6">
-  <h2>Three Test Tiers</h2>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-top:20px;">
-    <div class="card" style="border-color:#4caf50;">
-      <h3><span class="green">PR Gate</span> <span class="tag" style="background:#4caf50;">Every PR</span></h3>
-      <p><strong>Under 30 minutes</strong></p>
-      <ul style="margin-top:12px;">
-        <li>Build changed component</li>
-        <li>Assemble IFWI (PR + LKG rest)</li>
-        <li>SimNow boot validation</li>
-        <li>Grounded assertions only</li>
-        <li>Binary size check vs PSP slot</li>
-        <li><strong>Blocks merge on failure</strong></li>
-      </ul>
+  <h2>IFWI SPIROM Layout <span class="dim" style="font-size:0.5em;">8MB (0x800000)</span></h2>
+  <h3>A/B partition design with 74 firmware entries per partition</h3>
+  <div class="two-col">
+    <div>
+      <div class="memmap" style="width:100%;">
+<span class="addr">0x000000</span> <span class="bar" style="background:#444; width:100%;"><span>EFS (sig: 0x55AA55AA)</span><span class="sz">84B</span></span>
+<span class="addr">0x002000</span> <span class="bar" style="background:#555; width:100%;"><span>L1 PSP Dir (2 entries: ISHA, ISHB)</span><span class="sz">48B</span></span>
+<span class="addr">0x010000</span> <span class="bar" style="background:#5a3a00; width:100%;"><span>RomStrap A (NBIO hw init)</span><span class="sz">8K</span></span>
+<span class="addr">0x012000</span> <span class="bar" style="background:#3a2800; width:100%;"><span>RomStrap B (golden, never updated)</span><span class="sz">8K</span></span>
+<span class="addr">0x014000</span> <span class="bar" style="background:#2a4a2a; width:100%;"><span>ISH A (boot priority=2)</span><span class="sz">32B</span></span>
+<span class="addr">0x015000</span> <span class="bar" style="background:#1a3a1a; width:100%;"><span>ISH B (boot priority=1)</span><span class="sz">32B</span></span>
+<span class="addr">0x016000</span> <span class="bar" style="background:#333; width:100%;"><span>Signature Table (7 RSA-4K sigs)</span><span class="sz">7x512B</span></span>
+<span class="addr" style="color:var(--amd-red);">0x020000</span> <span class="bar" style="background:#8b1a1a; width:100%; min-height:60px;"><span style="font-size:1.1em;"><b>FW Partition A</b> -- L2 Dir + 74 entries</span><span class="sz" style="font-size:1em;">3.9MB</span></span>
+<span class="addr" style="color:var(--blue);">0x400000</span> <span class="bar" style="background:#1a3a6a; width:100%; min-height:60px;"><span style="font-size:1.1em;"><b>FW Partition B</b> -- backup / update target</span><span class="sz" style="font-size:1em;">3.9MB</span></span>
+<span class="addr">0x7E0000</span> <span class="bar" style="background:#333; width:100%;"><span>PSP Boot Config</span><span class="sz">64K</span></span>
+      </div>
     </div>
-    <div class="card" style="border-color:#ff9800;">
-      <h3><span class="amber">Daily</span> <span class="tag" style="background:#ff9800;">Nightly</span></h3>
-      <p><strong>2-4 hours, full matrix</strong></p>
-      <ul style="margin-top:12px;">
-        <li>All SimNow model configs</li>
-        <li>Secure + non-secure modes</li>
-        <li>Timing regression detection</li>
-        <li>LKG promotion (15/18 quorum)</li>
-        <li>Gardener triage on failure</li>
-        <li><strong>Promotes to LKG on pass</strong></li>
-      </ul>
-    </div>
-    <div class="card" style="border-color:#ed1c24;">
-      <h3><span class="highlight">Release Gate</span> <span class="tag">Before stable</span></h3>
-      <p><strong>100% pass required</strong></p>
-      <ul style="margin-top:12px;">
-        <li>Full model matrix (20 configs)</li>
-        <li>No regressions vs current stable</li>
-        <li>3 consecutive green days</li>
-        <li>Hardware smoke tests</li>
-        <li>Release manager sign-off</li>
-        <li><strong>Tags BKC release</strong></li>
-      </ul>
+    <div>
+      <p style="color:#fff; font-weight:600; margin-bottom:8px;">A/B Boot Selection Flow</p>
+      <pre style="font-size:0.72em; line-height:1.5; padding:12px;">
+Power On
+  |
+  v
+MPART bootrom reads EFS @ 0x0
+  |  signature = 0x55AA55AA
+  v
+Parse L1 PSP Dir @ 0x2000
+  |  2 entries: ISHA (0x48), ISHB (0x4A)
+  v
+Compare ISH BootPriority
+  |  ISHA.priority=2  >  ISHB.priority=1
+  v
+<span style="color:var(--green);">Boot from Partition A @ 0x020000</span>
+  |
+  v
+Parse L2 PSP Dir ("$PL2" cookie)
+  |  74 firmware entries
+  v
+Load FW in dependency order:
+  Caliptra -> FMC -> TOS -> Drivers...
+  |
+  v
+<span style="color:var(--green);">MPASP_FW_STATUS = 0x800F0000</span>  (PASS)
+</pre>
+      <div class="card" style="border-color:var(--green); padding:12px 16px;">
+        <p style="font-size:0.82em; color:var(--green);"><b>Safe update:</b> Write new FW to Partition B, flip ISH priorities, reboot. If B fails, bootrom falls back to A.</p>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 7: Release Strategy -->
+<!-- ============================== SLIDE 7: Super-Repo Architecture ============================== -->
 <div class="slide" id="s7">
-  <h2>Release Branching</h2>
-  <h3>Confidence increases as code flows from main → stable-next → stable</h3>
-  <div style="margin-top:24px;">
-    <div class="flow">
-      <div class="step" style="border-color:#4caf50; min-width:200px; text-align:center;">
-        <strong style="color:#4caf50;">main</strong><br>
-        <span style="font-size:0.8em; color:#888;">Integration branch<br>PRs land here<br>Nightly LKG</span>
-      </div>
-      <div class="arrow">→</div>
-      <div class="step" style="border-color:#ff9800; min-width:200px; text-align:center;">
-        <strong style="color:#ff9800;">stable-next</strong><br>
-        <span style="font-size:0.8em; color:#888;">Release candidate<br>24h soak from LKG<br>Daily full-matrix</span>
-      </div>
-      <div class="arrow">→</div>
-      <div class="step" style="border-color:#ed1c24; min-width:200px; text-align:center;">
-        <strong style="color:#ed1c24;">stable</strong><br>
-        <span style="font-size:0.8em; color:#888;">Production release<br>Tagged BKC-X26.XX<br>Cherry-picks only</span>
+  <h2>Super-Repo Architecture</h2>
+  <h3>One CMake command builds 40 firmware submodules from source</h3>
+  <div class="two-col">
+    <div>
+      <pre style="font-size:0.7em; line-height:1.4; padding:14px;">
+under-the-rock/
+<span style="color:var(--amd-red);">+-- CMakeLists.txt</span>          <span style="color:var(--dim);"># Meta-build: 35 fw-* targets</span>
++-- CMakePresets.json        <span style="color:var(--dim);"># --preset mi450</span>
++-- .gitmodules              <span style="color:var(--dim);"># 40 submodule defs</span>
++-- firmware/                <span style="color:var(--dim);"># Submodule checkouts</span>
+|   +-- asp-fmc/             <span style="color:var(--green);">[built]</span>
+|   +-- amd-tee3_0/          <span style="color:var(--green);">[built]</span>
+|   +-- pmfw-firmware/       <span style="color:var(--green);">[built]</span>
+|   +-- mpio/                <span style="color:var(--green);">[built]</span>
+|   +-- mpifoe-fw/           <span style="color:var(--green);">[built]</span>
+|   +-- dcgpu-esid/          <span style="color:var(--green);">[built]</span>
+|   +-- art-security/        <span style="color:var(--green);">[built]</span>
+|   +-- ... (16 built, 19 stubs)
++-- patches/                 <span style="color:var(--dim);"># Overlays (never fork)</span>
+|   +-- asp-fmc/
+|   +-- pmfw-firmware/
+|   +-- mpio/
++-- scripts/
+|   +-- firmware-all-with-report.sh
+|   +-- apply-firmware-patches.sh
++-- build_tools/
+    +-- fetch_sources.py     <span style="color:var(--dim);"># Parallel checkout</span>
+</pre>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; margin-bottom:8px; font-size:0.95em;">Build from source in 3 commands</p>
+      <pre style="font-size:0.78em; line-height:1.6; padding:12px;">
+<span style="color:var(--dim);"># 1. Configure</span>
+cmake --preset mi450
+
+<span style="color:var(--dim);"># 2. Build everything</span>
+cmake --build build --target firmware-all
+
+<span style="color:var(--dim);"># 3. Or build one component</span>
+cmake --build build --target fw-asp-fmc
+</pre>
+      <p style="color:#fff; font-weight:600; margin-top:16px; margin-bottom:8px; font-size:0.95em;">Key design decisions</p>
+      <ul class="bullet" style="font-size:0.85em;">
+        <li><b>Patches over forks</b> -- changes via patches/, submodules stay read-only</li>
+        <li><b>Stubs succeed</b> -- missing submodules echo, never fail</li>
+        <li><b>IVV parity</b> -- same NFS mounts, tools, Conan as CI runners</li>
+        <li><b>UTTR_ASIC required</b> -- no default, forces explicit target</li>
+      </ul>
+      <div style="margin-top:12px; display:flex; gap:12px;">
+        <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">40</span><span class="label">submodules</span></div>
+        <div class="stat" style="margin:0;"><span class="number" style="font-size:2em; color:var(--green);">16</span><span class="label">built</span></div>
+        <div class="stat" style="margin:0;"><span class="number" style="font-size:2em; color:var(--amber);">19</span><span class="label">stubs</span></div>
       </div>
     </div>
-    <div style="margin-top:40px;">
-      <table>
-        <tr><th>Branch</th><th>Who commits</th><th>Test requirement</th><th>Promotion criteria</th></tr>
-        <tr><td style="color:#4caf50;">main</td><td>Anyone via PR</td><td>PR gate (SimNow boot + grounded assertions)</td><td>PR passes all grounded assertions</td></tr>
-        <tr><td style="color:#ff9800;">stable-next</td><td>Automated from main</td><td>Full SimNow matrix + hardware</td><td>LKG quorum + 24h soak</td></tr>
-        <tr><td style="color:#ed1c24;">stable</td><td>Automated + cherry-picks</td><td>Release gate (100% pass)</td><td>3 green days + manager sign-off</td></tr>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 8: fw-* Build Systems ============================== -->
+<div class="slide" id="s8">
+  <h2>fw-* Build Systems <span class="dim" style="font-size:0.5em;">Each component has a unique toolchain</span></h2>
+  <div style="overflow-y:auto; max-height: calc(100vh - 120px);">
+  <table style="font-size:0.76em;">
+    <tr><th>Target</th><th>Build System</th><th>Toolchain</th><th>PSP Type(s)</th><th>Size</th><th>Key Dependency</th></tr>
+    <tr><td style="color:#fff;">fw-asp-fmc</td><td>GNU Make</td><td>RISC-V</td><td>0x0001</td><td>128K</td><td>Conan 1.x (riscv64-elf-toolsuite)</td></tr>
+    <tr><td style="color:#fff;">fw-amd-tee3</td><td>GNU Make</td><td>RISC-V SiFive</td><td>0x0002 + 13 drivers</td><td>~3MB</td><td>Conan 1.x (PSP tools, DDK)</td></tr>
+    <tr><td style="color:#fff;">fw-pmfw</td><td>tcsh + CBWA Make</td><td>Xtensa XCC</td><td>0x0008, 9b, 9c, 1ea, 1051</td><td>~900K</td><td>tcsh, CBWA, FAKEOS=lipc24_64</td></tr>
+    <tr><td style="color:#fff;">fw-mpio</td><td>Zephyr/Xtensa</td><td>Xtensa RI-2019.3</td><td>0x005d</td><td>256K</td><td>LM_LICENSE_FILE, py_mpio venv</td></tr>
+    <tr><td style="color:#fff;">fw-mpifoe</td><td>Zephyr build.py</td><td>RISC-V Zephyr SDK</td><td>0x01f3</td><td>512K</td><td>Zephyr SDK 0.16.8</td></tr>
+    <tr><td style="color:#fff;">fw-art-security</td><td>Make + Cargo</td><td>RISC-V + Rust</td><td>0x00ab, 0x00ac</td><td>140K</td><td>Conan 1.x, Rust/cargo</td></tr>
+    <tr><td style="color:#fff;">fw-dcgpu-esid</td><td>autoconf + Make</td><td>RISC-V</td><td>0x0157-0x015f</td><td>~600K</td><td>Conan 1.x, git submodules</td></tr>
+    <tr><td style="color:#fff;">fw-mpras-kernel</td><td>Zephyr Make</td><td>RISC-V Zephyr</td><td>0x006b</td><td>128K</td><td>Zephyr SDK, SiFive toolchain</td></tr>
+    <tr><td style="color:#fff;">fw-mpnht</td><td>build.sh + Make</td><td>Xtensa XCC</td><td>0x01e0</td><td>25K</td><td>Xtensa XCC, LM_LICENSE_FILE</td></tr>
+    <tr><td style="color:#fff;">fw-keydb</td><td>Python</td><td>Python 3</td><td>0x0050, 0x0051, 0x00ad</td><td>52K</td><td>fw-sign from Artifactory PyPI</td></tr>
+    <tr><td style="color:#fff;">fw-pcie-cld</td><td>GNU Make</td><td>-</td><td>0xb5</td><td>16K</td><td>Build tools</td></tr>
+    <tr><td style="color:#fff;">fw-ucie</td><td>GNU Make</td><td>-</td><td>0x01ec</td><td>81K</td><td>Build tools</td></tr>
+    <tr><td style="color:#fff;">fw-unicrypt</td><td>GNU Make</td><td>-</td><td>0x009d, 0x00ae</td><td>200K</td><td>romlib-headers</td></tr>
+    <tr><td style="color:#fff;">fw-caliptra-sw</td><td>Binary copy</td><td>(none)</td><td>0x00a8</td><td>128K</td><td>Pre-built binary</td></tr>
+    <tr><td style="color:#fff;">fw-dmu</td><td>Xtensa Make</td><td>Xtensa xt-xcc</td><td>-</td><td>-</td><td>Xtensa XCC, LM_LICENSE_FILE</td></tr>
+    <tr><td style="color:#fff;">fw-vbl-tee-drv</td><td>GNU Make</td><td>-</td><td>0x01fb</td><td>-</td><td>PSP tools</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 9: Test Maturity Matrix ============================== -->
+<div class="slide" id="s9">
+  <h2>Per-Repo Test Maturity <span class="dim" style="font-size:0.5em;">16 PFO repos analyzed</span></h2>
+  <h3><span class="dot g"></span>Green = has it &nbsp; <span class="dot a"></span>Amber = partial &nbsp; <span class="dot r"></span>Red = missing</h3>
+  <div style="overflow-y:auto; max-height: calc(100vh - 140px);">
+  <table style="font-size:0.72em;">
+    <tr><th>Repo</th><th>Workflows</th><th>SimNow PR</th><th>Unit Tests</th><th>Coverity</th><th>Lint</th><th>AI Review</th><th>HW Smoke</th><th>Nightly</th></tr>
+    <tr><td style="color:#fff;">asp-fmc</td><td>10</td><td><span class="dot g"></span>7 ASICs</td><td><span class="dot r"></span>None</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span>Jenkins</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">amd-tee3_0</td><td>18</td><td><span class="dot g"></span>6 ASICs</td><td><span class="dot a"></span>TA only</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot g"></span>Jenkins</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">art-security</td><td>11</td><td><span class="dot g"></span>7 ASICs</td><td><span class="dot a"></span>CONFIG_TEST</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span>Jenkins</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">dcgpu-esid</td><td>12</td><td><span class="dot g"></span>2 ASICs</td><td><span class="dot g"></span><b>CppUTest 100+</b></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot a"></span>DCAuto</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">pcie-cld-fw</td><td>10</td><td><span class="dot g"></span>Build+GTest</td><td><span class="dot g"></span>GTest (5)</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot a"></span>Protium</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">ucie-fw</td><td>17</td><td><span class="dot g"></span>Build+GTest</td><td><span class="dot g"></span>GTest (2)</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot a"></span>Protium</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">mpifoe-fw</td><td>7</td><td><span class="dot r"></span></td><td><span class="dot a"></span>Twister</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot a"></span>Legacy</td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">mpio</td><td>5</td><td><span class="dot r"></span></td><td><span class="dot a"></span>x86 custom</td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+    <tr><td style="color:#fff;">MPRAS-Kernel</td><td>3</td><td><span class="dot g"></span>5 MAT</td><td><span class="dot a"></span>5 on-target</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+    <tr><td style="color:#fff;">nht-firmware</td><td>6</td><td><span class="dot g"></span>2 ASICs</td><td><span class="dot r"></span>None</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">VBL-TEE-Drv</td><td>4</td><td><span class="dot g"></span>5 configs</td><td><span class="dot a"></span>Simulator</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+    <tr><td style="color:#fff;">pmfw-firmware</td><td style="color:var(--amd-red);">7</td><td style="color:var(--amd-red);"><span class="dot r"></span>None</td><td><span class="dot r"></span>1 script</td><td style="color:var(--amd-red);"><span class="dot r"></span></td><td style="color:var(--amd-red);"><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot a"></span>Verix</td><td><span class="dot r"></span></td></tr>
+    <tr><td style="color:#fff;">sriov-dr</td><td>5</td><td><span class="dot r"></span></td><td><span class="dot r"></span>None</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot g"></span></td></tr>
+    <tr><td style="color:#fff;">MPRAS-Applets</td><td>4</td><td><span class="dot r"></span></td><td><span class="dot r"></span>1 test</td><td><span class="dot g"></span></td><td><span class="dot g"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+    <tr style="background:#1a0000;"><td style="color:var(--amd-red); font-weight:700;">cp-mi400</td><td style="color:var(--amd-red);">0</td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+    <tr style="background:#1a0000;"><td style="color:var(--amd-red); font-weight:700;">sw-security-tools</td><td style="color:var(--amd-red);">0</td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td><td><span class="dot r"></span></td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 10: System Architecture ============================== -->
+<div class="slide" id="s10">
+  <h2>Merlin System Architecture</h2>
+  <div style="display:grid; grid-template-columns:1fr; gap:6px; margin-top:8px; max-width:920px;">
+    <div class="card" style="border-color:var(--amd-red); padding:14px 24px;">
+      <h3 style="color:var(--amd-red); font-size:0.85em;">LAYER 4: AI AGENTS</h3>
+      <p style="font-size:0.82em;">Triage agent (failure &rarr; suspect commit) &middot; Gardener agent (auto-issues, draft reverts) &middot; PR review agent (PSP size, test gaps) &middot; BKC reasoner (manifest queries)</p>
+    </div>
+    <div class="card" style="border-color:var(--amber); padding:14px 24px;">
+      <h3 style="color:var(--amber); font-size:0.85em;">LAYER 3: ORCHESTRATION</h3>
+      <p style="font-size:0.82em;">Nightly orchestrator (18 builds, 15/18 quorum, LKG promotion) &middot; Release pipeline (main &rarr; stable-next &rarr; stable) &middot; Gardener rotation + 4h revert SLA &middot; Auto-bisection on failure</p>
+    </div>
+    <div class="card" style="border-color:var(--green); padding:14px 24px;">
+      <h3 style="color:var(--green); font-size:0.85em;">LAYER 2: VALIDATION</h3>
+      <p style="font-size:0.82em;">SimNow gate (L0-L5 assertions, 20 configs) &middot; Golden baseline assertions (grounded, anti-hallucination) &middot; FFM error injection &middot; Hardware smoke (DCAuto/Conductor) &middot; Unified test schema (uttr-tests.yaml)</p>
+    </div>
+    <div class="card" style="padding:14px 24px;">
+      <h3 style="font-size:0.85em;">LAYER 1: BUILD</h3>
+      <p style="font-size:0.82em;">Change detection (git diff &rarr; SUBMODULE_TO_TARGET map &rarr; fw-* target) &middot; CMake meta-build on IVV runners (NFS, Conan, Zephyr, Xtensa) &middot; IFWI assembly (IFWI Builder API or source build) &middot; LKG binary cache (Artifactory)</p>
+    </div>
+    <div class="card" style="border-color:#252525; padding:14px 24px;">
+      <h3 style="color:var(--dim); font-size:0.85em;">FOUNDATION: UnderTheRock Super-Repo</h3>
+      <p style="font-size:0.82em;">35 fw-* CMake targets (16 built, 19 stubs) &middot; patches/ overlay system &middot; fetch_sources.py (parallel checkout, bare-clone cache) &middot; IVV runner env (NFS /opt/pandora64, /opt/cbar, /proj/verif_release_ro)</p>
+    </div>
+  </div>
+  <div style="margin-top:16px; display:flex; gap:32px;">
+    <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">35</span><span class="label">fw-* targets</span></div>
+    <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">74</span><span class="label">PSP entries</span></div>
+    <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">176</span><span class="label">BKC modules</span></div>
+    <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">18</span><span class="label">nightly builds</span></div>
+    <div class="stat" style="margin:0;"><span class="number" style="font-size:2em;">6</span><span class="label">test tiers</span></div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 11: SimNow Deep Dive ============================== -->
+<div class="slide" id="s11">
+  <h2>How SimNow Actually Works</h2>
+  <h3>AMD's pre-silicon simulator -- our gating engine for every firmware PR</h3>
+  <div class="two-col">
+    <div>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:6px;">SimNow Script Anatomy (real MI450 A+A script)</p>
+      <pre style="font-size:0.64em; line-height:1.35; padding:10px;">
+<span style="color:var(--dim);"># 1. Load SoC model (BSD file)</span>
+shell.open $BSD/aransas_1P1G_W21_M112.bsd
+
+<span style="color:var(--dim);"># 2. Monitor FW status registers</span>
+monitor.AddMonitor <span style="color:var(--green);">--address 0x034000d8</span> \
+  --size 4 --space 0.0.mpasp \
+  --label <span style="color:var(--amber);">MPASP_FW_STATUS</span>
+monitor.AddMonitor <span style="color:var(--green);">--address 0x03010d80</span> \
+  --size 4 --space 4.0.mpart \
+  --label MID_MPART_FW_STATUS
+
+<span style="color:var(--dim);"># 3. Load firmware (THE image under test)</span>
+spirom:0.initfile <span style="color:var(--amd-red);">{{IFWI_PATH}}</span>
+sbios_rom:0.initfile {{SBIOS_PATH}}
+NVMEdrive.SetImage "busybox.img"
+
+<span style="color:var(--dim);"># 4. Non-secure fuses (CI test mode)</span>
+mpart_fuse:*.set ART_LC_STATE_MFG0 7
+mpart_fuse:*.set ART_LC_STATE_MFG1 <span style="color:var(--green);">0</span>
+<span style="color:var(--dim);">  # ^^ 0 = test mode, 7 = prod mode</span>
+
+<span style="color:var(--dim);"># 5. GPU register overrides</span>
+regsmgr.AddForce MI450_A0_MID/MP_MPASPCRU/\
+  MPASP_C2PMSG_97/CONTENT 0x00000204
+
+<span style="color:var(--dim);"># 6. Start simulation</span>
+shell.go
+</pre>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:6px;">Pass/Fail Criteria</p>
+      <div class="card" style="border-color:var(--green); padding:12px;">
+        <p style="font-family:var(--mono); color:var(--green); font-size:0.85em; margin-bottom:4px;">MPASP_FW_STATUS = <b>0x800F0000</b></p>
+        <p style="font-size:0.78em;">PSP boot complete, all stages passed. This is the canonical pass marker at register address 0x034000d8.</p>
+      </div>
+      <div class="card" style="border-color:var(--amd-red); padding:12px;">
+        <p style="font-family:var(--mono); color:var(--amd-red); font-size:0.85em; margin-bottom:4px;">MPASP_FW_STATUS = <b>0x00000000</b></p>
+        <p style="font-size:0.78em;">FMC didn't start. Immediate FAIL.</p>
+      </div>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-top:14px; margin-bottom:6px;">Additional Pass Markers</p>
+      <ul class="check" style="font-size:0.82em;">
+        <li>"all ESIDs completed"</li>
+        <li>"TOS steady state reached"</li>
+        <li>Error log is empty</li>
+      </ul>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-top:14px; margin-bottom:6px;">SimNow Version Pinning</p>
+      <p style="font-size:0.82em;">Not every SimNow nightly works with every IFWI. We pin to a validated version (e.g., build 20251209) and only update after running the full assertion suite against LKG.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 12: SimNow Test Matrix ============================== -->
+<div class="slide" id="s12">
+  <h2>SimNow Test Configuration Matrix</h2>
+  <h3>Which BSD model for which test -- mapped to changed component</h3>
+  <div class="two-col">
+    <div>
+      <table style="font-size:0.78em;">
+        <tr><th>Gate Type</th><th>SimNow Model</th><th>BSD File</th><th>Why</th></tr>
+        <tr><td style="color:var(--green);">Pre-submit default</td><td>M112</td><td>aransas_mi450_1mid1aid2xcd</td><td>Fastest boot</td></tr>
+        <tr><td style="color:var(--blue);">IFoE changes</td><td>2G IFoE</td><td>aransas_mi450_2g_m112_ifoe</td><td>Tests IFoE fabric</td></tr>
+        <tr><td style="color:var(--amber);">Nightly</td><td>A+A Full</td><td>aransas_1P1G_W21_M112</td><td>CPU+GPU system</td></tr>
+        <tr><td style="color:var(--purple);">MPIFOE only</td><td>FEAS</td><td>feas_mpifoe_mi450_mid</td><td>MPs only, fast</td></tr>
+        <tr><td style="color:var(--amber);">RAS tests</td><td>M228 + MBAT</td><td>aransas_mi450_2mid2aid8xcd</td><td>RAS validation</td></tr>
+      </table>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-top:16px;">Component &rarr; Model Selection</p>
+      <table style="font-size:0.76em;">
+        <tr><th>Changed Target</th><th>Pre-Submit Model</th><th>Nightly Model</th></tr>
+        <tr><td>fw-asp-fmc</td><td>M112</td><td>A+A</td></tr>
+        <tr><td>fw-amd-tee3</td><td>M112</td><td>A+A + Secure</td></tr>
+        <tr><td>fw-mpifoe</td><td style="color:var(--blue);">2G IFoE</td><td>A+A + 2G</td></tr>
+        <tr><td>fw-pmfw</td><td>M112</td><td>A+A + M228</td></tr>
+        <tr><td>fw-mpio</td><td>M112</td><td>A+A</td></tr>
+        <tr><td>fw-mpras-kernel</td><td>M112</td><td>M228 + MBAT</td></tr>
+      </table>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:6px;">Platform Coverage per Repo (from .github/simnow/)</p>
+      <table style="font-size:0.72em;">
+        <tr><th>Repo</th><th>MI450</th><th>MI430</th><th>WH</th><th>WH-SP8</th><th>WH-LP</th><th>MDS</th><th>AT2</th></tr>
+        <tr><td>asp-fmc</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td></tr>
+        <tr><td>art-security</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td></tr>
+        <tr><td>amd-tee3_0</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td class="green">Y</td><td class="green">Y</td></tr>
+        <tr><td>dcgpu-esid</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>mpio</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>mpifoe-fw</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>MPRAS-Kernel</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>pmfw-firmware</td><td class="green">Y</td><td class="green">Y</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td style="color:var(--amd-red);">cp-mi400</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td><td style="color:var(--amd-red);">-</td></tr>
       </table>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 8: What We've Built -->
-<div class="slide" id="s8">
-  <h2>What's Built Today</h2>
-  <div class="two-col">
-    <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:16px;">Working Implementation</p>
-      <ul class="check">
-        <li>Merlin engine — 5 Python modules, 400 lines</li>
-        <li>31 passing tests covering full pipeline</li>
-        <li>Golden baseline collector (parse SimNow logs)</li>
-        <li>Grounding validator (anti-hallucination)</li>
-        <li>Test generator (from IFWI layout + baselines)</li>
-        <li>Acceptance tests generated for all 15 components</li>
-        <li>JUnit XML + markdown reporting</li>
-        <li>MI450 PSP directory ground truth (74 entries)</li>
-      </ul>
-    </div>
-    <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:16px;">Documentation</p>
-      <ul class="check">
-        <li>MI450 architecture (SoC, IFoE, interconnects, RAS)</li>
-        <li>SimNow deep-dive (APIs, configs, operations)</li>
-        <li>16 PFO repos analyzed — per-repo test inventory</li>
-        <li>10 Merlin plan documents</li>
-        <li>CI/CD gating design grounded in real codebase</li>
-        <li>Release strategy (main / stable-next / stable)</li>
-      </ul>
-      <div class="card" style="margin-top:16px;">
-        <h3>CLI Ready</h3>
-        <p style="font-family:monospace; font-size:0.85em; color:#4caf50;">
-          merlin status<br>
-          merlin generate fw-asp-fmc<br>
-          merlin check fw-asp-fmc simnow.log<br>
-          merlin report fw-asp-fmc simnow.log
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 9: Current Coverage -->
-<div class="slide" id="s9">
-  <h2>Firmware Repo Landscape</h2>
-  <h3>16 PFO repos analyzed — where we are vs where we need to be</h3>
-  <table style="font-size:0.85em; width:100%;">
-    <tr><th>Capability</th><th>Have it</th><th>Don't have it</th><th>Merlin adds</th></tr>
-    <tr><td>PR gate workflow</td><td class="green">14/15</td><td>1 repo</td><td>Unified gate across all</td></tr>
-    <tr><td>Coverity on PR</td><td class="green">13/15</td><td>2 repos</td><td>—</td></tr>
-    <tr><td>SimNow on PR</td><td class="amber">10/15</td><td>5 repos</td><td>SimNow for ALL components</td></tr>
-    <tr><td style="color:#fff; font-weight:600;">Unit tests in PR gate</td><td class="highlight" style="font-weight:700;">3/15</td><td style="color:#ed1c24;">12 repos</td><td style="color:#4caf50;">AI-generated acceptance tests</td></tr>
-    <tr><td>Nightly workflow</td><td class="amber">7/15</td><td>8 repos</td><td>Unified nightly + LKG</td></tr>
-    <tr><td>AI code review</td><td>3/15</td><td>12 repos</td><td>—</td></tr>
-    <tr><td style="color:#fff;">Any CI at all</td><td>13/15</td><td class="highlight">2 repos (zero CI)</td><td style="color:#4caf50;">Covered by Merlin gate</td></tr>
-  </table>
-  <p style="margin-top:16px; color:#888; font-size:0.9em;">
-    <strong style="color:#fff;">Key insight:</strong> Only 3 of 15 repos run functional tests before merge. Most rely on build + static analysis only. Merlin's AI-generated SimNow tests close this gap without requiring module owners to write tests.
-  </p>
-</div>
-
-<!-- SLIDE 10: Architecture -->
-<div class="slide" id="s10">
-  <h2>System Architecture</h2>
-  <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-top:16px; max-width:900px;">
-    <div class="card" style="border-color:#ed1c24; padding:16px 28px;">
-      <h3 style="color:#ed1c24; font-size:0.9em;">LAYER 4: AI AGENTS</h3>
-      <p>Triage agent (failure → suspect commit) · Gardener agent (auto-issues, draft reverts) · PR review agent (test gaps, PSP size) · BKC reasoner (manifest queries)</p>
-    </div>
-    <div class="card" style="border-color:#ff9800; padding:16px 28px;">
-      <h3 style="color:#ff9800; font-size:0.9em;">LAYER 3: ORCHESTRATION</h3>
-      <p>Nightly orchestrator (18 builds, quorum, LKG promotion) · Release pipeline · Gardener rotation · Auto-bisection</p>
-    </div>
-    <div class="card" style="border-color:#4caf50; padding:16px 28px;">
-      <h3 style="color:#4caf50; font-size:0.9em;">LAYER 2: VALIDATION</h3>
-      <p>SimNow gate (boot, enumeration, IP discovery) · Golden baseline assertions · Hardware smoke (DCAuto) · Unified test schema</p>
-    </div>
-    <div class="card" style="padding:16px 28px;">
-      <h3 style="font-size:0.9em;">LAYER 1: BUILD</h3>
-      <p>Change detection (PR diff → fw-* target) · CMake meta-build · IFWI image assembly · LKG binary cache (Artifactory)</p>
-    </div>
-    <div class="card" style="border-color:#333; padding:16px 28px;">
-      <h3 style="color:#666; font-size:0.9em;">FOUNDATION: UnderTheRock Super-Repo</h3>
-      <p>35 fw-* CMake targets · patches/ overlay system · fetch_sources.py · IVV runner environment</p>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 11: SimNow -->
-<div class="slide" id="s11">
-  <h2>SimNow — Our Test Engine</h2>
-  <h3>AMD's pre-silicon simulation validates firmware without physical hardware</h3>
-  <div class="two-col">
-    <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:12px;">What SimNow gives us</p>
-      <ul>
-        <li>Boot IFWI images in simulated MI450 hardware</li>
-        <li>20 pre-defined MI450 test configurations</li>
-        <li>Secure and non-secure boot modes</li>
-        <li>Multiple die configurations (M112, M222, M228, A+A)</li>
-        <li>FW status register monitoring at boot milestones</li>
-        <li>Deterministic, reproducible test results</li>
-      </ul>
-      <p style="margin-top:16px; font-weight:500; color:#fff;">Pass criteria</p>
-      <p style="font-family:monospace; color:#4caf50; font-size:1em;">MPASP_FW_STATUS = 0x800F0000</p>
-      <p style="color:#888; font-size:0.9em;">All ESIDs completed · TOS steady state · Error log empty</p>
-    </div>
-    <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:12px;">Merlin's SimNow strategy</p>
-      <div class="card">
-        <h3>Version Pinned</h3>
-        <p>SimNow nightly builds can break compatibility. We pin to a validated version and update only after regression-testing the new version.</p>
-      </div>
-      <div class="card">
-        <h3>Model Selection</h3>
-        <p>IFoE changes → 2G IFoE model. RAS changes → MBAT config. Basic boot → M112 (fastest). Full system → A+A.</p>
-      </div>
-      <div class="card">
-        <h3>Non-Secure for CI</h3>
-        <p>CI uses test-mode fuses (unsigned firmware accepted). No signing required for pre-merge validation.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 12: Impact -->
-<div class="slide" id="s12">
-  <h2>Expected Impact</h2>
-  <div style="display:flex; justify-content:center; gap:48px; margin:40px 0;">
-    <div class="stat"><span class="number">96%</span><span class="label">faster regression detection</span></div>
-    <div class="stat"><span class="number">&lt;30m</span><span class="label">PR feedback time</span></div>
-    <div class="stat"><span class="number">15</span><span class="label">components auto-tested</span></div>
-    <div class="stat"><span class="number">0</span><span class="label">tests module owners must write</span></div>
-  </div>
-  <table style="max-width:800px; margin:0 auto;">
-    <tr><th>Metric</th><th>Today</th><th>With Merlin</th></tr>
-    <tr><td>Regression detection</td><td>24-48 hours</td><td class="green">&lt; 30 minutes</td></tr>
-    <tr><td>Trunk usability</td><td>Frequently broken</td><td class="green">Always usable (LKG)</td></tr>
-    <tr><td>Test coverage (PR gate)</td><td>3/15 repos</td><td class="green">15/15 repos</td></tr>
-    <tr><td>Test authoring effort</td><td>Manual, per-team</td><td class="green">AI-generated, auto-growing</td></tr>
-    <tr><td>BKC reproducibility</td><td>1-2 hours (Confluence)</td><td class="green">5 min (git checkout)</td></tr>
-  </table>
-</div>
-
-<!-- SLIDE 13: Next Steps -->
+<!-- ============================== SLIDE 13: AI Test Generation ============================== -->
 <div class="slide" id="s13">
-  <h2>What's Next</h2>
+  <h2>AI Test Generation -- Without Hallucination</h2>
+  <h3>We observe what known-good firmware does. Then assert the next version does the same.</h3>
   <div class="two-col">
     <div>
-      <p style="font-weight:500; color:#fff; margin-bottom:16px;">Immediate</p>
-      <ul>
-        <li>Connect Merlin engine to SimNow on IVV runners</li>
-        <li>Collect golden baselines from LKG IFWI boots</li>
-        <li>Wire GHA workflow for first component (fw-asp-fmc)</li>
-        <li>Validate IFWI assembly (IFWI Builder API or source build)</li>
-      </ul>
-      <p style="font-weight:500; color:#fff; margin-top:24px; margin-bottom:16px;">Then</p>
-      <ul>
-        <li>Expand to all 15 built components</li>
-        <li>Nightly orchestrator with LKG promotion</li>
-        <li>Create stable-next and stable branches</li>
-        <li>AI triage agent for nightly failures</li>
-      </ul>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:8px;">The 4-Stage Pipeline</p>
+      <div class="card" style="border-color:var(--blue); padding:10px 16px;">
+        <h3 style="color:var(--blue); font-size:0.85em;">1. COLLECT</h3>
+        <p style="font-size:0.78em;">Boot LKG IFWI in SimNow. Record every register value, FW status transition, log marker, and boot phase timing.</p>
+      </div>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <h3 style="color:var(--green); font-size:0.85em;">2. GENERATE</h3>
+        <p style="font-size:0.78em;">AI creates acceptance tests from observations. PSP size checks from IFWI layout. Postcodes from SimNow YAML. Registers from golden baseline.</p>
+      </div>
+      <div class="card" style="border-color:var(--amber); padding:10px 16px;">
+        <h3 style="color:var(--amber); font-size:0.85em;">3. GROUND</h3>
+        <p style="font-size:0.78em;">Validate every assertion against real data. Can't trace to observed behavior? Mark as UNVERIFIED (advisory only, never blocks merge).</p>
+      </div>
+      <div class="card" style="border-color:var(--purple); padding:10px 16px;">
+        <h3 style="color:var(--purple); font-size:0.85em;">4. LEARN</h3>
+        <p style="font-size:0.78em;">After 5 consistent observations, new register values become grounded assertions. Baselines auto-grow. Failed runs never update baselines.</p>
+      </div>
     </div>
     <div>
-      <div class="card" style="border-color:#ed1c24;">
-        <h3 style="color:#ed1c24;">What We Need</h3>
-        <p><strong>SimNow access</strong> on GHA self-hosted runners</p>
-        <p><strong>IVV runner pool</strong> — 2 pre-submit + 1 nightly</p>
-        <p><strong>Artifactory space</strong> for LKG binary cache</p>
-        <p><strong>Repo access</strong> for remaining 21 submodules</p>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:8px;">Ground Truth Sources</p>
+      <table style="font-size:0.78em;">
+        <tr><th>Source</th><th>Provides</th><th>Grounding</th></tr>
+        <tr><td>IFWI Layout</td><td>74 PSP entry types + max sizes</td><td>Binary size checks</td></tr>
+        <tr><td>SimNow YAML</td><td>BSD models, postcodes, timeouts</td><td>Boot pass/fail</td></tr>
+        <tr><td>Golden Baseline</td><td>Register values from real runs</td><td>Regression detection</td></tr>
+        <tr><td>Monitor Addrs</td><td>FW status register locations</td><td>Boot milestones</td></tr>
+        <tr><td>PPR Web</td><td>Every register bit field</td><td>Address validation</td></tr>
+      </table>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-top:14px; margin-bottom:8px;">Baseline Growth Cycle</p>
+      <pre style="font-size:0.68em; line-height:1.4; padding:10px;">
+New component onboarded
+  |  (no golden baseline exists)
+  v
+Minimal test: size + postcode + no errors
+  |  PASS
+  v
+Baseline Learner records everything:
+  registers, FW status, markers, timing
+  |
+  v
+Next PR: RICHER test using baseline
+  |  observation_count++
+  v
+After 5 consistent observations:
+  <span style="color:var(--green);">register value promoted to GROUNDED</span>
+  <span style="color:var(--green);">now blocks merge if it changes</span>
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 14: Anti-Hallucination Rules ============================== -->
+<div class="slide" id="s14">
+  <h2>Anti-Hallucination Grounding Rules</h2>
+  <h3>The #1 risk with AI-generated tests is hallucinated assertions. These rules prevent it.</h3>
+  <div class="two-col">
+    <div>
+      <pre style="font-size:0.7em; line-height:1.45; padding:12px;">
+<span style="color:var(--amd-red);"># merlin-grounding-rules.yaml</span>
+
+<span style="color:var(--dim);">register_assertions:</span>
+  <span style="color:var(--green);"># ONLY assert registers from golden baseline</span>
+  must_exist_in: "golden_baseline.registers"
+  <span style="color:var(--amd-red);"># NEVER invent register addresses</span>
+  never_guess_addresses: true
+  unknown_handling: "unverified"
+
+<span style="color:var(--dim);">postcode_assertions:</span>
+  allowed_sources:
+    - ".github/simnow/*.yaml -> postcode"
+    - "golden_baselines/*/postcodes.yaml"
+  <span style="color:var(--green);">mi450_pass: "0x800F0000"</span>
+
+<span style="color:var(--dim);">fw_status_monitors:</span>  <span style="color:var(--dim);"># fixed per model</span>
+  MPART_FW_STATUS:
+    address: "<span style="color:var(--green);">0x034000d8</span>"
+    space: "0.0.mpart"
+  MPASP_FW_STATUS:
+    address: "<span style="color:var(--green);">0x034000d8</span>"
+    space: "0.0.mpasp"
+  MID_MPART_FW_STATUS:
+    address: "<span style="color:var(--green);">0x03010d80</span>"
+    space: "4.0.mpart"
+
+<span style="color:var(--dim);">size_assertions:</span>
+  source: "configs/psp-entry-map.yaml"
+  warn_threshold_percent: 90
+  fail_threshold_percent: 100
+</pre>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; font-size:0.95em; margin-bottom:12px;">The 5 Grounding Rules</p>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <p style="font-size:0.82em;"><span class="green bold">1.</span> <b>Register addresses</b> must appear in the golden baseline OR SimNow monitor list</p>
       </div>
-      <div class="card" style="margin-top:12px; border-color:#4caf50;">
-        <h3 style="color:#4caf50;">What's Ready</h3>
-        <p>Merlin engine (tested, 31 passing tests)</p>
-        <p>IFWI layout ground truth (74 PSP entries)</p>
-        <p>Acceptance tests for all 15 components</p>
-        <p>Architecture docs + test inventory</p>
-        <p>Release branching strategy</p>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <p style="font-size:0.82em;"><span class="green bold">2.</span> <b>Expected values</b> must have been observed in a previous successful run</p>
+      </div>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <p style="font-size:0.82em;"><span class="green bold">3.</span> <b>Log markers</b> must have appeared in a previous successful run's log</p>
+      </div>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <p style="font-size:0.82em;"><span class="green bold">4.</span> <b>PSP entry types</b> must exist in the IFWI layout (74 documented entries)</p>
+      </div>
+      <div class="card" style="border-color:var(--green); padding:10px 16px;">
+        <p style="font-size:0.82em;"><span class="green bold">5.</span> <b>Timing assertions</b> use &plusmn;20% tolerance from golden baseline, never exact values</p>
+      </div>
+      <div class="card" style="border-color:var(--amd-red); margin-top:12px; padding:10px 16px;">
+        <h3 style="color:var(--amd-red); font-size:0.85em;">Hard Rule</h3>
+        <p style="font-size:0.82em;">If ANY assertion can't be grounded, it's marked UNVERIFIED. Only GROUNDED assertions block merge. AI suggestions that can't be verified are logged but never gate.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 14: Close -->
-<div class="slide" id="s14">
+<!-- ============================== SLIDE 15: Acceptance Test YAML ============================== -->
+<div class="slide" id="s15">
+  <h2>Acceptance Test YAML Example</h2>
+  <h3>Auto-generated per component, grounded against golden baseline</h3>
+  <div class="two-col">
+    <div>
+      <pre style="font-size:0.65em; line-height:1.4; padding:12px;">
+<span style="color:var(--dim);"># acceptance-tests/fw-asp-fmc.yaml</span>
+<span style="color:var(--dim);"># AUTO-GENERATED by Merlin AI</span>
+<span style="color:var(--dim);"># Golden baseline: LKG 2026-05-05</span>
+
+component: fw-asp-fmc
+psp_entry: 0x0001
+psp_slot_size: 131072  <span style="color:var(--dim);"># 128K</span>
+
+<span style="color:var(--amd-red);">pr_gate:</span>
+  simnow_model: "mi450_m112_unsecure"
+  simnow_timeout: 600
+
+  assertions:
+    - name: "binary_size_check"
+      type: static
+      check: "binary_size <= 131072"
+      <span style="color:var(--green);">grounded: true</span>
+      source: "IFWI layout PSP 0x0001"
+
+    - name: "boot_postcode"
+      type: simnow_postcode
+      expected: "<span style="color:var(--green);">0x800F0000</span>"
+      <span style="color:var(--green);">grounded: true</span>
+
+    - name: "mpasp_fw_status"
+      type: simnow_register
+      address: "0x034000d8"
+      space: "0.0.mpasp"
+      expected: "0x800f0000"
+      <span style="color:var(--green);">grounded: true</span>
+
+    - name: "esid_completion"
+      type: simnow_log_marker
+      marker: "all ESIDs completed"
+      <span style="color:var(--green);">grounded: true</span>
+
+    - name: "fmc_version_string"
+      type: simnow_log_marker
+      marker: "MPASP FMC version"
+      <span style="color:var(--amber);">grounded: false</span>
+      note: "AI-suggested, advisory"
+</pre>
+    </div>
+    <div>
+      <pre style="font-size:0.65em; line-height:1.4; padding:12px;">
+<span style="color:var(--dim);"># test-result.yaml (emitted after run)</span>
+
+run:
+  id: "merlin-20260505-143000-abc123"
+  tier: pre_submit
+  trigger: { type: pull_request, ref: "PR #142" }
+  product: mi450
+  duration_sec: 847
+
+build:
+  targets_built: [fw-mpio]
+  lkg_baseline: "2026-05-04"
+  ifwi_sha256: "a1b2c3d4..."
+
+common_assertions:
+  - name: "<span style="color:var(--green);">L0_boot</span>"
+    status: <span style="color:var(--green);">PASS</span>
+    duration_sec: 95
+    details: "L2 dir parsed (74 entries)"
+
+  - name: "<span style="color:var(--green);">L1_enumeration</span>"
+    status: <span style="color:var(--green);">PASS</span>
+    details: "GPU 1002:7460 on bus 03:00.0"
+
+  - name: "<span style="color:var(--green);">L5_fw_version</span>"
+    status: <span style="color:var(--green);">PASS</span>
+    details: "MPIO version matches build"
+
+component_tests:
+  - name: "mpio_link_training"
+    status: <span style="color:var(--green);">PASS</span>
+    details: "8/8 PCIe links Gen5 x16"
+
+summary:
+  total: 6  |  passed: 5  |  skipped: 1
+  <span style="color:var(--green);">verdict: PASS</span>
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 16: Three Test Tiers ============================== -->
+<div class="slide" id="s16">
+  <h2>Three Test Tiers</h2>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card" style="border-color:var(--green);">
+      <h3><span class="green">PR Gate</span> <span class="tag green-tag">Every PR</span></h3>
+      <p style="font-size:0.85em; color:#fff;"><b>Under 30 minutes</b></p>
+      <ul class="bullet" style="font-size:0.78em;">
+        <li>Build changed fw-* target</li>
+        <li>Fetch LKG for unchanged components</li>
+        <li>Assemble 8MB IFWI image</li>
+        <li>Boot in SimNow (M112 or targeted model)</li>
+        <li>L0-L5 common assertions</li>
+        <li>Component-specific grounded assertions</li>
+        <li>Binary fits PSP slot size</li>
+      </ul>
+      <p style="font-size:0.78em; color:var(--green); margin-top:8px;"><b>Blocks merge on failure</b></p>
+    </div>
+    <div class="card" style="border-color:var(--amber);">
+      <h3><span class="amber">Daily / Nightly</span> <span class="tag amber-tag">2-4h</span></h3>
+      <p style="font-size:0.85em; color:#fff;"><b>18 builds, 83% quorum</b></p>
+      <ul class="bullet" style="font-size:0.78em;">
+        <li>6 x ifwi/main builds (per product)</li>
+        <li>6 x firmware branches (per product)</li>
+        <li>6 x theRock E2E (per product)</li>
+        <li>All SimNow model configs (secure + non-secure)</li>
+        <li>Boot cycling (10x warm, 10x cold, 5x AC)</li>
+        <li>RVS (PCIe, P2P, memory, stress)</li>
+        <li>Timing regression vs golden baseline</li>
+      </ul>
+      <p style="font-size:0.78em; color:var(--amber); margin-top:8px;"><b>15/18 pass = LKG promoted</b></p>
+    </div>
+    <div class="card" style="border-color:var(--amd-red);">
+      <h3><span class="highlight">Release Gate</span> <span class="tag">100% pass</span></h3>
+      <p style="font-size:0.85em; color:#fff;"><b>Before stable promotion</b></p>
+      <ul class="bullet" style="font-size:0.78em;">
+        <li>100% model matrix pass (not quorum)</li>
+        <li>No regressions vs current stable</li>
+        <li>3 consecutive green days on stable-next</li>
+        <li>Hardware smoke tests (DCAuto/Conductor)</li>
+        <li>Transferbench, Mini-Hacc, MLPerf subset</li>
+        <li>AI-suggested assertions reviewed by humans</li>
+        <li>Release manager sign-off</li>
+      </ul>
+      <p style="font-size:0.78em; color:var(--amd-red); margin-top:8px;"><b>Tags BKC-X26.XX release</b></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 17: Release Branching ============================== -->
+<div class="slide" id="s17">
+  <h2>Release Branching Strategy</h2>
+  <h3>Confidence increases as code flows from main to stable</h3>
+  <div style="margin-top:12px;">
+    <div class="flow" style="justify-content:center;">
+      <div class="step" style="border-color:var(--green); min-width:220px; text-align:center; padding:12px;">
+        <strong style="color:var(--green); font-size:1.1em;">main</strong><br>
+        <span style="font-size:0.78em; color:var(--muted);">Integration branch<br>All PRs land here<br>Nightly LKG tags</span>
+      </div>
+      <div class="arrow" style="font-size:1.5em;">&rarr;</div>
+      <div class="step" style="border-color:var(--amber); min-width:220px; text-align:center; padding:12px;">
+        <strong style="color:var(--amber); font-size:1.1em;">stable-next</strong><br>
+        <span style="font-size:0.78em; color:var(--muted);">Release candidate<br>24h soak from LKG<br>Daily full-matrix tests</span>
+      </div>
+      <div class="arrow" style="font-size:1.5em;">&rarr;</div>
+      <div class="step" style="border-color:var(--amd-red); min-width:220px; text-align:center; padding:12px;">
+        <strong style="color:var(--amd-red); font-size:1.1em;">stable</strong><br>
+        <span style="font-size:0.78em; color:var(--muted);">Production release<br>Tagged BKC-X26.XX<br>Cherry-picks only</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:20px;">
+    <pre style="font-size:0.72em; line-height:1.5; padding:14px; max-width:800px; margin:0 auto;">
+Developer PR &rarr; PR Gate (build + SimNow boot + grounded assertions)
+    | <span style="color:var(--green);">PASS</span>
+    v
+Merge to <span style="color:var(--green);">main</span>
+    |
+    v
+Nightly: 18 builds across 6 products
+    | <span style="color:var(--amber);">15/18 quorum PASS (83%)</span>
+    v
+LKG promoted: tag <span style="color:var(--green);">main</span> with LKG-2026-05-06
+    |
+    v
+24h soak on daily tests, no regressions
+    | <span style="color:var(--amber);">PASS</span>
+    v
+Promote to <span style="color:var(--amber);">stable-next</span>
+    |
+    v
+3 consecutive green days on full model matrix
+    | <span style="color:var(--amd-red);">100% matrix + manager sign-off</span>
+    v
+Promote to <span style="color:var(--amd-red);">stable</span>, tag BKC-X26.XX
+</pre>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 18: Data Paths ============================== -->
+<div class="slide" id="s18">
+  <h2>MI450 Data Paths <span class="dim" style="font-size:0.5em;">from OpenXGMI Architecture</span></h2>
+  <h3>Color-coded traffic types that firmware must manage</h3>
+  <div class="two-col">
+    <div>
+      <pre style="font-size:0.68em; line-height:1.45; padding:12px;">
+<span style="color:var(--amd-red);">RED PATH -- PCIe Traffic</span>
+  Host CPU &lt;--&gt; PCIe Root Port &lt;--&gt; MI450
+  Carries: Config, Interrupts, MMIO
+  Uses: VC0/VC1
+  <span style="color:var(--dim);">FW: fw-mpio (link training)</span>
+
+<span style="color:var(--blue);">BLUE PATH -- GPU Cross-Domain (NPA via GPUVM)</span>
+  GPU &lt;--&gt; OpenXGMI &lt;--&gt; Remote GPU/AINIC
+  Carries: nHToE traffic, GPU memory access
+  Uses: GPUVM address translation, UTC L1/L2
+  <span style="color:var(--dim);">FW: fw-mpnht, fw-mpifoe</span>
+
+<span style="color:var(--purple);">PURPLE PATH -- RDMA via IOMMU</span>
+  XRNIC &lt;--&gt; OpenXGMI &lt;--&gt; Remote memory
+  Carries: RDMA traffic
+  Uses: AT=10b bypass or AT=00b untranslated
+  <span style="color:var(--dim);">FW: fw-mpifoe (IFoE subsystem)</span>
+
+BLACK PATH -- GPU In-Domain (SPA)
+  GPU &lt;--&gt; Same-node GPU &lt;--&gt; System memory
+  Carries: System Address transactions
+  Uses: Direct SPA addressing
+  <span style="color:var(--dim);">FW: fw-mpio (XGMI)</span>
+
+<span style="color:#8B4513;">BROWN PATH -- Device Memory Return</span>
+  Return path for blue path requests
+</pre>
+    </div>
+    <div>
+      <p style="color:#fff; font-weight:600; font-size:0.9em; margin-bottom:8px;">IFoE Subsystem (on MID die)</p>
+      <pre style="font-size:0.68em; line-height:1.4; padding:12px;">
++----------------------------------------------+
+| <span style="color:var(--blue);">IFoE SUBSYSTEM</span>  (fw-mpifoe, PSP 0x01f3, 512K) |
+|                                              |
+| +--------+ +--------+ +--------+ +--------+ |
+| |<span style="color:var(--blue);"> XRMAC</span>  | |<span style="color:var(--amber);"> XRPFC</span>  | |<span style="color:var(--amd-red);"> XRSEC</span>  | |<span style="color:var(--green);"> EX</span>     | |
+| |8 ports | |Priority| |Security| |Ethernet| |
+| |Eth MAC | |FlowCtrl| |encrypt | |Switch  | |
+| +---+----+ +---+----+ +---+----+ +---+----+ |
+|     |          |          |          |       |
+|     +----------+----+-----+----------+       |
+|                     |                        |
+|              +------+------+                 |
+|              |<span style="color:var(--purple);"> SDP</span>         |                 |
+|              | Scalable    |                 |
+|              | Data Port   |                 |
+|              +------+------+                 |
+|                     |                        |
+| +--------+  +------+------+                 |
+| |<span style="color:var(--green);"> MPIFOE</span> |&lt;-|  SMN / RSMU  |                 |
+| | RISC-V |  | Register    |                 |
+| +--------+  +-------------+                 |
++----------------------------------------------+
+</pre>
+      <p style="font-size:0.78em; color:var(--dim); margin-top:6px;">IFoE is NEW for MI450 (not in MI300X). Largest single FW entry at 512K. IFoE changes must use the 2G IFoE BSD model for proper validation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 19: Pre-Submit Gate Pipeline ============================== -->
+<div class="slide" id="s19">
+  <h2>Pre-Submit Gate Pipeline <span class="dim" style="font-size:0.5em;">under 30 minutes</span></h2>
+  <div style="overflow-y:auto; max-height: calc(100vh - 100px);">
+  <pre style="font-size:0.68em; line-height:1.5; padding:14px; max-width:880px;">
+PR to firmware/&lt;component&gt;
+    |
+    v
+<span style="color:var(--green);">+-------------------------------------------------------------+</span>
+<span style="color:var(--green);">| Job 1: DETECT CHANGES</span>  (ubuntu-latest, ~30s)                <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   git diff origin/main..HEAD                                <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>     &rarr; map to fw-* target via SUBMODULE_TO_TARGET           <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   Read lkg-manifest.yaml &rarr; LKG SHAs for other layers      <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   Select SimNow model (M112 default, 2G for IFoE)            <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">+-------------------------------------------------------------+</span>
+    |
+    v
+<span style="color:var(--blue);">+-------------------------------------------------------------+</span>
+<span style="color:var(--blue);">| Job 2: BUILD</span>  (self-hosted IVV runner, NFS mounts)  ~5-10m   <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   Labels: [self-hosted, undertherock-pool, mi450]            <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   NFS: /opt/pandora64, /opt/cbar, /proj/verif_release_ro     <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>                                                               <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   1. fetch_sources.py --skip-failed  (parallel checkout)     <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   2. cmake --preset mi450                                    <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   3. cmake --build build --target fw-&lt;changed&gt;               <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   4. Fetch LKG binaries for unchanged components             <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">|</span>   5. Assemble IFWI image (8MB SPIROM)                        <span style="color:var(--blue);">|</span>
+<span style="color:var(--blue);">+-------------------------------------------------------------+</span>
+    |
+    v
+<span style="color:var(--amber);">+-------------------------------------------------------------+</span>
+<span style="color:var(--amber);">| Job 3: SIMNOW TEST</span>  (runner with SimNow cached)  ~5-8m      <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>                                                               <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>   1. Load IFWI into SimNow (pinned version)                  <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>   2. Run L0-L5 assertions:                                   <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>      L0: PSP boot (MPASP_FW_STATUS == 0x800F0000)            <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>      L1: GPU enumeration (PCIe 1002:7460)                    <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>      L2: amdgpu driver load                                  <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>      L3: IP discovery (74 entries match L2 PSP dir)           <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>      L5: FW version strings match build manifest             <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>   3. Component-specific grounded assertions                   <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">|</span>   4. FFM error injection (if applicable)                      <span style="color:var(--amber);">|</span>
+<span style="color:var(--amber);">+-------------------------------------------------------------+</span>
+    |
+    v
+<span style="color:var(--green);">+-------------------------------------------------------------+</span>
+<span style="color:var(--green);">| Job 4: RESULT</span>                                                 <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   SimNow MUST pass (mandatory gate)                          <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   Report via GitHub Checks API (JUnit XML + markdown)        <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">|</span>   Total: <span style="color:var(--green);"><b>&lt; 30 minutes</b></span>                                        <span style="color:var(--green);">|</span>
+<span style="color:var(--green);">+-------------------------------------------------------------+</span>
+</pre>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 20: Impact ============================== -->
+<div class="slide" id="s20">
+  <h2>Expected Impact</h2>
+  <div style="display:flex; justify-content:center; gap:36px; margin:24px 0;">
+    <div class="stat"><span class="number">96%</span><span class="label">faster regression detect</span></div>
+    <div class="stat"><span class="number">&lt;30m</span><span class="label">PR feedback time</span></div>
+    <div class="stat"><span class="number">18x</span><span class="label">nightly coverage</span></div>
+    <div class="stat"><span class="number">0</span><span class="label">tests owners write</span></div>
+  </div>
+  <table style="max-width:850px; margin:0 auto; font-size:0.88em;">
+    <tr><th>Metric</th><th>Today</th><th>With Merlin</th><th>Improvement</th></tr>
+    <tr><td>Regression detection</td><td>24-48 hours</td><td class="green">&lt; 30 minutes</td><td class="green">96% faster</td></tr>
+    <tr><td>Trunk usability</td><td>Frequently broken</td><td class="green">Always usable (LKG)</td><td class="green">100% uptime</td></tr>
+    <tr><td>Nightly coverage</td><td>1 I x K x R combo</td><td class="green">18 I x K x R combos</td><td class="green">18x</td></tr>
+    <tr><td>Test coverage (PR)</td><td>3/15 repos</td><td class="green">15/15 repos</td><td class="green">5x</td></tr>
+    <tr><td>Test authoring</td><td>Manual, per-team</td><td class="green">AI-generated, auto-growing</td><td class="green">Zero effort</td></tr>
+    <tr><td>BKC reproducibility</td><td>1-2h (Confluence search)</td><td class="green">5 min (git checkout)</td><td class="green">95% faster</td></tr>
+    <tr><td>CI platforms</td><td>3 systems</td><td class="green">1 (GHA)</td><td class="green">67% reduction</td></tr>
+    <tr><td>"Which I x K x R works?"</td><td>30 min search</td><td class="green">5 sec (read manifest)</td><td class="green">99.7% faster</td></tr>
+  </table>
+</div>
+
+<!-- ============================== SLIDE 21: Phased Plan ============================== -->
+<div class="slide" id="s21">
+  <h2>Phased Implementation</h2>
+  <h3>Each phase unblocks the next. Move as fast as access and infrastructure allow.</h3>
+  <table style="font-size:0.82em; margin-top:12px;">
+    <tr><th>Phase</th><th>Deliverable</th><th>Unblocks</th><th>Key Dependency</th></tr>
+    <tr><td style="color:var(--green);">0: PoC</td><td>fw-asp-fmc PR &rarr; build &rarr; SimNow boot &rarr; pass/fail on PR</td><td>Proves gate works E2E</td><td>SimNow on IVV runners</td></tr>
+    <tr><td style="color:var(--green);">1: Foundation</td><td>All 16 targets gated, LKG manifest, SimNow for mi450</td><td>Pre-submit blocks merges</td><td>Repo access, runner pool</td></tr>
+    <tr><td style="color:var(--amber);">2: Nightly + LKG</td><td>18 builds, LKG promotion (83% quorum), CI-Lite</td><td>Daily validated baseline</td><td>Artifactory LKG cache</td></tr>
+    <tr><td style="color:var(--amber);">3: Hardware Gate</td><td>Merge-blocking DCAuto/Conductor hardware tests</td><td>Full shift-left</td><td>Hardware pool allocation</td></tr>
+    <tr><td>4: Gardening</td><td>Oncall rotation, revert automation, all FW branches</td><td>Trunk stays green</td><td>Org buy-in</td></tr>
+    <tr><td>5: Traceability</td><td>Release manifests, compatibility matrix, LTS</td><td>Customer BKC reproducibility</td><td>stable branch created</td></tr>
+    <tr><td style="color:var(--amd-red);">6: AI-Native</td><td>Triage agent, gardener agent, BKC reasoner</td><td>AI as first-class participant</td><td>Golden baselines collected</td></tr>
+  </table>
+  <div style="margin-top:20px;">
+    <p style="font-size:0.85em; color:#fff; font-weight:600; margin-bottom:8px;">Phase Progress</p>
+    <div style="display:grid; grid-template-columns: 80px 1fr; gap:4px 12px; align-items:center; font-size:0.78em; max-width:600px;">
+      <span class="green">Phase 0</span>
+      <div class="progress-bar"><div class="fill" style="width:85%; background:var(--green);">85%</div></div>
+      <span class="green">Phase 1</span>
+      <div class="progress-bar"><div class="fill" style="width:40%; background:var(--green);">40%</div></div>
+      <span class="amber">Phase 2</span>
+      <div class="progress-bar"><div class="fill" style="width:15%; background:var(--amber);">15%</div></div>
+      <span>Phase 3-6</span>
+      <div class="progress-bar"><div class="fill" style="width:5%; background:var(--dim);">5%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 22: Close ============================== -->
+<div class="slide" id="s22">
   <div style="text-align:center;">
-    <h3 style="color:#ed1c24; font-weight:600; font-size:1em; letter-spacing:2px; text-transform:uppercase;">UnderTheRock</h3>
-    <h1 style="font-size:3.5em;">Merlin</h1>
-    <p class="subtitle" style="font-size:1.5em;">Every PR tested. Every regression caught. Every triage instant.</p>
-    <p style="margin-top:48px; color:#666;">
+    <p style="color:var(--amd-red); font-weight:700; font-size:0.9em; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;">UnderTheRock</p>
+    <h1 style="font-size:4em;">Merlin</h1>
+    <p class="subtitle" style="font-size:1.5em; max-width:700px; margin:0 auto;">Every PR tested. Every regression caught.<br>Every triage instant.</p>
+    <div style="margin-top:48px; display:flex; justify-content:center; gap:48px;">
+      <div class="stat" style="margin:0;"><span class="number" style="font-size:2.2em;">176</span><span class="label">BKC modules</span></div>
+      <div class="stat" style="margin:0;"><span class="number" style="font-size:2.2em;">74</span><span class="label">PSP entries</span></div>
+      <div class="stat" style="margin:0;"><span class="number" style="font-size:2.2em;">8MB</span><span class="label">SPIROM</span></div>
+      <div class="stat" style="margin:0;"><span class="number" style="font-size:2.2em;">40</span><span class="label">submodules</span></div>
+      <div class="stat" style="margin:0;"><span class="number" style="font-size:2.2em;">&lt;30m</span><span class="label">gate time</span></div>
+    </div>
+    <p style="margin-top:48px; color:#333; font-size:0.85em;">
       github.com/amdchetanmurthy/under-the-rock-merlin
     </p>
   </div>
 </div>
 
-<div class="page-num" id="pageNum">1 / 14</div>
-<div class="footer-hint">Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to navigate</div>
+<div class="page-num" id="pageNum">1 / 22</div>
+<div class="footer-hint">Use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrow keys to navigate</div>
 
 <script>
 let current = 0;
