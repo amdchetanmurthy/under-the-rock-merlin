@@ -4,60 +4,81 @@
 
 Merlin is the intelligence layer for [UnderTheRock](https://amd.atlassian.net/wiki/spaces/SHARK/pages/1600726439/Project+UnderTheRock) — AMD's initiative to align firmware (IFWI) and kernel driver development with theRock's direction for ROCm 7.0+.
 
-## What Is This?
+## Quick Start
 
-This repository contains the design documentation and implementation plans for Merlin — a CI/CD gating system that:
+```bash
+pip install pyyaml
 
-1. **Blocks bad firmware from landing on trunk** — every PR validated via SimNow before merge
-2. **Promotes known-good baselines daily** — nightly LKG via quorum across 18 builds
-3. **Triages failures with AI** — automated root-cause analysis, bisection, gardener assist
-4. **Enables AI-native firmware development** — agents that understand IFWI layout, PSP directory, and component dependencies
+# See all components and their baseline status
+python3 -m merlin.cli status
+
+# Generate acceptance tests for a component
+python3 -m merlin.cli generate fw-asp-fmc
+
+# Collect golden baseline from a SimNow log
+python3 -m merlin.cli collect fw-asp-fmc simnow-boot.log simnow-err.log
+
+# Run acceptance check against a SimNow log (exit 0=pass, 1=fail)
+python3 -m merlin.cli check fw-asp-fmc simnow-boot.log
+
+# Full report with JUnit XML + markdown
+python3 -m merlin.cli report fw-asp-fmc simnow-boot.log simnow-err.log
+```
 
 ## Documentation
 
-### UnderTheRock Project Knowledge Base
+### UnderTheRock Knowledge Base
 
-| Document | Description |
-|----------|-------------|
-| [Project Overview](docs/01-project-overview.md) | Mission, three principles, problem statement |
-| [Scope & Architecture](docs/02-scope-and-architecture.md) | EAM BKC scope, repos, terminology |
-| [Executive Briefing](docs/12-executive-briefing.md) | 19-slide executive presentation summary |
-| [BKC Modules (MI450)](docs/13-bkc-modules-mi450.md) | 174 firmware modules with owners |
-| [IFWI Layout (MI450)](docs/14-ifwi-layout-mi450.md) | SPIROM structure, 74 PSP directory entries |
-| [CRD Ingredients](docs/15-crd-ingredients-mi455.md) | MI455 system validation components |
-| [Submodule Inventory](docs/16-submodule-inventory.md) | 40 git submodules — access status |
-| [Super-Repo Architecture](docs/17-super-repo-architecture.md) | CMake meta-build, fw-* targets, build systems |
-| [CI/CD Gating Design](docs/18-cicd-gating-design.md) | Detailed gate design grounded in real codebase |
-| [SimNow Deep Dive](docs/19-simnow-deep-dive.md) | SimNow architecture, APIs, operations |
-| [FAQ](docs/11-faq.md) | Common questions |
+| # | Document | Description |
+|---|----------|-------------|
+| 01 | [Project Overview](docs/01-project-overview.md) | Executive briefing: problem, 3 principles, benefits, roles, phases |
+| 02 | [Installer](docs/02-installer.md) | Installer architecture, dev setup, reference docs |
+| 03 | [Dev Machine Setup](docs/03-dev-machine-setup.md) | AWS EC2 provisioning guide |
+| 04 | [PLDM Update HOWTO](docs/04-pldm-update-howto.md) | Complete PLDM firmware update procedure |
+| 05 | [Build Leads Asks](docs/05-build-leads-asks.md) | Requirements for component build leads |
+| 06 | [FAQ](docs/06-faq.md) | Common questions |
+| 07 | [BKC Modules](docs/07-bkc-modules-mi450.md) | 174 MI450 firmware modules with owners |
+| 08 | [IFWI Layout](docs/08-ifwi-layout-mi450.md) | SPIROM structure, 74 PSP directory entries |
+| 09 | [CRD Ingredients](docs/09-crd-ingredients-mi455.md) | MI455 system validation components |
+| 10 | [Submodule Inventory](docs/10-submodule-inventory.md) | 40 git submodules — access status |
+| 11 | [Super-Repo Architecture](docs/11-super-repo-architecture.md) | CMake meta-build, fw-* targets, build systems |
+| 12 | [CI/CD Gating Design](docs/12-cicd-gating-design.md) | Gate design grounded in real codebase data |
+| — | [SimNow](docs/simnow.md) | SimNow architecture, APIs, operations, service design |
 
 ### Merlin Plans
 
-| Document | Description |
-|----------|-------------|
-| [Vision](docs/plans/00-vision.md) | Architecture layers, execution sequence |
-| [Phase 0: PoC](docs/plans/01-phase0-poc.md) | End-to-end proof: build → SimNow → PR result |
-| [Phase 1: Foundation](docs/plans/02-phase1-foundation.md) | Change detection, 16 targets gated, LKG manifest |
-| [Phase 2: Nightly + LKG](docs/plans/03-phase2-nightly-lkg.md) | 18 nightly builds, quorum promotion, gardening |
-| [IFWI Assembly](docs/plans/04-ifwi-assembly.md) | SPIROM image assembly from fw-* outputs |
-| [Test Schema](docs/plans/05-test-schema.md) | Unified uttr-tests.yaml specification |
-| [AI-Native Layer](docs/plans/06-ai-native.md) | Triage, gardener, PR review, BKC reasoner agents |
-| [Component Onboarding](docs/plans/07-component-onboarding.md) | Per-component status and checklist |
-| [SimNow Service Design](docs/plans/08-simnow-service-design.md) | SimNow deployment, versioning, runner infrastructure |
+| # | Document | Description |
+|---|----------|-------------|
+| 01 | [Vision](docs/plans/01-vision.md) | Architecture layers, execution sequence |
+| 02 | [Phase 0: PoC](docs/plans/02-phase0-poc.md) | End-to-end proof: build → SimNow → PR result |
+| 03 | [Phase 1: Foundation](docs/plans/03-phase1-foundation.md) | Change detection, targets gated, LKG manifest |
+| 04 | [Phase 2: Nightly + LKG](docs/plans/04-phase2-nightly-lkg.md) | 18 nightly builds, quorum promotion, gardening |
+| 05 | [IFWI Assembly](docs/plans/05-ifwi-assembly.md) | SPIROM image assembly from fw-* outputs |
+| 06 | [Test Schema](docs/plans/06-test-schema.md) | Unified uttr-tests.yaml specification |
+| 07 | [AI-Native Layer](docs/plans/07-ai-native.md) | Triage, gardener, PR review, BKC reasoner agents |
+| 08 | [Component Onboarding](docs/plans/08-component-onboarding.md) | Per-component status and checklist |
+| 09 | [Test Inventory](docs/plans/09-test-inventory.md) | Existing tests across all firmware repos |
+| 10 | [AI Test Acceptance](docs/plans/10-ai-test-acceptance.md) | AI-powered test generation + release strategy |
 
-### Other
+### PFO Repo Analysis
 
-| Path | Description |
-|------|-------------|
-| [docs/scripts/](docs/scripts/) | Helper scripts (submodule clone) |
-| [docs/assets/](docs/assets/) | Binary documents (BKC spreadsheet, executive briefing) |
+| Document | Repos |
+|----------|-------|
+| [PFO Overview](docs/PFO/README.md) | Cross-repo maturity matrix |
+| [Core Firmware](docs/PFO/batch1-core-firmware.md) | asp-fmc, amd-tee3_0, pmfw-firmware, mpio, mpifoe-fw |
+| [Security & RAS](docs/PFO/batch2-security-ras.md) | art-security, dcgpu-esid, MPRAS-Kernel, MPRAS-Applets, nht-firmware |
+| [Drivers & Tools](docs/PFO/batch3-drivers-tools.md) | VBL-TEE-Drv, sriov-dr, sw-security-tools, cp-mi400, pcie-cld-fw, ucie-fw |
 
-## Context
+## Implementation
 
-- **UnderTheRock** = firmware + kernel layers beneath theRock (ROCm)
-- **Merlin** = the wizard under the stone — AI-native CI/CD intelligence
-- **theRock** = AMD's unified build harness for ROCm userspace
-- **IFWI** = Integrated Firmware Image (74 firmware components for MI450)
-- **SimNow** = AMD's pre-silicon platform simulation environment
-- **BKC** = Boot Kit Configuration (validated firmware + kernel + ROCm stack)
-- **LKG** = Last Known Good (daily promoted baseline)
+| Module | Purpose |
+|--------|---------|
+| `merlin/baseline.py` | Golden baseline: parse SimNow logs, track register stability |
+| `merlin/grounding.py` | Validate assertions against IFWI layout and baselines |
+| `merlin/generator.py` | Generate grounded acceptance tests (no hallucination) |
+| `merlin/runner.py` | Execute assertions, produce JUnit XML + markdown |
+| `merlin/cli.py` | CLI interface: generate, collect, check, report, status |
+| `configs/ifwi_layout.yaml` | MI450 PSP directory ground truth (15 components) |
+| `acceptance_tests/` | Auto-generated acceptance YAMLs per component |
+| `golden_baselines/` | Collected baselines from SimNow runs |
+| `tests/test_merlin.py` | 31 tests covering the full pipeline |
