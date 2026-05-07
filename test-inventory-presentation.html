@@ -852,7 +852,82 @@ table.compact th { font-size: 10px; }
   </div>
 </div>
 
-<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 9</div>
+<!-- SLIDE 10: AI Agents for Firmware Testing -->
+<div class="slide" id="slide-10">
+  <div class="slide-header">
+    <h1>AI Agents — Achieving Uniform Testing at Scale</h1>
+    <span class="slide-number">10 / 10</span>
+  </div>
+  <div class="slide-content">
+    <p style="font-size:14px;color:#aaa;margin-bottom:16px;">NTSG Claude Plugin ecosystem (<code>~/ntsg/ntsg_claude_plugins/</code>) — 9 plugins, 47 agents, 125+ skills. Purpose-built AI agents that can drive firmware testing without human intervention.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div>
+        <h2 style="color:#ED1C24;">Existing Plugins We Can Leverage</h2>
+
+        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
+          <div class="gap-title" style="color:#22c55e;">AgentQ — Firmware QA Validation</div>
+          <div class="gap-desc">9 agents, 15 skills. <strong>Purpose-built for firmware test execution.</strong><br>
+          Agents: <code>qa-lead</code>, <code>test-planner</code>, <code>test-critic</code>, <code>analyst</code>, <code>domain-expert</code>, <code>testbed-ops</code>, <code>kb-curator</code><br>
+          Skills: <code>generate-test-plan</code>, <code>review-test-plan</code>, <code>run-benchmark</code>, <code>collect-logs</code>, <code>report-test-results</code>, <code>cluster-execute</code>, <code>load-image</code><br>
+          <strong style="color:#22c55e;">→ Deploy AgentQ to auto-generate acceptance tests per component and execute on SimNow/hardware</strong></div>
+        </div>
+
+        <div class="gap-card green" style="background:#0a1a0a; border-left-color:#22c55e;">
+          <div class="gap-title" style="color:#22c55e;">Codie — AI-Driven Development Workflow</div>
+          <div class="gap-desc">3 agents, 16 skills. JIRA-driven development with design docs, test plans, implementation.<br>
+          Agents: <code>codie-planner</code>, <code>codie-coder</code>, <code>codie-validator</code><br>
+          Skills: <code>story-design</code>, <code>story-test-plan</code>, <code>task-implement</code>, <code>task-test</code><br>
+          <strong style="color:#22c55e;">→ Use Codie to auto-create JIRA stories for test gaps, design test plans per component</strong></div>
+        </div>
+
+        <div class="gap-card green" style="background:#0a0a1a; border-left-color:#3b82f6;">
+          <div class="gap-title" style="color:#3b82f6;">Helios SDE — Switch/GPU Development</div>
+          <div class="gap-desc">8 agents, 21 skills. Build, test, debug, review for SONiC/SAI/AIFM/GPU.<br>
+          Skills: <code>build</code>, <code>test</code>, <code>debug</code>, <code>review-code</code>, <code>debug-gpu-cluster</code>, <code>add-telemetry-metric</code><br>
+          <strong style="color:#3b82f6;">→ Extend for firmware build validation and GPU cluster test orchestration</strong></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="color:#ED1C24;">How AI Agents Solve Our Gaps</h2>
+
+        <table class="compact">
+          <tr><th>Gap</th><th>AI Agent Solution</th><th>Plugin</th></tr>
+          <tr><td>No unit tests (12 repos)</td><td>AgentQ <code>test-planner</code> generates test plans from code analysis, <code>test-critic</code> validates coverage</td><td>AgentQ</td></tr>
+          <tr><td>No SimNow for 5 repos</td><td>AgentQ <code>testbed-ops</code> provisions SimNow, <code>load-image</code> flashes IFWI, <code>cluster-execute</code> runs assertions</td><td>AgentQ</td></tr>
+          <tr><td>pmfw has zero CI tooling</td><td>Codie <code>story-create</code> decomposes into JIRA tasks, <code>task-implement</code> adds Coverity/lint/SimNow workflows</td><td>Codie</td></tr>
+          <tr><td>Manual DCAuto trigger</td><td>AgentQ <code>qa-lead</code> orchestrates auto-triggered HW smoke on every PR</td><td>AgentQ</td></tr>
+          <tr><td>No failure triage</td><td>AgentQ <code>analyst</code> + <code>domain-expert</code> auto-triage failures, correlate with git blame</td><td>AgentQ</td></tr>
+          <tr><td>No cross-repo testing</td><td>AgentQ <code>cluster-execute</code> + Merlin orchestrator runs assembled IFWI across all components</td><td>AgentQ + Merlin</td></tr>
+          <tr><td>Test plan maintenance</td><td>AgentQ <code>kb-curator</code> keeps golden baselines current, auto-promotes stable assertions</td><td>AgentQ</td></tr>
+        </table>
+
+        <h2 style="margin-top:16px;">Supporting Infrastructure</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG MCP Servers</div>
+            <div style="font-size:11px; color:#888;">Knowledge base, lab topology, cluster execution, credential management — all via MCP protocol</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">NTSG Plugin Dev</div>
+            <div style="font-size:11px; color:#888;">4 agents, 6 skills for building new plugins. Create a <code>merlin-fw-test</code> plugin for firmware-specific test workflows</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">P4 Pilot</div>
+            <div style="font-size:11px; color:#888;">4 agents for P4 dataplane programming — pattern for creating firmware-domain AI agents</div>
+          </div>
+          <div style="background:#111122; border:1px solid #222; border-radius:6px; padding:10px;">
+            <div style="font-size:12px; color:#ED1C24; font-weight:600;">SI Tuner</div>
+            <div style="font-size:11px; color:#888;">10 skills for signal integrity tuning — demonstrates hardware-aware AI agent pattern</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 10</div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
