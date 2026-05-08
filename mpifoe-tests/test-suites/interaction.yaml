@@ -1,0 +1,4 @@
+description: "MPIFoE inter-MP interaction tests - validates ASP, PM, MPIO, and dual-MID communication paths"
+
+test_cases:
+  - interaction/*

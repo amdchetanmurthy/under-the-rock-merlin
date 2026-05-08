@@ -1,0 +1,4 @@
+description: "MPIFoE hardware driver tests - validates SMN, ADMA, Mailbox, EX, and other low-level drivers"
+
+test_cases:
+  - driver/*

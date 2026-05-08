@@ -1,0 +1,4 @@
+description: "MPIFoE state machine transition tests - validates all config phase, station, datapath, and chip_iPC state machines"
+
+test_cases:
+  - state-machine/*

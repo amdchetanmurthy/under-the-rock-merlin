@@ -1,0 +1,4 @@
+description: "MPIFoE error handling and negative tests - validates all error paths, boundary conditions, and fault injection responses"
+
+test_cases:
+  - error-handling/*
