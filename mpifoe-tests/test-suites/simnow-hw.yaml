@@ -1,0 +1,72 @@
+description: "MPIFoE SimNow/hardware-dependent tests - validates drivers, datapath, telemetry, RAS, and inter-MP interactions requiring SimNow or MI450 hardware (< 120 min)"
+
+test_cases:
+  # XRMAC/XRPFC/XRSEC driver tests (gap #1)
+  - simnow-hw/xrmac-mac-config
+  - simnow-hw/xrpfc-flow-control
+  - simnow-hw/xrsec-encryption
+
+  # IFoE datapath (gap #2)
+  - simnow-hw/ifoe-sdp-datapath
+
+  # FLR reset - not-applicable (gap #4)
+  - simnow-hw/flr-reset-execution
+
+  # Interrupt and memory (gaps #5, #6)
+  - simnow-hw/msi-interrupt-to-host
+  - simnow-hw/mmhub-hbm-operations
+
+  # Link events (gap #7)
+  - simnow-hw/physical-link-events
+
+  # Chip IPC (gap #8)
+  - simnow-hw/chip-ipc-link-drop-recovery
+
+  # Telemetry DMA (gap #9)
+  - simnow-hw/telemetry-dma-to-host
+
+  # Inter-MID traffic (gap #10)
+  - simnow-hw/inter-mid-traffic-bounce
+
+  # UPI2 PHY (gap #11)
+  - simnow-hw/upi2-controller-ops
+
+  # IFoE subsystem drivers (gaps #12-14)
+  - simnow-hw/ifoe-container-block-offset
+  - simnow-hw/ifoe-pmi-counters
+  - simnow-hw/ifoe-rsmu-operations
+
+  # DMA and memory (gaps #15-16)
+  - simnow-hw/scattered-dma-multi-page
+  - simnow-hw/host-memory-mapping
+
+  # Interrupt and boot (gaps #17-18)
+  - simnow-hw/interrupt-inspector-repair
+  - simnow-hw/heartbeat-timing
+
+  # MP listener (gaps #19-20)
+  - simnow-hw/pm-listener-commands
+  - simnow-hw/mpio-listener-operations
+
+  # Netport events (gap #21)
+  - simnow-hw/netport-link-event-propagation
+
+  # Remote link config (gap #22)
+  - simnow-hw/remote-link-config
+
+  # EFTEST rx capture (gap #23)
+  - simnow-hw/eftest-rx-capture
+
+  # DVD telemetry (gaps #24, #29)
+  - simnow-hw/dvdtelem-ifoe-driver
+  - simnow-hw/netport-dvdtelem
+
+  # MCA and RAS (gaps #25-26)
+  - simnow-hw/mca-bank-verification
+  - simnow-hw/full-ras-73-error-sweep
+
+  # Reset sequencing (gap #27)
+  - simnow-hw/ifoe-reset-sequencing
+
+  # SG queue (gap #31)
+  - simnow-hw/sg-queue-management

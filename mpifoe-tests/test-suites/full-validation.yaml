@@ -1,4 +1,4 @@
-description: "MPIFoE full validation - all tests including stress, RAS, Zephyr twister, unit, state machine, interaction, error handling, driver, control plane, and regression (< 180 min)"
+description: "MPIFoE full validation - all tests including stress, RAS, Zephyr twister, unit, state machine, interaction, error handling, driver, simnow-hw, control plane, and regression (< 300 min)"
 
 test_cases:
   - sanity/*
@@ -8,6 +8,7 @@ test_cases:
   - interaction/*
   - error-handling/*
   - driver/*
+  - simnow-hw/*
   - stress/*
   - ras/*
   - zephyr-twister/*
