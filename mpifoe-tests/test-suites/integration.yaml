@@ -1,0 +1,5 @@
+description: "MPIFoE integration tests - SimNow-based control plane and regression suites (< 90 min)"
+
+test_cases:
+  - control-plane/*
+  - regression/*
