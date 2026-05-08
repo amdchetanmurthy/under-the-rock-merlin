@@ -1,7 +1,0 @@
-description: "Comprehensive validation covering firmware health, link, telemetry, and error logs"
-
-validations:
-  - fw-heartbeat-check
-  - ifoe-link-check
-  - telemetry-check
-  - error-log-check

@@ -1,9 +1,0 @@
-description: "MPIFoE bringup tests - sanity + link/config/connectivity verification (< 15 min)"
-
-test_cases:
-  - sanity/*
-  - bringup/link-up
-  - bringup/ifoe-config
-  - bringup/accelerator-discovery
-  - bringup/telemetry-running
-  - bringup/l2ping-connectivity

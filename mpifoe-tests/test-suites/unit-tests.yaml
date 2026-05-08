@@ -1,5 +1,0 @@
-description: "MPIFoE unit and Zephyr twister tests - no hardware or SimNow required (< 15 min)"
-
-test_cases:
-  - zephyr-twister/*
-  - unit/*
