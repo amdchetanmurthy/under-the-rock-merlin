@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFoE Testing Strategy — AI-Powered Test Coverage with AgentQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  overflow: hidden;
+  height: 100vh;
+}
+.slide {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  padding: 48px 64px;
+  position: relative;
+  overflow-y: auto;
+}
+.slide.active { display: flex; flex-direction: column; }
+
+/* Header bar */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+.slide-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  border-left: 4px solid #ED1C24;
+  padding-left: 16px;
+}
+.slide-number {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+.slide-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Title slide */
+.title-slide {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.title-slide h1 {
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.title-slide .subtitle {
+  font-size: 20px;
+  color: #aaa;
+  font-weight: 400;
+  margin-bottom: 36px;
+}
+.title-slide .amd-bar {
+  width: 120px;
+  height: 4px;
+  background: #ED1C24;
+  margin: 0 auto 28px;
+}
+.title-slide .meta {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 8px 0;
+}
+th {
+  background: #1a1a2e;
+  color: #ED1C24;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 2px solid #ED1C24;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+td {
+  padding: 7px 12px;
+  border-bottom: 1px solid #1a1a1a;
+  vertical-align: top;
+  line-height: 1.4;
+}
+tr:hover { background: #111122; }
+tr:nth-child(even) { background: #0d0d1a; }
+
+/* Status */
+.status-yes { color: #22c55e; font-weight: 700; }
+.status-no { color: #ef4444; font-weight: 700; }
+.status-partial { color: #f59e0b; font-weight: 700; }
+.dot-green::before { content: '\25CF'; color: #22c55e; margin-right: 4px; }
+.dot-red::before { content: '\25CF'; color: #ef4444; margin-right: 4px; }
+.dot-amber::before { content: '\25CF'; color: #f59e0b; margin-right: 4px; }
+.dot-blue::before { content: '\25CF'; color: #3b82f6; margin-right: 4px; }
+
+/* Cards */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.stat-card {
+  background: #111122;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+}
+.stat-card .number {
+  font-size: 34px;
+  font-weight: 800;
+  color: #ED1C24;
+}
+.stat-card .label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+/* Bullet lists */
+ul { margin: 8px 0 8px 20px; }
+li { margin: 5px 0; line-height: 1.5; font-size: 13px; }
+li strong { color: #ED1C24; }
+
+/* Section headers */
+h2 {
+  font-size: 17px;
+  color: #ccc;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 14px;
+  color: #aaa;
+  margin: 12px 0 6px;
+  font-weight: 600;
+}
+
+/* Code */
+code, .mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: #1a1a2e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #7dd3fc;
+}
+
+/* Gap cards */
+.gap-card {
+  background: #1a0a0a;
+  border-left: 3px solid #ef4444;
+  padding: 10px 14px;
+  margin: 6px 0;
+  border-radius: 0 6px 6px 0;
+}
+.gap-card.amber { background: #1a1400; border-left-color: #f59e0b; }
+.gap-card.green { background: #0a1a0a; border-left-color: #22c55e; }
+.gap-card.blue { background: #0a0a1a; border-left-color: #3b82f6; }
+.gap-card .gap-title { font-weight: 600; color: #fff; margin-bottom: 3px; font-size: 13px; }
+.gap-card .gap-desc { font-size: 12px; color: #aaa; line-height: 1.5; }
+
+/* Two columns */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* Compact table */
+table.compact td, table.compact th { padding: 5px 8px; font-size: 12px; }
+table.compact th { font-size: 10px; }
+
+/* Flow diagram */
+.flow-box {
+  background: #111122;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-align: center;
+  position: relative;
+}
+.flow-box h3 { color: #ED1C24; margin: 0 0 6px 0; font-size: 14px; }
+.flow-box p { font-size: 11px; color: #aaa; }
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #ED1C24;
+  padding: 0 6px;
+}
+
+/* Pipeline */
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+.pipe-stage {
+  flex: 1;
+  background: #111122;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  position: relative;
+}
+.pipe-stage::after {
+  content: '\276F';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ED1C24;
+  font-size: 18px;
+  font-weight: 700;
+}
+.pipe-stage:last-child::after { content: ''; }
+.pipe-stage h4 { color: #ED1C24; font-size: 12px; margin-bottom: 4px; font-weight: 700; }
+.pipe-stage p { font-size: 10px; color: #aaa; }
+
+/* Navigation hint */
+.nav-hint {
+  position: fixed;
+  bottom: 12px;
+  right: 20px;
+  font-size: 11px;
+  color: #444;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* Schema block */
+.schema-block {
+  background: #111122;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 8px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #7dd3fc;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+.highlight { color: #ED1C24; font-weight: 600; }
+
+/* Tier badges */
+.tier { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.tier-ai { background: #a855f722; color: #a855f7; border: 1px solid #a855f744; }
+.tier-sim { background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f644; }
+.tier-hw { background: #f59e0b22; color: #f59e0b; border: 1px solid #f59e0b44; }
+.tier-ci { background: #22c55e22; color: #22c55e; border: 1px solid #22c55e44; }
+
+/* Glow accents */
+.glow-red { box-shadow: 0 0 20px rgba(237, 28, 36, 0.15); }
+.glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
+.glow-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+.glow-purple { box-shadow: 0 0 20px rgba(168, 85, 247, 0.15); }
+
+/* ═══════════════════════════════════════════════ */
+/* SLIDE 2: Flow Diagram Styles                    */
+/* ═══════════════════════════════════════════════ */
+.flow-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.65fr 1.3fr 0.65fr 1.1fr;
+  align-items: center;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.flow-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.flow-col-label {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.flow-card {
+  background: #111122;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.flow-card:hover {
+  transform: translateY(-3px);
+}
+
+.flow-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.flow-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.flow-card-desc {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Source card accents */
+.flow-card.src-specs {
+  border-left: 4px solid #a855f7;
+  box-shadow: 0 4px 24px rgba(168, 85, 247, 0.08);
+}
+.flow-card.src-specs:hover { box-shadow: 0 8px 32px rgba(168, 85, 247, 0.18); }
+.flow-card.src-specs .flow-card-icon { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+
+.flow-card.src-code {
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+}
+.flow-card.src-code:hover { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.18); }
+.flow-card.src-code .flow-card-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+.flow-card.src-existing {
+  border-left: 4px solid #22c55e;
+  box-shadow: 0 4px 24px rgba(34, 197, 94, 0.08);
+}
+.flow-card.src-existing:hover { box-shadow: 0 8px 32px rgba(34, 197, 94, 0.18); }
+.flow-card.src-existing .flow-card-icon { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+
+/* Target card accents */
+.flow-card.tgt-sim {
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+}
+.flow-card.tgt-sim:hover { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.18); }
+.flow-card.tgt-sim .flow-card-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+.flow-card.tgt-hw {
+  border-left: 4px solid #f59e0b;
+  box-shadow: 0 4px 24px rgba(245, 158, 11, 0.08);
+}
+.flow-card.tgt-hw:hover { box-shadow: 0 8px 32px rgba(245, 158, 11, 0.18); }
+.flow-card.tgt-hw .flow-card-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+/* AgentQ center box */
+.agentq-card {
+  background: linear-gradient(145deg, #1a0a10, #111122, #0a0a1a);
+  border: 2px solid #ED1C24;
+  border-radius: 18px;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(237, 28, 36, 0.12), 0 0 100px rgba(237, 28, 36, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+.agentq-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(237, 28, 36, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.agentq-card-logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ED1C24;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+.agentq-card-subtitle {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 20px;
+  position: relative;
+}
+.agentq-card-agents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  position: relative;
+}
+.agentq-agent-chip {
+  font-size: 11px;
+  color: #888;
+  background: rgba(237, 28, 36, 0.06);
+  border: 1px solid rgba(237, 28, 36, 0.15);
+  border-radius: 6px;
+  padding: 5px 8px;
+  text-align: center;
+}
+.agentq-agent-chip span {
+  color: #ED1C24;
+  font-weight: 600;
+}
+
+/* Arrow connectors */
+.flow-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  position: relative;
+}
+
+.flow-connector-label {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c084fc;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.flow-connector-label.red-label {
+  background: rgba(237, 28, 36, 0.08);
+  border: 1px solid rgba(237, 28, 36, 0.25);
+  color: #f87171;
+}
+
+.flow-connector-graphic {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.flow-connector-line {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+}
+.flow-connector-line.purple-line {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.15), #a855f7);
+}
+.flow-connector-line.red-line {
+  background: linear-gradient(90deg, rgba(237, 28, 36, 0.15), #ED1C24);
+}
+
+.flow-connector-head {
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  flex-shrink: 0;
+}
+.flow-connector-head.purple-head {
+  border-left: 15px solid #a855f7;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.4));
+}
+.flow-connector-head.red-head {
+  border-left: 15px solid #ED1C24;
+  filter: drop-shadow(0 0 6px rgba(237, 28, 36, 0.4));
+}
+
+/* Dashed feeder lines from each source box */
+.flow-connector-feeders {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px 0;
+}
+.flow-feeder-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+  margin-left: -4px;
+}
+
+/* Bottom summary bar */
+.flow-summary-bar {
+  background: linear-gradient(90deg, #111122, #1a0a1a, #111122);
+  border: 1px solid #ED1C2433;
+  border-radius: 12px;
+  padding: 16px 32px;
+  text-align: center;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+.flow-summary-bar .summary-main {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+.flow-summary-bar .summary-detail {
+  font-size: 12px;
+  color: #777;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 1: The IFoE Stack — What We're Testing               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="slide active" id="slide-1">
+  <div class="slide-header">
+    <h1>The IFoE Stack — Full-Stack Test Surface</h1>
+    <span class="slide-number">1 / 3</span>
+  </div>
+  <div class="slide-content">
+    <div class="two-col">
+      <!-- Left: Architecture diagram (CSS boxes) -->
+      <div>
+        <!-- HOST SOFTWARE LAYER -->
+        <div style="border:2px solid #a855f744; border-radius:12px; padding:16px 18px; margin-bottom:6px; background:#0d0a1a; position:relative;">
+          <div style="font-size:13px; font-weight:700; color:#a855f7; margin-bottom:14px; text-transform:uppercase; letter-spacing:1px;">Host Software Layer</div>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:#111122; border-left:3px solid #a855f7; border-radius:0 8px 8px 0; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+              <div><span style="color:#a855f7; font-weight:700; font-size:14px;">afmctl</span> <span style="color:#666; font-size:11px;">(CLI)</span></div>
+              <div style="font-size:10px; color:#888;">39 commands</div>
+            </div>
+            <div style="text-align:center; color:#555; font-size:16px; line-height:1;">&darr;</div>
+            <div style="background:#111122; border-left:3px solid #3b82f6; border-radius:0 8px 8px 0; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+              <div><span style="color:#3b82f6; font-weight:700; font-size:14px;">ualoe_access_lib</span> <span style="color:#666; font-size:11px;">(userspace)</span></div>
+              <div style="font-size:10px; color:#888;">464 test cases spec'd</div>
+            </div>
+            <div style="text-align:center; color:#555; font-size:16px; line-height:1;">&darr;</div>
+            <div style="background:#111122; border-left:3px solid #22c55e; border-radius:0 8px 8px 0; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+              <div><span style="color:#22c55e; font-weight:700; font-size:14px;">ifoe-drv</span> <span style="color:#666; font-size:11px;">(kernel driver)</span></div>
+              <div style="font-size:10px; color:#888;">MCDI, netlink, cfg/cmd/net</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HARDWARE BOUNDARY -->
+        <div style="display:flex; align-items:center; gap:8px; margin:8px 0;">
+          <div style="flex:1; height:2px; background:linear-gradient(90deg, transparent, #ED1C24, transparent);"></div>
+          <div style="font-size:11px; font-weight:700; color:#ED1C24; white-space:nowrap; letter-spacing:1px;">HARDWARE BOUNDARY</div>
+          <div style="flex:1; height:2px; background:linear-gradient(90deg, transparent, #ED1C24, transparent);"></div>
+        </div>
+
+        <!-- MP IFoE FIRMWARE -->
+        <div style="border:2px solid #ED1C2444; border-radius:12px; padding:16px 18px; margin-bottom:6px; background:#1a0a0a; position:relative;">
+          <div style="font-size:13px; font-weight:700; color:#ED1C24; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">MP IFoE Firmware <span style="font-size:10px; color:#888; text-transform:none; letter-spacing:0;">RISC-V, 1MB SRAM</span></div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:11px;">
+            <div style="background:#111122; border-left:3px solid #f59e0b; border-radius:0 6px 6px 0; padding:8px 10px;">
+              <span style="color:#f59e0b; font-weight:600;">Managers:</span> <span style="color:#aaa;">MCDI, Network, Telemetry, Host Traffic</span>
+            </div>
+            <div style="background:#111122; border-left:3px solid #22c55e; border-radius:0 6px 6px 0; padding:8px 10px;">
+              <span style="color:#22c55e; font-weight:600;">Subsystems:</span> <span style="color:#aaa;">IFoE_SS, RAS, Event Queue, Chip IPC</span>
+            </div>
+            <div style="background:#111122; border-left:3px solid #3b82f6; border-radius:0 6px 6px 0; padding:8px 10px;">
+              <span style="color:#3b82f6; font-weight:600;">Drivers:</span> <span style="color:#aaa;">SMN, XRMAC, XRPFC, XRSEC, DMA, MCA, UPI2, Mailbox, IRQ</span>
+            </div>
+            <div style="background:#111122; border-left:3px solid #a855f7; border-radius:0 6px 6px 0; padding:8px 10px;">
+              <span style="color:#a855f7; font-weight:600;">Libraries:</span> <span style="color:#aaa;">MCDI, Telemetry, RAS, Host Interface</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SMN bus connector -->
+        <div style="text-align:center; color:#555; font-size:10px; margin:4px 0;"><span style="color:#888;">&darr; SMN bus (register access)</span></div>
+
+        <!-- IFoE Subsystem -->
+        <div style="border:2px solid #f59e0b44; border-radius:12px; padding:14px 18px; background:#1a1400;">
+          <div style="font-size:13px; font-weight:700; color:#f59e0b; margin-bottom:10px;">IFoE Subsystem x18</div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap;">
+            <span style="background:#111122; border:1px solid #22c55e44; border-radius:6px; padding:4px 10px; font-size:11px; color:#22c55e; font-weight:600;">XRMAC</span>
+            <span style="color:#555;">&harr;</span>
+            <span style="background:#111122; border:1px solid #3b82f644; border-radius:6px; padding:4px 10px; font-size:11px; color:#3b82f6; font-weight:600;">XRPFC</span>
+            <span style="color:#555;">&harr;</span>
+            <span style="background:#111122; border:1px solid #a855f744; border-radius:6px; padding:4px 10px; font-size:11px; color:#a855f7; font-weight:600;">XRSEC</span>
+            <span style="color:#555;">&harr;</span>
+            <span style="background:#111122; border:1px solid #ED1C2444; border-radius:6px; padding:4px 10px; font-size:11px; color:#ED1C24; font-weight:600;">EX</span>
+            <span style="color:#555;">&harr;</span>
+            <span style="background:#111122; border:1px solid #f59e0b44; border-radius:6px; padding:4px 10px; font-size:11px; color:#f59e0b; font-weight:600;">IFoE</span>
+          </div>
+          <div style="display:flex; justify-content:center; gap:20px; font-size:9px; color:#666; margin-top:6px;">
+            <span>8-port MAC</span><span>PFC control</span><span>encrypt/auth</span><span>switch</span><span>SDP encap</span>
+          </div>
+        </div>
+
+        <!-- GTA PHY -->
+        <div style="text-align:center; margin-top:6px; font-size:10px; color:#888;">GTA PHY x72/96 lanes &mdash; Ethernet Network</div>
+
+      </div>
+
+      <!-- Right: Interactions + Test landscape -->
+      <div>
+        <h3 style="color:#ED1C24; margin-top: 0; font-size: 13px;">Cross-Module Interactions to Test</h3>
+        <table class="compact" style="font-size:11px;">
+          <tbody><tr><th>Path</th><th>Protocol</th><th>Test Focus</th></tr>
+          <tr><td><span style="color:#22c55e;">&#9608;</span> ASP &#8596; MPIFoE</td><td>SMN mailbox</td><td>Topology, TDI state, CC errors</td></tr>
+          <tr><td><span style="color:#f59e0b;">&#9608;</span> PMFW &#8596; MPIFoE</td><td>SMN mailbox</td><td>FLR proxy, BME, GTA temp</td></tr>
+          <tr><td><span style="color:#3b82f6;">&#9608;</span> MPIO &#8596; MPIFoE</td><td>SMN + config</td><td>KPX/PHY lanes, role selection</td></tr>
+          <tr><td><span style="color:#a855f7;">&#9608;</span> Host &#8596; MPIFoE</td><td>MCDI over PF/VF</td><td>Key provisioning, config phases</td></tr>
+        </tbody></table>
+
+        <h2 style="color:#ED1C24; margin-top: 20px;">Today's Test Landscape — 5 Repos</h2>
+        <table class="compact">
+          <tbody><tr><th>Repo</th><th>What</th><th>Gap</th></tr>
+          <tr>
+            <td style="color:#ED1C24;font-weight:600;">mpifoe-fw</td>
+            <td>Firmware (Zephyr/RISC-V)<br><span style="font-size:10px;color:#888;">26 drivers, 5 managers, 10 subsystems</span></td>
+            <td class="dot-red">No unit tests for 16 drivers<br>Jenkins HW not in GHA</td>
+          </tr>
+          <tr>
+            <td style="color:#a855f7;font-weight:600;">ifoe-sw (afmctl)</td>
+            <td>Host CLI tool (Cobalt framework)<br><span style="font-size:10px;color:#888;">39 commands, 31 C++ source files, Heliforge Ansible</span></td>
+            <td class="dot-amber">L1/L2 are package-level only<br>No functional cmd tests in CI</td>
+          </tr>
+          <tr>
+            <td style="color:#3b82f6;font-weight:600;">ualoe_access_lib</td>
+            <td>Userspace access library<br><span style="font-size:10px;color:#888;">464 test cases specified</span></td>
+            <td class="dot-amber">Tests partially impl<br>Need to integrate to CI</td>
+          </tr>
+          <tr>
+            <td style="color:#22c55e;font-weight:600;">ifoe-drv</td>
+            <td>4 kernel modules (~51K LOC)<br><span style="font-size:10px;color:#888;">ifoe.ko, ifoe-cfg.ko, ifoe-cmd.ko, ifoe-net.ko</span></td>
+            <td class="dot-red">Zero unit tests<br>Mock exists but untested</td>
+          </tr>
+          <tr>
+            <td style="color:#f59e0b;font-weight:600;">ifoe-bringup-scripts</td>
+            <td>HW bringup + diagnostics<br><span style="font-size:10px;color:#888;">18 stations, 72 ports, 100+ bash functions</span></td>
+            <td class="dot-red">Entirely manual<br>Not in any CI pipeline</td>
+          </tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 2: AgentQ Driven E2E Test Pipeline                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-2">
+  <div class="slide-header">
+    <h1>AgentQ Driven E2E Test Pipeline</h1>
+    <span class="slide-number">2 / 3</span>
+  </div>
+  <div class="slide-content" style="display:flex; flex-direction:column; justify-content:center;">
+
+    <div class="flow-grid">
+
+      <!-- ── Column 1: Test Case Sources ── -->
+      <div class="flow-col">
+        <div class="flow-col-label">Test Case Sources</div>
+
+        <div class="flow-card src-specs">
+          <div class="flow-card-icon">Sp</div>
+          <div class="flow-card-title">H/W & S/W Specs</div>
+          <div class="flow-card-desc">PPR register definitions, FW architecture docs, MCDI protocol specs</div>
+        </div>
+
+        <div class="flow-card src-code">
+          <div class="flow-card-icon">Cd</div>
+          <div class="flow-card-title">Code & Commits</div>
+          <div class="flow-card-desc">Source code analysis, incremental PR diff coverage generation</div>
+        </div>
+
+        <div class="flow-card src-existing">
+          <div class="flow-card-icon">Tx</div>
+          <div class="flow-card-title">Existing Tests</div>
+          <div class="flow-card-desc">Twister suites, pytest cases, bringup cmdclient scripts</div>
+        </div>
+      </div>
+
+      <!-- ── Arrow 1: Sources → AgentQ ── -->
+      <div class="flow-connector">
+        <div class="flow-connector-label">AgentQ<br>Compliant Format</div>
+        <div class="flow-connector-graphic">
+          <div class="flow-connector-line purple-line"></div>
+          <div class="flow-connector-head purple-head"></div>
+        </div>
+      </div>
+
+      <!-- ── Column 2: AgentQ Plugin ── -->
+      <div class="flow-col" style="justify-content:center;">
+        <div class="agentq-card">
+          <div class="agentq-card-logo">AgentQ</div>
+          <div class="agentq-card-subtitle">AI-Powered Test Engine</div>
+          <div style="width:60px; height:3px; background:#ED1C24; border-radius:2px; margin:0 auto 18px; position:relative;"></div>
+          <div class="agentq-card-agents">
+            <div class="agentq-agent-chip"><span>test-planner</span></div>
+            <div class="agentq-agent-chip"><span>test-critic</span></div>
+            <div class="agentq-agent-chip"><span>domain-expert</span></div>
+            <div class="agentq-agent-chip"><span>analyst</span></div>
+            <div class="agentq-agent-chip"><span>testbed-ops</span></div>
+            <div class="agentq-agent-chip"><span>qa-lead</span></div>
+            <div class="agentq-agent-chip"><span>kb-curator</span></div>
+            <div class="agentq-agent-chip"><span>cluster-exec</span></div>
+          </div>
+          <div style="margin-top: 16px; font-size: 11px; color: #666; position: relative;">
+            Generate &bull; Validate &bull; Execute &bull; Analyze
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Arrow 2: AgentQ → Execution ── -->
+      <div class="flow-connector">
+        <div class="flow-connector-label red-label">Categorize &<br>Launch</div>
+        <div class="flow-connector-graphic">
+          <div class="flow-connector-line red-line"></div>
+          <div class="flow-connector-head red-head"></div>
+        </div>
+      </div>
+
+      <!-- ── Column 3: Execution Platforms ── -->
+      <div class="flow-col" style="justify-content:center;">
+        <div class="flow-col-label">Execution Platforms</div>
+
+        <div class="flow-card tgt-sim">
+          <div class="flow-card-icon">SN</div>
+          <div class="flow-card-title">SimNow</div>
+          <div class="flow-card-desc" style="margin-top:8px; font-size:11px; line-height:1.6;">
+            FW boot &amp; postcode validation<br>
+            MCDI command/response flows<br>
+            RAS error injection &amp; CPER<br>
+            Config phase FSM transitions<br>
+            Telemetry counter verification<br>
+            Key provisioning flow
+          </div>
+        </div>
+
+        <div class="flow-card tgt-hw">
+          <div class="flow-card-icon">HW</div>
+          <div class="flow-card-title">H/W Platform</div>
+          <div class="flow-card-desc" style="margin-top:8px; font-size:11px; line-height:1.6;">
+            GTA PHY training (72/96 lanes)<br>
+            Real packet injection &amp; throughput<br>
+            Multi-GPU IFoE traffic routing<br>
+            PRBS TX/RX diagnostics<br>
+            Thermal coefficient updates<br>
+            End-to-end afmctl &rarr; FW validation
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom summary -->
+    <div class="flow-summary-bar">
+      <div class="summary-main">
+        <span style="color:#a855f7;">Specs + Code + Existing Tests</span>
+        &nbsp;&rarr;&nbsp;
+        <span style="color:#ED1C24;">AgentQ Unified Format</span>
+        &nbsp;&rarr;&nbsp;
+        <span style="color:#3b82f6;">SimNow</span> / <span style="color:#f59e0b;">Silicon</span>
+        &nbsp;&mdash;&nbsp;
+        <span style="color:#22c55e;">~50x coverage increase</span>
+      </div>
+      <div class="summary-detail">All test cases generated or converted to a single format, auto-gated by platform capability, executed daily across simulation and hardware</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 3: Projected Coverage Increase                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-3">
+  <div class="slide-header">
+    <h1>Projected Coverage Increase</h1>
+    <span class="slide-number">3 / 3</span>
+  </div>
+  <div class="slide-content" style="display:flex; flex-direction:column; justify-content:center;">
+
+    <div style="max-width: 1000px; margin: 0 auto; width: 100%;">
+      <table style="font-size:14px;">
+        <tbody><tr><th>Component</th><th>Today</th><th>With AgentQ</th><th>Source</th></tr>
+        <tr>
+          <td>mpifoe-fw drivers (16)</td>
+          <td class="status-no">0 unit tests</td>
+          <td class="status-yes">16 drivers x 5+ = <strong>80+</strong></td>
+          <td>Spec + Code gen</td>
+        </tr>
+        <tr>
+          <td>mpifoe-fw managers (5)</td>
+          <td class="status-no">0 unit tests</td>
+          <td class="status-yes">5 mgrs x 8+ = <strong>40+</strong></td>
+          <td>Code gen</td>
+        </tr>
+        <tr>
+          <td>mpifoe-fw subsystems (10)</td>
+          <td class="status-partial">2 Twister (RAS, TLM)</td>
+          <td class="status-yes">10 x 5+ = <strong>50+</strong></td>
+          <td>Convert + gen</td>
+        </tr>
+        <tr>
+          <td>Embedded self-tests</td>
+          <td class="status-partial">5 (smn, dma, mbox, dbell, cache)</td>
+          <td class="status-yes">Expand to <strong>20+</strong></td>
+          <td>Code gen</td>
+        </tr>
+        <tr>
+          <td>MCDI commands</td>
+          <td class="status-no">0 isolated tests</td>
+          <td class="status-yes">39 cmds x 3+ = <strong>117+</strong></td>
+          <td>Spec (MCDI proto)</td>
+        </tr>
+        <tr>
+          <td>ualoe_access_lib (38 APIs)</td>
+          <td class="status-partial">Spec only (464 cases)</td>
+          <td class="status-yes"><strong>464</strong> tests automated</td>
+          <td>Convert existing</td>
+        </tr>
+        <tr>
+          <td>afmctl CLI</td>
+          <td class="status-partial">12 pkg tests (L1+L2)</td>
+          <td class="status-yes">39 cmds x 3+ = <strong>117+</strong></td>
+          <td>Convert + gen</td>
+        </tr>
+        <tr>
+          <td>ifoe-drv (4 modules, 51K LOC)</td>
+          <td class="status-no">0 tests (mock exists)</td>
+          <td class="status-yes">CFG_MOCK x <strong>40+</strong> tests</td>
+          <td>Code gen + mock</td>
+        </tr>
+        <tr style="background:#1a0a1a;">
+          <td style="color:#ED1C24;font-weight:700;">TOTAL</td>
+          <td style="color:#ef4444;font-weight:700;">~19 tests (7 FW + 12 pkg)</td>
+          <td style="color:#22c55e;font-weight:700;">928+ tests</td>
+          <td style="color:#a855f7;font-weight:600;">~49x increase</td>
+        </tr>
+      </tbody></table>
+
+      <div style="background:#111122; border:1px solid #ED1C2444; border-radius:12px; padding:18px 32px; margin-top:24px; text-align:center;">
+        <div style="font-size:18px; color:#fff; font-weight:700;">
+          <span style="color:#ef4444;">19 tests today</span>
+          &nbsp;&rarr;&nbsp;
+          <span style="color:#22c55e;">928+ tests with AgentQ</span>
+          &nbsp;&mdash;&nbsp;
+          <span style="color:#a855f7;">~49x coverage increase</span>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; text-align:center; font-size:13px;">
+        <span style="color:#888;">AgentQ (WIP PR) &rArr;</span>
+        <a href="https://github.com/pensando/systest-agentq/pull/264" target="_blank" style="color:#3b82f6; text-decoration:none; font-weight:600; margin-left:4px;">https://github.com/pensando/systest-agentq/pull/264</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="nav-hint">Arrow keys or click to navigate | Slide <span id="current-slide">1</span> of 3</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0; // Start on slide 1 (0-indexed)
+
+function showSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = Math.max(0, Math.min(n, slides.length - 1));
+  slides[currentSlide].classList.add('active');
+  document.getElementById('current-slide').textContent = currentSlide + 1;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    showSlide(currentSlide + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    showSlide(currentSlide - 1);
+  } else if (e.key === 'Home') {
+    showSlide(0);
+  } else if (e.key === 'End') {
+    showSlide(slides.length - 1);
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.clientX > window.innerWidth / 2) {
+    showSlide(currentSlide + 1);
+  } else {
+    showSlide(currentSlide - 1);
+  }
+});
+</script>
+
+</body>
+</html>
