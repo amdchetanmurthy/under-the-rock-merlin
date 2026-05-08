@@ -1,0 +1,8 @@
+description: "MPIFoE full validation - all tests including stress and RAS (< 60 min)"
+
+test_cases:
+  - sanity/*
+  - bringup/*
+  - functional/*
+  - stress/*
+  - ras/*

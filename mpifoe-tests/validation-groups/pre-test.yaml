@@ -1,0 +1,5 @@
+description: "Minimum sanity before any testing starts - firmware heartbeat and link status"
+
+validations:
+  - fw-heartbeat-check
+  - ifoe-link-check

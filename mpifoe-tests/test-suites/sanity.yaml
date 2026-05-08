@@ -1,0 +1,7 @@
+description: "MPIFoE sanity tests - basic firmware health checks (< 5 min)"
+
+test_cases:
+  - sanity/fw-version
+  - sanity/fw-uptime
+  - sanity/config-phase
+  - sanity/port-enum

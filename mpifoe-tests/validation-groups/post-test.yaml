@@ -1,0 +1,5 @@
+description: "Post-test checks for test-induced damage - error logs and telemetry health"
+
+validations:
+  - error-log-check
+  - telemetry-check

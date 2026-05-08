@@ -1,0 +1,7 @@
+description: "MPIFoE nightly tests - sanity + bringup + functional + RAS (excludes stress)"
+
+test_cases:
+  - sanity/*
+  - bringup/*
+  - functional/*
+  - ras/*
